@@ -29,3 +29,13 @@ target/
 
 # AWS credentials
 *.pem
+
+# Terraform
+**/.terraform
+*.tfstate
+*.plan
+*.backup
+
+# Ansible host file
+ansible/*-hosts
+ansible/*-hosts

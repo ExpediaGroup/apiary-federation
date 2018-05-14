@@ -1,0 +1,16 @@
+---
+# Copyright (C) 2018 Expedia Inc.
+# Licensed under the Apache License, Version 2.0 (the "License");
+
+- name: Download Waggle Dance from Maven central repository
+  maven_artifact:
+    group_id: com.hotels
+    artifact_id: waggle-dance-rpm
+    version: "{{ waggle_dance_version }}"
+    extension: rpm
+    dest: "/tmp/waggle-dance-rpm-{{ waggle_dance_version }}.rpm"
+
+- name: Install Waggle Dance using RPM
+  yum:
+    name: "/tmp/waggle-dance-rpm-{{ waggle_dance_version }}.rpm"
+    state: present

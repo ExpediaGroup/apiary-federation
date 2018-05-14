@@ -1,0 +1,11 @@
+---
+# Copyright (C) 2018 Expedia Inc.
+# Licensed under the Apache License, Version 2.0 (the "License");
+
+- name: Set access keys
+  authorized_key:
+    user: ec2-user
+    state: present
+    key: '{{ item }}'
+  with_file:
+    - public_keys/test-apiary.pub

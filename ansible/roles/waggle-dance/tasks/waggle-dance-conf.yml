@@ -1,0 +1,59 @@
+---
+# Copyright (C) 2018 Expedia Inc.
+# Licensed under the Apache License, Version 2.0 (the "License");
+
+- name: Update JAVA OPTS
+  replace:
+    path: "{{ waggle_dance_home }}/service/waggle-dance-core-latest-exec.conf"
+    regexp: '^(.*)-Xmx12g(.*)$'
+    replace: '\1-Xmx15g\2'
+    backup: yes
+  register: java_opts
+
+- name: Place waggle-dance-server.yml
+  template:
+    src: templates/waggle-dance-server.yml.j2
+    dest: "{{ waggle_dance_home }}/conf/waggle-dance-server.yml"
+    mode: 0644
+    owner: root
+    backup: yes
+  register: wd_server
+
+- name: Place waggle-dance-federation.yml
+  template:
+    src: "templates/waggle-dance-federation.yml.j2"
+    dest: "{{ waggle_dance_home }}/conf/waggle-dance-federation.yml"
+    mode: 0644
+    owner: root
+    backup: yes
+  register: wd_fed
+
+- name: Stop Waggle Dance service before updating configs
+  service:
+    name: waggle-dance
+    state: stopped
+  when: wd_server.changed or wd_fed.changed or java_opts.changed
+
+- name: Place waggle-dance-server.yml
+  template:
+    src: templates/waggle-dance-server.yml.j2
+    dest: "{{ waggle_dance_home }}/conf/waggle-dance-server.yml"
+    mode: 0644
+    owner: root
+    backup: yes
+  when: wd_server.changed
+
+- name: Place waggle-dance-federation.yml
+  template:
+    src: "templates/waggle-dance-federation.yml.j2"
+    dest: "{{ waggle_dance_home }}/conf/waggle-dance-federation.yml"
+    mode: 0644
+    owner: root
+    backup: yes
+  when: wd_fed.changed
+
+
+- name: Start Waggle Dance service after updating configs
+  service:
+    name: waggle-dance
+    state: started

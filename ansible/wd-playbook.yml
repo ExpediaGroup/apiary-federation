@@ -1,0 +1,11 @@
+---
+# Copyright (C) 2018 Expedia Inc.
+# Licensed under the Apache License, Version 2.0 (the "License");
+
+- hosts: wd
+  serial: 1
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  roles:
+    - { role: waggle-dance }
