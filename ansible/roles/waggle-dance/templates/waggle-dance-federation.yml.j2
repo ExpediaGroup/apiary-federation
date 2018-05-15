@@ -1,0 +1,18 @@
+---
+# Copyright (C) 2018 Expedia Inc.
+# Licensed under the Apache License, Version 2.0 (the "License");
+
+# This is a sample file
+
+primary-meta-store:
+  access-control-type: READ_AND_WRITE_ON_DATABASE_WHITELIST
+  database-prefix: ''
+  name: primary
+  remote-meta-store-uris: thrift://localhost:9083
+  writable-database-white-list:
+  - default
+federated-meta-stores:
+  - name: fed-metastore-1
+    access-control-type: READ_ONLY
+    database-prefix: fed_metastore_1_
+    remote-meta-store-uris: thrift://localhost:9084
