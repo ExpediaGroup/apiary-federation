@@ -4,9 +4,10 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-variable "profile" {
-  description = "AWS CLI profile name"
+variable "instance_name" {
+  description = "waggledance instance name to identify resources in multi instance deployments"
   type        = "string"
+  default     = ""
 }
 
 variable "region" {
@@ -20,89 +21,19 @@ variable "instance_count" {
   default     = "1"
 }
 
-variable "ami_id" {
-  description = "AWS AMI id"
+variable "vpc_id" {
+  description = "VPC id"
   type        = "string"
 }
 
-variable "instance_type" {
-  description = "Instance type to use"
-  type        = "string"
-  default     = "m4.large"
-}
-
-variable "subnet_id" {
-  description = "Subnet ID for host"
+variable "subnets" {
+  description = "ECS container subnets"
   type        = "list"
 }
 
 variable "security_groups" {
   description = "List of Security Group IDs to attach"
   type        = "list"
-}
-
-variable "public_ip_address" {
-  description = "Associate public IP address with AWS EC2 instance? Set true for 'yes' else false"
-  type        = "string"
-  default     = "no"
-}
-
-variable "enable_termination_protection" {
-  description = "Flag to enable Termination Protection. Defaults to true. Set to false to disable protection"
-  type        = "string"
-  default     = "true"
-}
-
-variable "ebs_optimized" {
-  description = "If true, the launched EC2 instance will be EBS-optimized"
-  type        = "string"
-  default     = "false"
-}
-
-variable "key_name" {
-  description = "The key name to use for the instance"
-  type        = "string"
-}
-
-variable "monitoring" {
-  description = "If true, the launched EC2 instance will have detailed monitoring enabled"
-  type        = "string"
-  default     = "true"
-}
-
-variable "user_data_base64" {
-  description = "base64-encoded binary data"
-  type        = "string"
-  default     = ""
-}
-
-variable "root_block_device_volume_size" {
-  description = "Root OS disk volume size"
-  type        = "string"
-  default     = "8"
-}
-
-variable "root_block_device_volume_type" {
-  description = "Root OS disk volume type"
-  type        = "string"
-  default     = "standard"
-}
-
-variable "root_block_device_delete_on_termination" {
-  description = "Root OS disk delete_on_termination action"
-  type        = "string"
-  default     = "true"
-}
-
-variable "root_block_device_iops" {
-  description = "Root OS disk IOPS. Only applicable when volume type is io1"
-  type        = "string"
-  default     = "0"
-}
-
-variable "elb_access_logs_bucket" {
-  description = "S3 bucket to store ELB access logs"
-  type        = "string"
 }
 
 # Tags
@@ -115,11 +46,6 @@ variable "tags" {
     Application = ""
     Team        = ""
   }
-}
-
-variable "name" {
-  description = "Name of the instance to provide under 'Name' tag"
-  type        = "string"
 }
 
 # Waggle Dance
@@ -139,4 +65,51 @@ variable "wd_port" {
 variable "alerting_email" {
   description = "Email to receive alerts"
   type        = "string"
+}
+
+variable "memory" {
+  description = "The amount of memory (in MiB) used by waggledance task."
+  type        = "string"
+  default     = "4096"
+}
+
+variable "cpu" {
+  description = "The number of cpu units to reserve for waggledance container"
+  type        = "string"
+  default     = "1024"
+}
+
+variable "ingress_cidr" {
+  description = "Generally allowed ingress cidr list"
+  type        = "list"
+}
+
+variable "docker_image" {}
+
+variable "docker_version" {}
+
+variable "graphite_host" {
+  default = "localhost"
+}
+
+variable "graphite_port" {
+  default = "2003"
+}
+
+variable "graphite_prefix" {
+  default = "waggle-dance"
+}
+
+variable "primary_metastore_host" {
+  default = "localhost"
+}
+
+variable "primary_metastore_port" {
+  default = "9083"
+}
+
+#list of maps, example: [ {'endpoint':'vpce1', 'port':'9083', 'prefix':'pre1' }, {'endpoint':'vpce2', 'port':'9083', 'prefix':'pre2' } ]
+variable "remote_metastores" {
+  type    = "list"
+  default = []
 }

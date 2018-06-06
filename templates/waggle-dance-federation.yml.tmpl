@@ -1,0 +1,7 @@
+primary-meta-store:
+  access-control-type: READ_AND_WRITE_AND_CREATE
+  database-prefix: ''
+  name: primary
+  remote-meta-store-uris: thrift://${primary_metastore_host}:${primary_metastore_port}
+federated-meta-stores:
+${fedrated_metastores}
