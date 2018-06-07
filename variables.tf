@@ -48,19 +48,6 @@ variable "tags" {
   }
 }
 
-# Waggle Dance
-variable "wd_loadbalancer_name" {
-  description = "ELB name pointing to Waggle Dance"
-  type        = "string"
-  default     = "waggle-dance-elb"
-}
-
-variable "wd_port" {
-  description = "Waggle Dance Port"
-  type        = "string"
-  default     = "48869"
-}
-
 # Monitoring and alerting
 variable "alerting_email" {
   description = "Email to receive alerts"
