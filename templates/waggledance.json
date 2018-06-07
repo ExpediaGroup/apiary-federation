@@ -1,0 +1,35 @@
+[
+  {
+    "name": "waggledance",
+    "image": "${docker_image}:${docker_version}",
+    "essential": true,
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${loggroup}",
+            "awslogs-region": "${region}",
+            "awslogs-stream-prefix": "/"
+        }
+    },
+    "portMappings": [
+      {
+        "containerPort": 48869,
+        "hostPort": 48869
+      }
+    ],
+    "environment":[
+     {
+        "name": "HEAPSIZE",
+        "value": "${heapsize}"
+     },
+     {
+        "name": "SERVER_YAML",
+        "value": "${server_yaml}"
+     },
+     {
+        "name": "FEDERATION_YAML",
+        "value": "${federation_yaml}"
+     }
+    ]
+  }
+]
