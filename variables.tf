@@ -84,32 +84,49 @@ variable "ingress_cidr" {
   type        = "list"
 }
 
-variable "docker_image" {}
+variable "docker_image" {
+  description = "waggledance docker image"
+  type        = "string"
+}
 
-variable "docker_version" {}
+variable "docker_version" {
+  description = "waggledance docker image version"
+  type        = "string"
+}
 
 variable "graphite_host" {
-  default = "localhost"
+  description = "graphite server configured in waggledance to send metrics"
+  type        = "string"
+  default     = "localhost"
 }
 
 variable "graphite_port" {
-  default = "2003"
+  description = "graphite server port"
+  type        = "string"
+  default     = "2003"
 }
 
 variable "graphite_prefix" {
-  default = "waggle-dance"
+  description = "prefix addded to all metrics sent to graphite from this waggledance instance."
+  type        = "string"
+  default     = "waggle-dance"
 }
 
 variable "primary_metastore_host" {
-  default = "localhost"
+  description = "primary metastore hostname configured in waggledance"
+  type        = "string"
+  default     = "localhost"
 }
 
 variable "primary_metastore_port" {
-  default = "9083"
+  description = "primary metastore port"
+  type        = "string"
+  default     = "9083"
 }
 
 #list of maps, example: [ {'endpoint':'vpce1', 'port':'9083', 'prefix':'pre1' }, {'endpoint':'vpce2', 'port':'9083', 'prefix':'pre2' } ]
 variable "remote_metastores" {
-  type    = "list"
-  default = []
+  description = "vpc endpoint services to federate metastores in other accounts"
+  type        = "list"
+  default     = []
 }
