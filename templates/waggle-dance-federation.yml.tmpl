@@ -1,7 +1,9 @@
 primary-meta-store:
-  access-control-type: READ_AND_WRITE_AND_CREATE
+  access-control-type: READ_AND_WRITE_ON_DATABASE_WHITELIST
   database-prefix: ''
   name: primary
   remote-meta-store-uris: thrift://${primary_metastore_host}:${primary_metastore_port}
+  writable-database-white-list:
+  - default
 federated-meta-stores:
 ${fedrated_metastores}
