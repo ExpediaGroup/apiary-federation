@@ -4,6 +4,7 @@ primary-meta-store:
   name: primary
   remote-meta-store-uris: thrift://${primary_metastore_host}:${primary_metastore_port}
   writable-database-white-list:
-  - default
+${primary_metastore_whitelist}
 federated-meta-stores:
-${fedrated_metastores}
+${local_metastores}
+${remote_metastores}

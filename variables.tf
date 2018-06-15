@@ -111,6 +111,18 @@ variable "primary_metastore_port" {
   default     = "9083"
 }
 
+variable "primary_metastore_whitelist" {
+  type        = "list"
+  default     = [ "default" ]
+}
+
+#list of maps, example: [ {host="metastore1", port="9083", prefix="pre1" }, {host="metastore2", port="9083", prefix="pre2" } ]
+variable "local_metastores" {
+  description = "federated metastores in current account"
+  type        = "list"
+  default     = []
+}
+
 #list of maps, example: [ {'endpoint':'vpce1', 'port':'9083', 'prefix':'pre1' }, {'endpoint':'vpce2', 'port':'9083', 'prefix':'pre2' } ]
 variable "remote_metastores" {
   description = "vpc endpoint services to federate metastores in other accounts"

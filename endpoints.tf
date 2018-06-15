@@ -28,3 +28,14 @@ data "template_file" "remote_metastores_yaml" {
     metastore_port = "${lookup(var.remote_metastores[count.index],"port")}"
   }
 }
+
+data "template_file" "local_metastores_yaml" {
+  count    = "${length(var.local_metastores)}"
+  template = "${file("${path.module}/templates/waggle-dance-federation-local.yml.tmpl")}"
+
+  vars {
+    prefix         = "${lookup(var.local_metastores[count.index],"prefix")}"
+    metastore_host = "${lookup(var.local_metastores[count.index],"host")}"
+    metastore_port = "${lookup(var.local_metastores[count.index],"port")}"
+  }
+}
