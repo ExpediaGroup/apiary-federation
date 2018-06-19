@@ -1,3 +1,5 @@
   - name: ${prefix}
     database-prefix: ${prefix}_
     remote-meta-store-uris: thrift://${metastore_host}:${metastore_port}
+    mapped-databases:
+${ mapped_databases == "" ? "" : join("\n",formatlist("    - %s",split(",",mapped_databases))) }

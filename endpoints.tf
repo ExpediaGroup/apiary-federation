@@ -26,6 +26,7 @@ data "template_file" "remote_metastores_yaml" {
     prefix         = "${lookup(var.remote_metastores[count.index],"prefix")}"
     metastore_host = "${lookup(data.external.endpoint_dnsnames.*.result[count.index],"dnsname")}"
     metastore_port = "${lookup(var.remote_metastores[count.index],"port")}"
+    mapped_databases = "${ lookup(var.remote_metastores[count.index],"mapped-databases","") }"
   }
 }
 
@@ -37,5 +38,6 @@ data "template_file" "local_metastores_yaml" {
     prefix         = "${lookup(var.local_metastores[count.index],"prefix")}"
     metastore_host = "${lookup(var.local_metastores[count.index],"host")}"
     metastore_port = "${lookup(var.local_metastores[count.index],"port")}"
+    mapped_databases = "${ lookup(var.local_metastores[count.index],"mapped-databases","") }"
   }
 }
