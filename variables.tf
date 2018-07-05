@@ -123,7 +123,7 @@ variable "local_metastores" {
   default     = []
 }
 
-#list of maps, example: [ {endpoint="vpce1", port="9083", prefix="pre1" }, {endpoint:"vpce2", port="9083", prefix="pre2", mapped-databases="dm,test" } ]
+#list of maps, example: [ {endpoint="vpce1", port="9083", prefix="pre1" }, {endpoint="vpce2", port="9083", prefix="pre2", mapped-databases="dm,test", subnets="subnet1,subnet2" } ]
 variable "remote_metastores" {
   description = "vpc endpoint services to federate metastores in other accounts"
   type        = "list"
