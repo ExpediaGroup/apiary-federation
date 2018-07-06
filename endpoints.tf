@@ -9,7 +9,7 @@ resource "aws_vpc_endpoint" "remote_metastores" {
   vpc_id             = "${var.vpc_id}"
   vpc_endpoint_type  = "Interface"
   service_name       = "${lookup(var.remote_metastores[count.index],"endpoint")}"
-  subnet_ids         = ["${var.subnets}"]
+  subnet_ids         = [ "${ split(",",lookup(var.remote_metastores[count.index],"subnets",join(",",var.subnets))) }"]
   security_group_ids = ["${var.security_groups}"]
 }
 
