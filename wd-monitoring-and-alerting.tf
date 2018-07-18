@@ -6,7 +6,7 @@
 
 # Topic
 resource "aws_sns_topic" "waggle_dance_user_updates" {
-  name         = "waggle-dance-alerts"
+  name         = "${local.instance_alias}-alerts"
   display_name = "Notifications for Waggle Dance Service"
 }
 
