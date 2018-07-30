@@ -4,13 +4,40 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
+resource "aws_security_group" "endpoint_sg" {
+  name   = "${local.instance_alias}-endpoint"
+  vpc_id = "${var.vpc_id}"
+  tags   = "${var.tags}"
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["${data.aws_vpc.waggledance_vpc.cidr_block}"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    security_groups = ["${aws_security_group.wd_sg.id}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_vpc_endpoint" "remote_metastores" {
   count              = "${length(var.remote_metastores)}"
   vpc_id             = "${var.vpc_id}"
   vpc_endpoint_type  = "Interface"
   service_name       = "${lookup(var.remote_metastores[count.index],"endpoint")}"
   subnet_ids         = [ "${ split(",",lookup(var.remote_metastores[count.index],"subnets",join(",",var.subnets))) }"]
-  security_group_ids = ["${var.security_groups}"]
+  security_group_ids = ["${aws_security_group.endpoint_sg.id}"]
 }
 
 data "external" "endpoint_dnsnames" {

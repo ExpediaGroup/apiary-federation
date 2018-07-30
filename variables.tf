@@ -31,11 +31,6 @@ variable "subnets" {
   type        = "list"
 }
 
-variable "security_groups" {
-  description = "List of Security Group IDs to attach"
-  type        = "list"
-}
-
 # Tags
 variable "tags" {
   description = "A map of tags to apply to resources"
