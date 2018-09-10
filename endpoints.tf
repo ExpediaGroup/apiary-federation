@@ -68,3 +68,18 @@ data "template_file" "local_metastores_yaml" {
     mapped_databases = "${ lookup(var.local_metastores[count.index],"mapped-databases","") }"
   }
 }
+
+resource "aws_route53_zone" "remote_metastore" {
+  count = "${ var.enable_remote_metastore_dns == "" ? 0 : 1 }"
+  name = "${local.remote_metastore_zone_prefix}-${var.region}.lcl"
+  vpc_id = "${var.vpc_id}"
+}
+
+resource "aws_route53_record" "hms_readwrite_alias" {
+  count    = "${ var.enable_remote_metastore_dns == "" ? 0 : length(var.remote_metastores) }"
+  zone_id = "${aws_route53_zone.remote_metastore.zone_id}"
+  name    = "${lookup(var.remote_metastores[count.index],"prefix")}"
+  type    = "CNAME"
+  ttl     = "60"
+  records = [ "${lookup(data.external.endpoint_dnsnames.*.result[count.index],"dnsname")}" ]
+}
