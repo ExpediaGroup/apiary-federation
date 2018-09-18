@@ -75,7 +75,7 @@ resource "aws_route53_zone" "remote_metastore" {
   vpc_id = "${var.vpc_id}"
 }
 
-resource "aws_route53_record" "hms_readwrite_alias" {
+resource "aws_route53_record" "metastore_alias" {
   count    = "${ var.enable_remote_metastore_dns == "" ? 0 : length(var.remote_metastores) }"
   zone_id = "${aws_route53_zone.remote_metastore.zone_id}"
   name    = "${lookup(var.remote_metastores[count.index],"prefix")}"
