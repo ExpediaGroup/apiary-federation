@@ -67,7 +67,7 @@ variable "ingress_cidr" {
 }
 
 variable "docker_image" {
-  description = "Waggle Dance Docker image."
+  description = "Full path Waggle Dance Docker image."
   type        = "string"
 }
 
@@ -109,7 +109,7 @@ variable "primary_metastore_port" {
 variable "primary_metastore_whitelist" {
   description = "List of Hive databases to whitelist on primary Metastore."
   type        = "list"
-  default     = [ "default" ]
+  default     = ["default"]
 }
 
 #list of maps, example: [ {host="metastore1", port="9083", prefix="pre1" }, {host="metastore2", port="9083", prefix="pre2", mapped-databases="dm,test" } ]
