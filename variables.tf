@@ -125,3 +125,9 @@ variable "remote_metastores" {
   type        = "list"
   default     = []
 }
+
+variable "enable_remote_metastore_dns" {
+  description = "Option to enable creating dns records for remote metastores"
+  type        = "string"
+  default     = ""
+}
