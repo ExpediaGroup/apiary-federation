@@ -17,9 +17,9 @@ resource "aws_security_group" "endpoint_sg" {
   }
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
     security_groups = ["${aws_security_group.wd_sg.id}"]
   }
 
@@ -36,7 +36,7 @@ resource "aws_vpc_endpoint" "remote_metastores" {
   vpc_id             = "${var.vpc_id}"
   vpc_endpoint_type  = "Interface"
   service_name       = "${lookup(var.remote_metastores[count.index],"endpoint")}"
-  subnet_ids         = [ "${ split(",",lookup(var.remote_metastores[count.index],"subnets",join(",",var.subnets))) }"]
+  subnet_ids         = ["${ split(",",lookup(var.remote_metastores[count.index],"subnets",join(",",var.subnets))) }"]
   security_group_ids = ["${aws_security_group.endpoint_sg.id}"]
 }
 
@@ -50,9 +50,9 @@ data "template_file" "remote_metastores_yaml" {
   template = "${file("${path.module}/templates/waggle-dance-federation-remote.yml.tmpl")}"
 
   vars {
-    prefix         = "${lookup(var.remote_metastores[count.index],"prefix")}"
-    metastore_host = "${lookup(data.external.endpoint_dnsnames.*.result[count.index],"dnsname")}"
-    metastore_port = "${lookup(var.remote_metastores[count.index],"port")}"
+    prefix           = "${lookup(var.remote_metastores[count.index],"prefix")}"
+    metastore_host   = "${lookup(data.external.endpoint_dnsnames.*.result[count.index],"dnsname")}"
+    metastore_port   = "${lookup(var.remote_metastores[count.index],"port")}"
     mapped_databases = "${ lookup(var.remote_metastores[count.index],"mapped-databases","") }"
   }
 }
@@ -62,9 +62,9 @@ data "template_file" "local_metastores_yaml" {
   template = "${file("${path.module}/templates/waggle-dance-federation-local.yml.tmpl")}"
 
   vars {
-    prefix         = "${lookup(var.local_metastores[count.index],"prefix")}"
-    metastore_host = "${lookup(var.local_metastores[count.index],"host")}"
-    metastore_port = "${lookup(var.local_metastores[count.index],"port")}"
+    prefix           = "${lookup(var.local_metastores[count.index],"prefix")}"
+    metastore_host   = "${lookup(var.local_metastores[count.index],"host")}"
+    metastore_port   = "${lookup(var.local_metastores[count.index],"port")}"
     mapped_databases = "${ lookup(var.local_metastores[count.index],"mapped-databases","") }"
   }
 }
