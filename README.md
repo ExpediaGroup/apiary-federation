@@ -3,10 +3,73 @@
 
 For more information please refer to the main [Apiary](https://github.com/ExpediaInc/apiary) project page.
 
+## Variables
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| alerting_email | Email address to send alerts to. | string | - | yes |
+| cpu | The number of CPU units to reserve for the Waggle Dance container. | string | `1024` | no |
+| docker_image | Full path Waggle Dance Docker image. | string | - | yes |
+| docker_version | Waggle Dance Docker image version. | string | - | yes |
+| graphite_host | Graphite server configured in Waggle Dance to send metrics to. | string | `localhost` | no |
+| graphite_port | Graphite server port. | string | `2003` | no |
+| graphite_prefix | Prefix addded to all metrics sent to Graphite from this Waggle Dance instance. | string | `waggle-dance` | no |
+| ingress_cidr | Generally allowed ingress CIDR list. | list | - | yes |
+| instance_count | Number of EC2 instances to create. | string | `1` | no |
+| instance_name | Waggle Dance instance name to identify resources in multi-instance deployments. | string | `` | no |
+| local_metastores | List of federated Metastores in current account. | list | `<list>` | no |
+| memory | The amount of memory (in MiB) used by Waggle Dance task. | string | `4096` | no |
+| primary_metastore_host | Primary Hive Metastore hostname configured in Waggle Dance. | string | `localhost` | no |
+| primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
+| primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
+| region | AWS region to use for resources. | string | - | yes |
+| remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. | list | `<list>` | no |
+| subnets | ECS container subnets. | list | - | yes |
+| tags | A map of tags to apply to resources. | map | `<map>` | no |
+| vpc_id | VPC ID. | string | - | yes |
+
+## Usage
+
+Example module invocation:
+```
+module "apiary-waggledance" {
+  source         = "git::https://github.com/ExpediaInc/apiary-waggledance.git?ref=master"
+  instance_name  = "waggledance-test"
+  instance_count = "1"
+  region         = "us-west-2"
+  vpc_id         = "vpc-1"
+  subnets        = ["subnet-1", "subnet-2"]
+
+  tags = {
+    Name = "Apiary-WaggleDance"
+    Team = "Operations"
+  }
+
+  alerting_email              = "abc@yourdomain.com"
+  ingress_cidr                = ["10.0.0.0/8", "172.16.0.0/12"]
+  docker_image                = "your.docker.repo/apiary-waggledance"
+  docker_version              = "latest"
+  primary_metastore_host      = "primary-metastore.yourdomain.com"
+  primary_metastore_whitelist = ["test_.*", "team_.*"]
+
+  remote_metastores = [{
+    endpoint = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
+    port = "9083"
+    prefix = "metastore1"
+    mapped-databases = "default,test"
+  },
+  {
+    endpoint = "com.amazonaws.vpce.us-east-1.vpce-svc-2"
+    port = "9083"
+    prefix = "metastore2"
+    subnets = "subnet-3"
+    mapped-databases = "test"
+  }]
+}
+```
 # Contact
 
 ## Mailing List
-If you would like to ask any questions about or discuss Apiary please join our mailing list at 
+If you would like to ask any questions about or discuss Apiary please join our mailing list at
 
   [https://groups.google.com/forum/#!forum/apiary-user](https://groups.google.com/forum/#!forum/apiary-user)
 

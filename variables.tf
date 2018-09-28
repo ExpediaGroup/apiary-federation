@@ -5,35 +5,35 @@
  */
 
 variable "instance_name" {
-  description = "waggledance instance name to identify resources in multi instance deployments"
+  description = "Waggle Dance instance name to identify resources in multi-instance deployments."
   type        = "string"
   default     = ""
 }
 
 variable "region" {
-  description = "AWS region to use for resources"
+  description = "AWS region to use for resources."
   type        = "string"
 }
 
 variable "instance_count" {
-  description = "Number of EC2 instance to create"
+  description = "Number of EC2 instances to create."
   type        = "string"
   default     = "1"
 }
 
 variable "vpc_id" {
-  description = "VPC id"
+  description = "VPC ID."
   type        = "string"
 }
 
 variable "subnets" {
-  description = "ECS container subnets"
+  description = "ECS container subnets."
   type        = "list"
 }
 
 # Tags
 variable "tags" {
-  description = "A map of tags to apply to resources"
+  description = "A map of tags to apply to resources."
   type        = "map"
 
   default = {
@@ -45,82 +45,83 @@ variable "tags" {
 
 # Monitoring and alerting
 variable "alerting_email" {
-  description = "Email to receive alerts"
+  description = "Email address to send alerts to."
   type        = "string"
 }
 
 variable "memory" {
-  description = "The amount of memory (in MiB) used by waggledance task."
+  description = "The amount of memory (in MiB) used by Waggle Dance task."
   type        = "string"
   default     = "4096"
 }
 
 variable "cpu" {
-  description = "The number of cpu units to reserve for waggledance container"
+  description = "The number of CPU units to reserve for the Waggle Dance container."
   type        = "string"
   default     = "1024"
 }
 
 variable "ingress_cidr" {
-  description = "Generally allowed ingress cidr list"
+  description = "Generally allowed ingress CIDR list."
   type        = "list"
 }
 
 variable "docker_image" {
-  description = "waggledance docker image"
+  description = "Full path Waggle Dance Docker image."
   type        = "string"
 }
 
 variable "docker_version" {
-  description = "waggledance docker image version"
+  description = "Waggle Dance Docker image version."
   type        = "string"
 }
 
 variable "graphite_host" {
-  description = "graphite server configured in waggledance to send metrics"
+  description = "Graphite server configured in Waggle Dance to send metrics to."
   type        = "string"
   default     = "localhost"
 }
 
 variable "graphite_port" {
-  description = "graphite server port"
+  description = "Graphite server port."
   type        = "string"
   default     = "2003"
 }
 
 variable "graphite_prefix" {
-  description = "prefix addded to all metrics sent to graphite from this waggledance instance."
+  description = "Prefix addded to all metrics sent to Graphite from this Waggle Dance instance."
   type        = "string"
   default     = "waggle-dance"
 }
 
 variable "primary_metastore_host" {
-  description = "primary metastore hostname configured in waggledance"
+  description = "Primary Hive Metastore hostname configured in Waggle Dance."
   type        = "string"
   default     = "localhost"
 }
 
 variable "primary_metastore_port" {
-  description = "primary metastore port"
+  description = "Primary Hive Metastore port"
   type        = "string"
   default     = "9083"
 }
 
 variable "primary_metastore_whitelist" {
+  description = "List of Hive databases to whitelist on primary Metastore."
   type        = "list"
-  default     = [ "default" ]
+  default     = ["default"]
 }
 
 #list of maps, example: [ {host="metastore1", port="9083", prefix="pre1" }, {host="metastore2", port="9083", prefix="pre2", mapped-databases="dm,test" } ]
 variable "local_metastores" {
-  description = "federated metastores in current account"
+  description = "List of federated Metastores in current account."
   type        = "list"
   default     = []
 }
 
 #list of maps, example: [ {endpoint="vpce1", port="9083", prefix="pre1" }, {endpoint="vpce2", port="9083", prefix="pre2", mapped-databases="dm,test", subnets="subnet1,subnet2" } ]
 variable "remote_metastores" {
-  description = "vpc endpoint services to federate metastores in other accounts"
+  description = "List of VPC endpoint services to federate Metastores in other accounts."
   type        = "list"
   default     = []
 }
