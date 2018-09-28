@@ -70,16 +70,16 @@ data "template_file" "local_metastores_yaml" {
 }
 
 resource "aws_route53_zone" "remote_metastore" {
-  count = "${ var.enable_remote_metastore_dns == "" ? 0 : 1 }"
-  name = "${local.remote_metastore_zone_prefix}-${var.region}.lcl"
+  count  = "${ var.enable_remote_metastore_dns == "" ? 0 : 1 }"
+  name   = "${local.remote_metastore_zone_prefix}-${var.region}.${var.domain_name}"
   vpc_id = "${var.vpc_id}"
 }
 
 resource "aws_route53_record" "metastore_alias" {
-  count    = "${ var.enable_remote_metastore_dns == "" ? 0 : length(var.remote_metastores) }"
+  count   = "${ var.enable_remote_metastore_dns == "" ? 0 : length(var.remote_metastores) }"
   zone_id = "${aws_route53_zone.remote_metastore.zone_id}"
   name    = "${lookup(var.remote_metastores[count.index],"prefix")}"
   type    = "CNAME"
   ttl     = "60"
-  records = [ "${lookup(data.external.endpoint_dnsnames.*.result[count.index],"dnsname")}" ]
+  records = ["${lookup(data.external.endpoint_dnsnames.*.result[count.index],"dnsname")}"]
 }
