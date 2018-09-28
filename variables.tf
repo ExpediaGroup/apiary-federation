@@ -16,7 +16,7 @@ variable "region" {
 }
 
 variable "instance_count" {
-  description = "Number of EC2 instances to create."
+  description = "Number of ECS task to create."
   type        = "string"
   default     = "1"
 }
@@ -50,15 +50,24 @@ variable "alerting_email" {
 }
 
 variable "memory" {
-  description = "The amount of memory (in MiB) used by Waggle Dance task."
-  type        = "string"
-  default     = "4096"
+  description = <<EOF
+The amount of memory (in MiB) used by Waggle Dance task.
+Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = "string"
+  default = "4096"
 }
 
 variable "cpu" {
-  description = "The number of CPU units to reserve for the Waggle Dance container."
-  type        = "string"
-  default     = "1024"
+  description = <<EOF
+The number of CPU units to reserve for the Waggle Dance container.
+Valid values can be 256, 512, 1024, 2048 and 4096.
+Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = "string"
+  default = "1024"
 }
 
 variable "ingress_cidr" {
