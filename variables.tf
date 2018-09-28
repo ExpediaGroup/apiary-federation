@@ -132,7 +132,7 @@ variable "enable_remote_metastore_dns" {
   default     = ""
 }
 
-variable "domain_name" {
+variable "domain_extension" {
   description = "Domain name to use for Rout53 entry and service discovery."
   type        = "string"
   default     = "lcl"

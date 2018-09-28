@@ -158,7 +158,7 @@ resource "aws_ecs_service" "waggledance_service" {
 }
 
 resource "aws_service_discovery_private_dns_namespace" "waggledance" {
-  name = "${local.instance_alias}-${var.region}.${var.domain_name}"
+  name = "${local.instance_alias}-${var.region}.${var.domain_extension}"
   vpc  = "${var.vpc_id}"
 }
 
