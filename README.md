@@ -10,6 +10,8 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | cpu | The number of CPU units to reserve for the Waggle Dance container. | string | `1024` | no |
 | docker_image | Full path Waggle Dance Docker image. | string | - | yes |
 | docker_version | Waggle Dance Docker image version. | string | - | yes |
+| domain_extension | Domain name to use for Rout53 entry and service discovery. | string | `lcl` | no |
+| enable_remote_metastore_dns | Option to enable creating dns records for remote metastores. | string | `` | no |
 | graphite_host | Graphite server configured in Waggle Dance to send metrics to. | string | `localhost` | no |
 | graphite_port | Graphite server port. | string | `2003` | no |
 | graphite_prefix | Prefix addded to all metrics sent to Graphite from this Waggle Dance instance. | string | `waggle-dance` | no |
