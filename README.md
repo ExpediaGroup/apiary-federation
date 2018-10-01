@@ -7,7 +7,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | alerting_email | Email address to send alerts to. | string | - | yes |
-| cpu | The number of CPU units to reserve for the Waggle Dance container. | string | `1024` | no |
+| cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
 | docker_image | Full path Waggle Dance Docker image. | string | - | yes |
 | docker_version | Waggle Dance Docker image version. | string | - | yes |
 | domain_extension | Domain name to use for Rout53 entry and service discovery. | string | `lcl` | no |
@@ -16,10 +16,10 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | graphite_port | Graphite server port. | string | `2003` | no |
 | graphite_prefix | Prefix addded to all metrics sent to Graphite from this Waggle Dance instance. | string | `waggle-dance` | no |
 | ingress_cidr | Generally allowed ingress CIDR list. | list | - | yes |
-| instance_count | Number of EC2 instances to create. | string | `1` | no |
+| instance_count | Number of ECS task to create. | string | `1` | no |
 | instance_name | Waggle Dance instance name to identify resources in multi-instance deployments. | string | `` | no |
 | local_metastores | List of federated Metastores in current account. | list | `<list>` | no |
-| memory | The amount of memory (in MiB) used by Waggle Dance task. | string | `4096` | no |
+| memory | The amount of memory (in MiB) used by Waggle Dance task. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `4096` | no |
 | primary_metastore_host | Primary Hive Metastore hostname configured in Waggle Dance. | string | `localhost` | no |
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
