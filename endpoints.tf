@@ -54,6 +54,7 @@ data "template_file" "remote_metastores_yaml" {
     metastore_host   = "${lookup(data.external.endpoint_dnsnames.*.result[count.index],"dnsname")}"
     metastore_port   = "${lookup(var.remote_metastores[count.index],"port")}"
     mapped_databases = "${ lookup(var.remote_metastores[count.index],"mapped-databases","") }"
+    whitelist        = "${ lookup(var.remote_metastores[count.index],"whitelist","") }"
   }
 }
 
@@ -66,6 +67,7 @@ data "template_file" "local_metastores_yaml" {
     metastore_host   = "${lookup(var.local_metastores[count.index],"host")}"
     metastore_port   = "${lookup(var.local_metastores[count.index],"port")}"
     mapped_databases = "${ lookup(var.local_metastores[count.index],"mapped-databases","") }"
+    whitelist        = "${ lookup(var.local_metastores[count.index],"whitelist","") }"
   }
 }
 
