@@ -136,13 +136,13 @@ variable "remote_metastores" {
 }
 
 variable "enable_remote_metastore_dns" {
-  description = "Option to enable creating dns records for remote metastores."
+  description = "Option to enable creating DNS records for remote metastores."
   type        = "string"
   default     = ""
 }
 
 variable "domain_extension" {
-  description = "Domain name to use for Rout53 entry and service discovery."
+  description = "Domain name to use for Route 53 entry and service discovery."
   type        = "string"
   default     = "lcl"
 }
