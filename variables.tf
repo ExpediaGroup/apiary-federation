@@ -51,7 +51,7 @@ variable "alerting_email" {
 
 variable "memory" {
   description = <<EOF
-The amount of memory (in MiB) used to allocate for Waggle Dance container.
+The amount of memory (in MiB) used to allocate for the Waggle Dance container.
 Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
