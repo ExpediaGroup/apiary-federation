@@ -16,7 +16,7 @@ variable "region" {
 }
 
 variable "instance_count" {
-  description = "Number of ECS task to create."
+  description = "Number of ECS tasks to create."
   type        = "string"
   default     = "1"
 }
@@ -51,7 +51,7 @@ variable "alerting_email" {
 
 variable "memory" {
   description = <<EOF
-The amount of memory (in MiB) used by Waggle Dance task.
+The amount of memory (in MiB) used to allocate for Waggle Dance container.
 Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
@@ -145,4 +145,10 @@ variable "domain_extension" {
   description = "Domain name to use for Rout53 entry and service discovery."
   type        = "string"
   default     = "lcl"
+}
+
+variable "secondary_vpcs" {
+  description = "List of VPCs to associate with Service Discovery namespace"
+  type        = "list"
+  default     = []
 }

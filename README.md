@@ -16,15 +16,16 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | graphite_port | Graphite server port. | string | `2003` | no |
 | graphite_prefix | Prefix addded to all metrics sent to Graphite from this Waggle Dance instance. | string | `waggle-dance` | no |
 | ingress_cidr | Generally allowed ingress CIDR list. | list | - | yes |
-| instance_count | Number of ECS task to create. | string | `1` | no |
+| instance_count | Number of ECS tasks to create. | string | `1` | no |
 | instance_name | Waggle Dance instance name to identify resources in multi-instance deployments. | string | `` | no |
 | local_metastores | List of federated Metastores in current account. | list | `<list>` | no |
-| memory | The amount of memory (in MiB) used by Waggle Dance task. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `4096` | no |
+| memory | The amount of memory (in MiB) used to allocate for Waggle Dance container. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `4096` | no |
 | primary_metastore_host | Primary Hive Metastore hostname configured in Waggle Dance. | string | `localhost` | no |
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
 | region | AWS region to use for resources. | string | - | yes |
 | remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. | list | `<list>` | no |
+| secondary_vpcs | List of VPCs to associate with Service Discovery namespace | list | `<list>` | no |
 | subnets | ECS container subnets. | list | - | yes |
 | tags | A map of tags to apply to resources. | map | `<map>` | no |
 | vpc_id | VPC ID. | string | - | yes |
