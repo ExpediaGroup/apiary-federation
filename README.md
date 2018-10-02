@@ -6,7 +6,6 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 ## Variables
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| alerting_email | Email address to send alerts to. | string | - | yes |
 | cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
 | docker_image | Full path Waggle Dance Docker image. | string | - | yes |
 | docker_version | Waggle Dance Docker image version. | string | - | yes |
