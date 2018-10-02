@@ -182,7 +182,8 @@ resource "aws_service_discovery_service" "metastore_proxy" {
 }
 
 resource "aws_route53_zone_association" "secondary" {
-  count   = "${length(var.secondary_vpcs)}"
-  zone_id = "${aws_service_discovery_private_dns_namespace.waggledance.hosted_zone}"
-  vpc_id  = "${element(var.secondary_vpcs,count.index)}"
+  count      = "${length(var.secondary_vpcs)}"
+  zone_id    = "${aws_service_discovery_private_dns_namespace.waggledance.hosted_zone}"
+  vpc_id     = "${element(var.secondary_vpcs,count.index)}"
+  vpc_region = "${var.region}"
 }
