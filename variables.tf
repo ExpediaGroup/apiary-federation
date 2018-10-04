@@ -43,12 +43,6 @@ variable "tags" {
   }
 }
 
-# Monitoring and alerting
-variable "alerting_email" {
-  description = "Email address to send alerts to."
-  type        = "string"
-}
-
 variable "memory" {
   description = <<EOF
 The amount of memory (in MiB) used by Waggle Dance task.
