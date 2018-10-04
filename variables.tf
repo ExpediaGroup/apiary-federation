@@ -16,7 +16,7 @@ variable "region" {
 }
 
 variable "instance_count" {
-  description = "Number of ECS task to create."
+  description = "Number of ECS tasks to create."
   type        = "string"
   default     = "1"
 }
@@ -45,7 +45,7 @@ variable "tags" {
 
 variable "memory" {
   description = <<EOF
-The amount of memory (in MiB) used by Waggle Dance task.
+The amount of memory (in MiB) used to allocate for the Waggle Dance container.
 Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
@@ -130,13 +130,19 @@ variable "remote_metastores" {
 }
 
 variable "enable_remote_metastore_dns" {
-  description = "Option to enable creating dns records for remote metastores."
+  description = "Option to enable creating DNS records for remote metastores."
   type        = "string"
   default     = ""
 }
 
 variable "domain_extension" {
-  description = "Domain name to use for Rout53 entry and service discovery."
+  description = "Domain name to use for Route 53 entry and service discovery."
   type        = "string"
   default     = "lcl"
+}
+
+variable "secondary_vpcs" {
+  description = "List of VPCs to associate with Service Discovery namespace"
+  type        = "list"
+  default     = []
 }
