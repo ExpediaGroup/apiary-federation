@@ -6,6 +6,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 ## Variables
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| bastion_ssh_key_secret_name | Secret name in AWS Secrets Manager which stores private key to login to Bastions. Secret's key should be `private_key` and value should be stored as base64 encoded string. Max character limit for a Secret's value is 4096. | string | `` | no |
 | cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
 | docker_image | Full path Waggle Dance Docker image. | string | - | yes |
 | docker_version | Waggle Dance Docker image version. | string | - | yes |
@@ -25,6 +26,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | region | AWS region to use for resources. | string | - | yes |
 | remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. | list | `<list>` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace | list | `<list>` | no |
+| ssh_metastores | List of federated Metastores to connect over SSH via Bastion. | list | `<list>` | no |
 | subnets | ECS container subnets. | list | - | yes |
 | tags | A map of tags to apply to resources. | map | `<map>` | no |
 | vpc_id | VPC ID. | string | - | yes |
