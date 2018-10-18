@@ -2,6 +2,12 @@
     access-control-type: ${ writable_whitelist == "" ? "READ_ONLY" : "READ_AND_WRITE_ON_DATABASE_WHITELIST" }
     database-prefix: ${prefix}_
     remote-meta-store-uris: thrift://${metastore_host}:${metastore_port}
+    metastore-tunnel:
+      route: ${user}@${bastion_host}
+      private-keys: /root/.ssh/bastion_ssh
+      known-hosts: /root/.ssh/known_hosts
+      strict-host-key-checking: 'no'
+      timeout: ${timeout}
 ${ mapped_databases == "" ? "" : "    mapped-databases:" }
 ${ mapped_databases == "" ? "" : join("\n",formatlist("    - %s",split(",",mapped_databases))) }
 ${ writable_whitelist == "" ? "" : "    writable-database-white-list:" }

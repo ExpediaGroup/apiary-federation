@@ -12,3 +12,8 @@ locals {
 data "aws_vpc" "waggledance_vpc" {
   id = "${var.vpc_id}"
 }
+
+data "aws_secretsmanager_secret" "bastion_ssh_key" {
+  count = "${ var.bastion_ssh_key_secret_name == "" ? 0 : 1}"
+  name  = "${var.bastion_ssh_key_secret_name}"
+}
