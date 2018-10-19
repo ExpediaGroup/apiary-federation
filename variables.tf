@@ -131,16 +131,16 @@ variable "remote_metastores" {
 
 #list of maps, example: [ {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre1", user="my-unix-user", mapped-databases="test1,test2"}, {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre1", user="my-unix-user", writable-whitelist="db1,test", mapped-databases="test1,test2"} ]
 variable "ssh_metastores" {
-  description = "List of federated Metastores to connect over SSH via Bastion."
+  description = "List of federated Metastores to connect to over SSH via bastion."
   type        = "list"
   default     = []
 }
 
 variable "bastion_ssh_key_secret_name" {
   description = <<EOF
-Secret name in AWS Secrets Manager which stores private key to login to Bastions.
-Secret's key should be `private_key` and value should be stored as base64 encoded string.
-Max character limit for a Secret's value is 4096.
+Secret name in AWS Secrets Manager which stores the private key used to log in to bastions.
+The secret's key should be `private_key` and the value should be stored as a base64 encoded string.
+Max character limit for a secret's value is 4096.
 EOF
 
   type    = "string"
