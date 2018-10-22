@@ -9,7 +9,7 @@ resource "aws_ecs_cluster" "waggledance" {
 }
 
 resource "aws_iam_role" "waggledance_task_exec" {
-  name = "${local.instance_alias}-ecs-task-exec-${var.region}"
+  name = "${local.instance_alias}-ecs-task-exec-${var.aws_region}"
 
   assume_role_policy = <<EOF
 {
@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "task_exec_managed" {
 }
 
 resource "aws_iam_role" "waggledance_task" {
-  name = "${local.instance_alias}-ecs-task-${var.region}"
+  name = "${local.instance_alias}-ecs-task-${var.aws_region}"
 
   assume_role_policy = <<EOF
 {
@@ -129,7 +129,7 @@ data "template_file" "waggledance" {
     heapsize            = "${var.memory}"
     docker_image        = "${var.docker_image}"
     docker_version      = "${var.docker_version}"
-    region              = "${var.region}"
+    region              = "${var.aws_region}"
     loggroup            = "${aws_cloudwatch_log_group.waggledance_ecs.name}"
     server_yaml         = "${ var.graphite_host == "localhost" ? "" : base64encode(data.template_file.server_yaml.rendered) }"
     federation_yaml     = "${base64encode(data.template_file.federation_yaml.rendered)}"
@@ -180,7 +180,7 @@ resource "aws_ecs_service" "waggledance_service" {
   launch_type     = "FARGATE"
   cluster         = "${aws_ecs_cluster.waggledance.id}"
   task_definition = "${aws_ecs_task_definition.waggledance.arn}"
-  desired_count   = "${var.instance_count}"
+  desired_count   = "${var.wd_ecs_task_count}"
 
   network_configuration {
     security_groups = ["${aws_security_group.wd_sg.id}"]
@@ -193,7 +193,7 @@ resource "aws_ecs_service" "waggledance_service" {
 }
 
 resource "aws_service_discovery_private_dns_namespace" "waggledance" {
-  name = "${local.instance_alias}-${var.region}.${var.domain_extension}"
+  name = "${local.instance_alias}-${var.aws_region}.${var.domain_extension}"
   vpc  = "${var.vpc_id}"
 }
 
@@ -220,5 +220,5 @@ resource "aws_route53_zone_association" "secondary" {
   count      = "${length(var.secondary_vpcs)}"
   zone_id    = "${aws_service_discovery_private_dns_namespace.waggledance.hosted_zone}"
   vpc_id     = "${element(var.secondary_vpcs,count.index)}"
-  vpc_region = "${var.region}"
+  vpc_region = "${var.aws_region}"
 }
