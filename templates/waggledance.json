@@ -29,6 +29,10 @@
      {
         "name": "FEDERATION_YAML",
         "value": "${federation_yaml}"
+     },
+     {
+       "name": "BASTION_SSH_KEY_ARN",
+       "value": "${bastion_ssh_key_arn}"
      }
     ]
   }
