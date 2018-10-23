@@ -10,12 +10,12 @@ variable "instance_name" {
   default     = ""
 }
 
-variable "region" {
+variable "aws_region" {
   description = "AWS region to use for resources."
   type        = "string"
 }
 
-variable "instance_count" {
+variable "wd_ecs_task_count" {
   description = "Number of ECS tasks to create."
   type        = "string"
   default     = "1"
