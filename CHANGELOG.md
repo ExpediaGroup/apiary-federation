@@ -12,5 +12,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Enable cross-region federated Metastore using Bastion and SSH tunnel - see
 [#31](https://github.com/ExpediaInc/apiary-waggledance/issues/31).
 
+### Changed
+- Renamed following variables:
+  * `region` to `aws_region`
+  * `instance_count` to `wd_ecs_task_count`
+
 ### Removed
 - Remove `alerting_email` variable - see [#28](https://github.com/ExpediaInc/apiary-waggledance/pull/28).

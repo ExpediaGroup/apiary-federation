@@ -36,19 +36,18 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 Example module invocation:
 ```
 module "apiary-waggledance" {
-  source         = "git::https://github.com/ExpediaInc/apiary-waggledance.git?ref=master"
-  instance_name  = "waggledance-test"
-  instance_count = "1"
-  region         = "us-west-2"
-  vpc_id         = "vpc-1"
-  subnets        = ["subnet-1", "subnet-2"]
+  source            = "git::https://github.com/ExpediaInc/apiary-federation.git?ref=master"
+  instance_name     = "waggledance-test"
+  wd_ecs_task_count = "1"
+  aws_region        = "us-west-2"
+  vpc_id            = "vpc-1"
+  subnets           = ["subnet-1", "subnet-2"]
 
   tags = {
     Name = "Apiary-WaggleDance"
     Team = "Operations"
   }
 
-  alerting_email              = "abc@yourdomain.com"
   ingress_cidr                = ["10.0.0.0/8", "172.16.0.0/12"]
   docker_image                = "your.docker.repo/apiary-waggledance"
   docker_version              = "latest"
@@ -56,18 +55,19 @@ module "apiary-waggledance" {
   primary_metastore_whitelist = ["test_.*", "team_.*"]
 
   remote_metastores = [{
-    endpoint = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
-    port = "9083"
-    prefix = "metastore1"
+    endpoint         = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
+    port             = "9083"
+    prefix           = "metastore1"
     mapped-databases = "default,test"
   },
-  {
-    endpoint = "com.amazonaws.vpce.us-east-1.vpce-svc-2"
-    port = "9083"
-    prefix = "metastore2"
-    subnets = "subnet-3"
-    mapped-databases = "test"
-  }]
+    {
+      endpoint         = "com.amazonaws.vpce.us-east-1.vpce-svc-2"
+      port             = "9083"
+      prefix           = "metastore2"
+      subnets          = "subnet-3"
+      mapped-databases = "test"
+    },
+  ]
 }
 ```
 
