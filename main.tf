@@ -118,7 +118,7 @@ data "template_file" "federation_yaml" {
     primary_metastore_whitelist = "${join("",data.template_file.primary_metastore_whitelist.*.rendered)}"
     local_metastores            = "${join("",data.template_file.local_metastores_yaml.*.rendered)}"
     remote_metastores           = "${join("",data.template_file.remote_metastores_yaml.*.rendered)}"
-    ssh_metatstores             = "${join("",data.template_file.ssh_metastores_yaml.*.rendered)}"
+    ssh_metastores              = "${join("",data.template_file.ssh_metastores_yaml.*.rendered)}"
   }
 }
 
