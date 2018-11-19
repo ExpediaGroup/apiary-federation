@@ -34,6 +34,12 @@
        "name": "BASTION_SSH_KEY_ARN",
        "value": "${bastion_ssh_key_arn}"
      }
-    ]
+   ],
+   "healthCheck": {
+       "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
+       "interval": 5,
+       "retries": 3,
+       "startPeriod": 60
+   }
   }
 ]
