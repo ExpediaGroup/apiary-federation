@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+### Added
+- Add health check for WaggleDance service.
+
 ### Changed
 - Fix typo `ssh_metastores`.
 
