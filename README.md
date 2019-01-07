@@ -18,7 +18,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | graphite_prefix | Prefix addded to all metrics sent to Graphite from this Waggle Dance instance. | string | `waggle-dance` | no |
 | ingress_cidr | Generally allowed ingress CIDR list. | list | - | yes |
 | instance_name | Waggle Dance instance name to identify resources in multi-instance deployments. | string | `` | no |
-| local_metastores | List of federated Metastores in current account. | list | `<list>` | no |
+| local_metastores | List of federated Metastore endpoints directly accessible on the local network. | list | `<list>` | no |
 | memory | The amount of memory (in MiB) used to allocate for the Waggle Dance container. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `4096` | no |
 | primary_metastore_host | Primary Hive Metastore hostname configured in Waggle Dance. | string | `localhost` | no |
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |

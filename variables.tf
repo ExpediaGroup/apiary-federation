@@ -117,7 +117,7 @@ variable "primary_metastore_whitelist" {
 
 #list of maps, example: [ {host="metastore1", port="9083", prefix="pre1", writable-whitelist="db1,test" }, {host="metastore2", port="9083", prefix="pre2", mapped-databases="dm,test" } ]
 variable "local_metastores" {
-  description = "List of federated Metastores in current account."
+  description = "List of federated Metastore endpoints directly accessible on the local network."
   type        = "list"
   default     = []
 }
