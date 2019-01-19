@@ -75,13 +75,22 @@ resource "aws_cloudwatch_log_group" "waggledance_ecs" {
   tags = "${var.tags}"
 }
 
-data "template_file" "server_yaml" {
-  template = "${file("${path.module}/templates/waggle-dance-server.yml.tmpl")}"
+data "template_file" "graphite_server_yaml" {
+  count    = "${ var.graphite_host == "localhost" ? 0 : 1 }"
+  template = "${file("${path.module}/templates/waggle-dance-server-graphite.yml.tmpl")}"
 
   vars {
     graphite_host   = "${var.graphite_host}"
     graphite_port   = "${var.graphite_port}"
     graphite_prefix = "${var.graphite_prefix}"
+  }
+}
+
+data "template_file" "server_yaml" {
+  template = "${file("${path.module}/templates/waggle-dance-server.yml.tmpl")}"
+
+  vars {
+    graphite = "${join("",data.template_file.graphite_server_yaml.*.rendered)}"
   }
 }
 
@@ -131,7 +140,7 @@ data "template_file" "waggledance" {
     docker_version      = "${var.docker_version}"
     region              = "${var.aws_region}"
     loggroup            = "${aws_cloudwatch_log_group.waggledance_ecs.name}"
-    server_yaml         = "${ var.graphite_host == "localhost" ? "" : base64encode(data.template_file.server_yaml.rendered) }"
+    server_yaml         = "${base64encode(data.template_file.server_yaml.rendered)}"
     federation_yaml     = "${base64encode(data.template_file.federation_yaml.rendered)}"
     bastion_ssh_key_arn = "${var.bastion_ssh_key_secret_name == "" ? "" : join("",data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)}"
   }
