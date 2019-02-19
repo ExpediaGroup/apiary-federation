@@ -6,7 +6,6 @@
 
 resource "aws_ecs_cluster" "waggledance" {
   name = "${local.instance_alias}"
-  tags = "${var.tags}"
 }
 
 resource "aws_iam_role" "waggledance_task_exec" {
@@ -27,8 +26,6 @@ resource "aws_iam_role" "waggledance_task_exec" {
   ]
 }
 EOF
-
-  tags = "${var.tags}"
 }
 
 resource "aws_iam_role_policy_attachment" "task_exec_managed" {
@@ -54,8 +51,6 @@ resource "aws_iam_role" "waggledance_task" {
   ]
 }
 EOF
-
-  tags = "${var.tags}"
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
@@ -160,7 +155,6 @@ resource "aws_ecs_task_definition" "waggledance" {
   cpu                      = "${var.cpu}"
   requires_compatibilities = ["EC2", "FARGATE"]
   container_definitions    = "${data.template_file.waggledance.rendered}"
-  tags                     = "${var.tags}"
 }
 
 resource "aws_security_group" "wd_sg" {
