@@ -75,6 +75,7 @@ resource "aws_route53_zone" "remote_metastore" {
   count  = "${ var.enable_remote_metastore_dns == "" ? 0 : 1 }"
   name   = "${local.remote_metastore_zone_prefix}-${var.aws_region}.${var.domain_extension}"
   vpc_id = "${var.vpc_id}"
+  tags   = "${var.tags}"
 }
 
 resource "aws_route53_record" "metastore_alias" {
