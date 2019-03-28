@@ -10,6 +10,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | bastion_ssh_key_secret_name | Secret name in AWS Secrets Manager which stores the private key used to log in to bastions. The secret's key should be `private_key` and the value should be stored as a base64 encoded string. Max character limit for a secret's value is 4096. | string | `` | no |
 | cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
 | docker_image | Full path Waggle Dance Docker image. | string | - | yes |
+| docker_registry_auth_secret_name | Docker Registry authentication SecretManager secret name. | string | `` | no |
 | docker_version | Waggle Dance Docker image version. | string | - | yes |
 | domain_extension | Domain name to use for Route 53 entry and service discovery. | string | `lcl` | no |
 | enable_remote_metastore_dns | Option to enable creating DNS records for remote metastores. | string | `` | no |
@@ -24,7 +25,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
 | remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. | list | `<list>` | no |
-| secondary_vpcs | List of VPCs to associate with Service Discovery namespace | list | `<list>` | no |
+| secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | ssh_metastores | List of federated Metastores to connect to over SSH via bastion. | list | `<list>` | no |
 | subnets | ECS container subnets. | list | - | yes |
 | tags | A map of tags to apply to resources. | map | `<map>` | no |
