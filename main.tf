@@ -36,6 +36,23 @@ resource "aws_iam_role_policy_attachment" "task_exec_managed" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_exec" {
+  count = "${var.docker_registry_auth_secret_name == "" ? 0 : 1}"
+  name  = "secretsmanager-exec"
+  role  = "${aws_iam_role.waggledance_task_exec.id}"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": {
+        "Effect": "Allow",
+        "Action": "secretsmanager:GetSecretValue",
+        "Resource": [ "${join("\",\"",concat(data.aws_secretsmanager_secret.docker_registry.*.arn))}" ]
+    }
+}
+EOF
+}
+
 resource "aws_iam_role" "waggledance_task" {
   name = "${local.instance_alias}-ecs-task-${var.aws_region}"
 
@@ -148,6 +165,7 @@ data "template_file" "waggledance" {
     server_yaml         = "${base64encode(data.template_file.server_yaml.rendered)}"
     federation_yaml     = "${base64encode(data.template_file.federation_yaml.rendered)}"
     bastion_ssh_key_arn = "${var.bastion_ssh_key_secret_name == "" ? "" : join("",data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)}"
+    docker_auth         = "${ var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},",join("\",\"",concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))}"
   }
 }
 

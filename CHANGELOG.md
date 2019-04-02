@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Added
 - Improved error handling in scripts/endpoint_dns_name.sh - see [#17](https://github.com/ExpediaInc/apiary-federation/issues/17).
+- Support for Docker private registry.
 
 
 ## [1.0.5] - 2019-03-12
