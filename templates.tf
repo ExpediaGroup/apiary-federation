@@ -27,8 +27,8 @@ data "template_file" "primary_metastore_whitelist" {
   count = "${length(var.primary_metastore_whitelist)}"
 
   template = <<EOF
-   - ${var.primary_metastore_whitelist[count.index]}
- EOF
+  - ${var.primary_metastore_whitelist[count.index]}
+EOF
 }
 
 data "template_file" "ssh_metastores_yaml" {
