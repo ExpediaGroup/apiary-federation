@@ -4,10 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-terraform {
-  required_version = "~> 0.11.1"
-
-  required_providers = {
-    aws = "~> 1.60.0"
-  }
+resource "aws_cloudwatch_log_group" "waggledance_ecs" {
+  name = "${local.instance_alias}"
+  tags = "${var.tags}"
 }
