@@ -3,11 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2019-04-05
 
 ### Added
 - Improved error handling in scripts/endpoint_dns_name.sh - see [#17](https://github.com/ExpediaInc/apiary-federation/issues/17).
-- Support for Docker private registry.
+- Support for Docker private registry - see [#53](https://github.com/ExpediaInc/apiary-federation/issues/53).
 
 ### Changed
 - Refactor code to multiple `tf` files.
