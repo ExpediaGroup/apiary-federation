@@ -92,5 +92,5 @@ resource "aws_cloudwatch_metric_alarm" "waggledance_alert" {
   #alarm_description         = ""
   insufficient_data_actions = []
   dimensions                = "${local.dimensions[count.index]}"
-  alarm_actions             = ["${aws_sns_topic.apiary_ops_sns.arn}"]
+  alarm_actions             = ["${aws_sns_topic.apiary_federation_ops_sns.arn}"]
 }
