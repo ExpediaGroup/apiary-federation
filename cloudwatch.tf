@@ -9,7 +9,7 @@ resource "aws_cloudwatch_log_group" "waggledance_ecs" {
   tags = "${var.tags}"
 }
 
-resource "aws_cloudwatch_dashboard" "apiary" {
+resource "aws_cloudwatch_dashboard" "apiary_federation" {
   dashboard_name = "${local.instance_alias}-${var.aws_region}"
 
   dashboard_body = <<EOF
