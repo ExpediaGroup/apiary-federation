@@ -6,8 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [1.1.0] - 2019-04-05
 
 ### Added
-- Improved error handling in scripts/endpoint_dns_name.sh - see [#17](https://github.com/ExpediaInc/apiary-federation/issues/17).
-- Support for Docker private registry - see [#53](https://github.com/ExpediaInc/apiary-federation/issues/53).
+- Improved error handling in scripts/endpoint_dns_name.sh - see [#17](https://github.com/ExpediaGroup/apiary-federation/issues/17).
+- Support for Docker private registry - see [#53](https://github.com/ExpediaGroup/apiary-federation/issues/53).
 
 ### Changed
 - Refactor code to multiple `tf` files.
@@ -22,7 +22,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [1.0.4] - 2019-02-22
 
 ### Added
-- tag resources that were not yet applying tags - see [#49](https://github.com/ExpediaInc/apiary-federation/issues/49).
+- tag resources that were not yet applying tags - see [#49](https://github.com/ExpediaGroup/apiary-federation/issues/49).
 
 ## [1.0.3] - 2019-01-30
 
@@ -49,11 +49,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [1.0.0] - 2018-10-31
 
 ### Added
-- Option to register route53 cnames for vpc endpoints - see [#20](https://github.com/ExpediaInc/apiary-waggledance/issues/20).
-- Option to associate multiple VPCs to Service Discovery namespace - see [#29](https://github.com/ExpediaInc/apiary-waggledance/issues/29)
-- Enable write support for federated metastores - see [#26](https://github.com/ExpediaInc/apiary-waggledance/issues/26).
+- Option to register route53 cnames for vpc endpoints - see [#20](https://github.com/ExpediaGroup/apiary-waggledance/issues/20).
+- Option to associate multiple VPCs to Service Discovery namespace - see [#29](https://github.com/ExpediaGroup/apiary-waggledance/issues/29)
+- Enable write support for federated metastores - see [#26](https://github.com/ExpediaGroup/apiary-waggledance/issues/26).
 - Enable cross-region federated Metastore using Bastion and SSH tunnel - see
-[#31](https://github.com/ExpediaInc/apiary-waggledance/issues/31).
+[#31](https://github.com/ExpediaGroup/apiary-waggledance/issues/31).
 
 ### Changed
 - Renamed following variables:
@@ -61,4 +61,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
   * `instance_count` to `wd_ecs_task_count`
 
 ### Removed
-- Remove `alerting_email` variable - see [#28](https://github.com/ExpediaInc/apiary-waggledance/pull/28).
+- Remove `alerting_email` variable - see [#28](https://github.com/ExpediaGroup/apiary-waggledance/pull/28).
