@@ -40,7 +40,7 @@ resource "aws_cloudwatch_dashboard" "apiary_federation" {
             "period":300,
             "stat":"Average",
             "region":"${var.aws_region}",
-            "title":"Apiary ECS Memory Utilization"
+            "title":"WaggleDance ECS Memory Utilization"
          }
       }
     ]
