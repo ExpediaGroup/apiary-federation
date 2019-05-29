@@ -4,4 +4,8 @@ if [ "$dns_name" = "null" ]; then
   echo "dns_name for VPC endpoint is null, one issue which may cause this is an older version of the AWS CLI on the machine you run Terraform from." 1>&2
   exit 1
 fi
+if [ "$dns_name" = "" ]; then
+  echo "dns_name for VPC endpoint is empty." 1>&2
+  exit 1
+fi
 jq -n --arg dnsname "$dns_name" '{"dnsname":$dnsname}'
