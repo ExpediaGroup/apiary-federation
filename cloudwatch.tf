@@ -48,7 +48,6 @@ resource "aws_cloudwatch_dashboard" "apiary_federation" {
 EOF
 }
 
-
 locals {
   alerts = [
     {
@@ -62,7 +61,7 @@ locals {
       namespace   = "AWS/ECS"
       metric_name = "MemoryUtilization"
       threshold   = "70"
-    }
+    },
   ]
 
   dimensions = [
@@ -73,10 +72,9 @@ locals {
     {
       ClusterName = "${local.instance_alias}"
       ServiceName = "${local.instance_alias}-service"
-    }
+    },
   ]
 }
-
 
 resource "aws_cloudwatch_metric_alarm" "waggledance_alert" {
   count               = "${length(local.alerts)}"
