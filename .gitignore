@@ -39,3 +39,5 @@ target/
 # Ansible host file
 ansible/*-hosts
 ansible/*-hosts
+
+test/*
