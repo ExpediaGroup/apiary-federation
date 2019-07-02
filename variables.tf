@@ -11,13 +11,13 @@ variable "instance_name" {
 }
 
 variable "wd_instance_type" {
-  description = "waggle-dance instance type, possible values: ecs,ec2."
+  description = "Waggle Dance instance type, possible values: ecs,ec2."
   type        = "string"
   default     = "ecs"
 }
 
 variable "waggledance_version" {
-  description = "waggle-dance verstion to install on EC2 nodes."
+  description = "Waggle Dance verstion to install on EC2 nodes."
   type        = "string"
   default     = "3.3.2"
 }
@@ -29,19 +29,19 @@ variable "ami_id" {
 }
 
 variable "root_vol_type" {
-  description = "waggle-dance EC2 root volume type."
+  description = "Waggle Dance EC2 root volume type."
   type        = "string"
   default     = "gp2"
 }
 
 variable "root_vol_size" {
-  description = "waggle-dance EC2 root volume size."
+  description = "Waggle Dance EC2 root volume size."
   type        = "string"
   default     = "10"
 }
 
 variable "ec2_instance_type" {
-  description = "waggle-dance EC2 instance type."
+  description = "Waggle Dance EC2 instance type."
   type        = "string"
   default     = "m5.large"
 }

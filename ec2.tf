@@ -51,7 +51,7 @@ resource "aws_instance" "waggledance" {
     volume_size = "${var.root_vol_size}"
   }
 
-  tags = "${merge(map("Name", "${local.instance_alias}-hms-rw-${count.index + 1}"), "${var.tags}")}"
+  tags = "${merge(map("Name", "${local.instance_alias}-${count.index + 1}"), "${var.tags}")}"
 
   lifecycle {
     create_before_destroy = true
@@ -75,7 +75,7 @@ resource "aws_cloudwatch_metric_alarm" "waggledance" {
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "3"
 
-  alarm_description = "This will restart ${local.instance_alias}-hms-rw-${count.index + 1} if the status check fails"
+  alarm_description = "This will restart ${local.instance_alias}-${count.index + 1} if the status check fails"
 
   alarm_actions = ["${local.cw_arn}"]
 }
