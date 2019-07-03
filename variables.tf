@@ -17,13 +17,13 @@ variable "wd_instance_type" {
 }
 
 variable "waggledance_version" {
-  description = "Waggle Dance verstion to install on EC2 nodes."
+  description = "Waggle Dance version to install on EC2 nodes."
   type        = "string"
   default     = "3.3.2"
 }
 
 variable "ami_id" {
-  description = "Amazon Linux AMI, when using ec2 instance type for waggle-dance."
+  description = "Amazon Linux AMI, when using ec2 instance type for Waggle Dance."
   type        = "string"
   default     = ""
 }
