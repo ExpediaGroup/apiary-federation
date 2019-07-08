@@ -5,12 +5,14 @@
  */
 
 resource "aws_service_discovery_private_dns_namespace" "waggledance" {
-  name = "${local.instance_alias}-${var.aws_region}.${var.domain_extension}"
-  vpc  = "${var.vpc_id}"
+  count = "${var.wd_instance_type == "ecs" ? 1 : 0}"
+  name  = "${local.instance_alias}-${var.aws_region}.${var.domain_extension}"
+  vpc   = "${var.vpc_id}"
 }
 
 resource "aws_service_discovery_service" "metastore_proxy" {
-  name = "metastore-proxy"
+  count = "${var.wd_instance_type == "ecs" ? 1 : 0}"
+  name  = "metastore-proxy"
 
   dns_config {
     namespace_id = "${aws_service_discovery_private_dns_namespace.waggledance.id}"
@@ -29,8 +31,8 @@ resource "aws_service_discovery_service" "metastore_proxy" {
 }
 
 resource "aws_route53_zone_association" "secondary" {
-  count      = "${length(var.secondary_vpcs)}"
+  count      = "${var.wd_instance_type == "ecs" ? length(var.secondary_vpcs) : 0}"
   zone_id    = "${aws_service_discovery_private_dns_namespace.waggledance.hosted_zone}"
-  vpc_id     = "${element(var.secondary_vpcs,count.index)}"
+  vpc_id     = "${element(var.secondary_vpcs, count.index)}"
   vpc_region = "${var.aws_region}"
 }

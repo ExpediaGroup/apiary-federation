@@ -31,6 +31,13 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | tags | A map of tags to apply to resources. | map | `<map>` | no |
 | vpc_id | VPC ID. | string | - | yes |
 | wd_ecs_task_count | Number of ECS tasks to create. | string | `1` | no |
+| wd_instance_type | Waggle Dance instance type, possible values: `ecs`,`ec2`. | string | `ecs` | no |
+| waggledance_version | Waggle Dance version to install on EC2 nodes | string | `3.3.2` | no |
+| key_name | Waggle Dance EC2 ssh key pair name. | string | automation | no |
+| root_vol_type | Waggle Dance EC2 root volume type. | string | `gp2` | no |
+| root_vol_size | Waggle Dance EC2 root volume size. | string | `10` | no |
+| ec2_instance_type | Waggle Dance EC2 instance type. | string | `m5.large` | no |
+| ami_id | Amazon Linux AMI. | string | - | no |
 
 ## Usage
 

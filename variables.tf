@@ -10,6 +10,48 @@ variable "instance_name" {
   default     = ""
 }
 
+variable "wd_instance_type" {
+  description = "Waggle Dance instance type, possible values: ecs,ec2."
+  type        = "string"
+  default     = "ecs"
+}
+
+variable "waggledance_version" {
+  description = "Waggle Dance version to install on EC2 nodes."
+  type        = "string"
+  default     = "3.3.2"
+}
+
+variable "ami_id" {
+  description = "Amazon Linux AMI, when using ec2 instance type for Waggle Dance."
+  type        = "string"
+  default     = ""
+}
+
+variable "root_vol_type" {
+  description = "Waggle Dance EC2 root volume type."
+  type        = "string"
+  default     = "gp2"
+}
+
+variable "root_vol_size" {
+  description = "Waggle Dance EC2 root volume size."
+  type        = "string"
+  default     = "10"
+}
+
+variable "ec2_instance_type" {
+  description = "Waggle Dance EC2 instance type."
+  type        = "string"
+  default     = "m5.large"
+}
+
+variable "key_name" {
+  description = "EC2 key pair name."
+  type        = "string"
+  default     = "automation"
+}
+
 variable "aws_region" {
   description = "AWS region to use for resources."
   type        = "string"

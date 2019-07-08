@@ -42,7 +42,7 @@ resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_exec" {
     "Statement": {
         "Effect": "Allow",
         "Action": "secretsmanager:GetSecretValue",
-        "Resource": [ "${join("\",\"",concat(data.aws_secretsmanager_secret.docker_registry.*.arn))}" ]
+        "Resource": [ "${join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn))}" ]
     }
 }
 EOF
@@ -59,7 +59,7 @@ resource "aws_iam_role" "waggledance_task" {
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "Service": "ecs-tasks.amazonaws.com"
+        "Service": [ "ecs-tasks.amazonaws.com", "ec2.amazonaws.com" ]
       },
       "Action": "sts:AssumeRole"
     }
@@ -71,7 +71,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
-  count = "${ var.bastion_ssh_key_secret_name == "" ? 0 : 1}"
+  count = "${var.bastion_ssh_key_secret_name == "" ? 0 : 1}"
   name  = "secretsmanager"
   role  = "${aws_iam_role.waggledance_task.id}"
 
@@ -85,4 +85,16 @@ resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
     }
 }
 EOF
+}
+
+resource "aws_iam_role_policy_attachment" "waggledance_ssm_policy" {
+  count      = "${var.wd_instance_type == "ecs" ? 0 : 1}"
+  role       = "${aws_iam_role.waggledance_task.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+}
+
+resource "aws_iam_instance_profile" "waggledance" {
+  count = "${var.wd_instance_type == "ecs" ? 0 : 1}"
+  name  = "${aws_iam_role.waggledance_task.name}"
+  role  = "${aws_iam_role.waggledance_task.name}"
 }

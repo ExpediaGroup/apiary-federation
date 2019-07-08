@@ -10,6 +10,13 @@ resource "aws_security_group" "wd_sg" {
   tags   = "${var.tags}"
 
   ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = "${var.ingress_cidr}"
+  }
+
+  ingress {
     from_port   = 48869
     to_port     = 48869
     protocol    = "tcp"
