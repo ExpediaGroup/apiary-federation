@@ -13,15 +13,15 @@ locals {
 data "aws_caller_identity" "current" {}
 
 data "aws_vpc" "waggledance_vpc" {
-  id = "${var.vpc_id}"
+  id = var.vpc_id
 }
 
 data "aws_secretsmanager_secret" "bastion_ssh_key" {
   count = "${var.bastion_ssh_key_secret_name == "" ? 0 : 1}"
-  name  = "${var.bastion_ssh_key_secret_name}"
+  name  = var.bastion_ssh_key_secret_name
 }
 
 data "aws_secretsmanager_secret" "docker_registry" {
   count = "${var.docker_registry_auth_secret_name == "" ? 0 : 1}"
-  name  = "${var.docker_registry_auth_secret_name}"
+  name  = var.docker_registry_auth_secret_name
 }

@@ -5,29 +5,29 @@
  */
 
 resource "aws_security_group" "wd_sg" {
-  name   = "${local.instance_alias}"
-  vpc_id = "${var.vpc_id}"
-  tags   = "${var.tags}"
+  name   = local.instance_alias
+  vpc_id = var.vpc_id
+  tags   = var.tags
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = "${var.ingress_cidr}"
+    cidr_blocks = var.ingress_cidr
   }
 
   ingress {
     from_port   = 48869
     to_port     = 48869
     protocol    = "tcp"
-    cidr_blocks = "${var.ingress_cidr}"
+    cidr_blocks = var.ingress_cidr
   }
 
   ingress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["${data.aws_vpc.waggledance_vpc.cidr_block}"]
+    cidr_blocks = [data.aws_vpc.waggledance_vpc.cidr_block]
   }
 
   egress {

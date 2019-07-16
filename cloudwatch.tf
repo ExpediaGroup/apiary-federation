@@ -5,8 +5,8 @@
  */
 
 resource "aws_cloudwatch_log_group" "waggledance_ecs" {
-  name = "${local.instance_alias}"
-  tags = "${var.tags}"
+  name = local.instance_alias
+  tags = var.tags
 }
 
 resource "aws_cloudwatch_dashboard" "apiary_federation" {
@@ -77,18 +77,18 @@ locals {
 }
 
 resource "aws_cloudwatch_metric_alarm" "waggledance_alert" {
-  count = "${length(local.alerts)}"
-  alarm_name = "${lookup(local.alerts[count.index], "alarm_name")}"
+  count = length(local.alerts)
+  alarm_name = local.alerts[count.index].alarm_name
   comparison_operator = "${lookup(local.alerts[count.index], "comparison_operator", "GreaterThanOrEqualToThreshold")}"
-  metric_name = "${lookup(local.alerts[count.index], "metric_name")}"
-  namespace = "${lookup(local.alerts[count.index], "namespace")}"
+  metric_name = local.alerts[count.index].metric_name
+  namespace = local.alerts[count.index].namespace
   period = "${lookup(local.alerts[count.index], "period", "120")}"
   evaluation_periods = "${lookup(local.alerts[count.index], "evaluation_periods", "2")}"
   statistic = "Average"
-  threshold = "${lookup(local.alerts[count.index], "threshold")}"
+  threshold = local.alerts[count.index].threshold
 
   #alarm_description         = ""
   insufficient_data_actions = []
-  dimensions = "${local.dimensions[count.index]}"
-  alarm_actions = ["${aws_sns_topic.apiary_federation_ops_sns.arn}"]
+  dimensions = local.dimensions[count.index]
+  alarm_actions = [aws_sns_topic.apiary_federation_ops_sns.arn]
 }
