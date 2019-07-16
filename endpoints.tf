@@ -43,7 +43,7 @@ resource "aws_vpc_endpoint" "remote_metastores" {
 data "external" "endpoint_dnsnames" {
   count   = "${length(var.remote_metastores)}"
   program = ["bash", "${path.module}/scripts/endpoint_dns_name.sh", "${aws_vpc_endpoint.remote_metastores.*.id[count.index]}", "${var.aws_region}"]
-  depends_on = ["aws_vpc_endpoint.remote_metastores"] #without explicit dependency, adding additional remote metastores, see https://github.com/ExpediaGroup/apiary-federation/issues/36. 
+  depends_on = ["aws_vpc_endpoint.remote_metastores"] #without explicit dependency, adding additional remote metastores fails, see https://github.com/ExpediaGroup/apiary-federation/issues/36. 
 }
 
 data "template_file" "remote_metastores_yaml" {
