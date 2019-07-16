@@ -36,22 +36,17 @@ resource "aws_vpc_endpoint" "remote_metastores" {
   vpc_id             = "${var.vpc_id}"
   vpc_endpoint_type  = "Interface"
   service_name       = "${lookup(var.remote_metastores[count.index], "endpoint")}"
-  subnet_ids         = ["${split(",", lookup(var.remote_metastores[count.index], "subnets", join(",", var.subnets)))}"]
+  subnet_ids         = split(",", lookup(var.remote_metastores[count.index], "subnets", join(",", var.subnets)))
   security_group_ids = ["${aws_security_group.endpoint_sg.id}"]
-}
-
-data "external" "endpoint_dnsnames" {
-  count   = "${length(var.remote_metastores)}"
-  program = ["bash", "${path.module}/scripts/endpoint_dns_name.sh", "${aws_vpc_endpoint.remote_metastores.*.id[count.index]}", "${var.aws_region}"]
 }
 
 data "template_file" "remote_metastores_yaml" {
   count    = "${length(var.remote_metastores)}"
   template = "${file("${path.module}/templates/waggle-dance-federation-remote.yml.tmpl")}"
 
-  vars {
+  vars = {
     prefix             = "${lookup(var.remote_metastores[count.index], "prefix")}"
-    metastore_host     = "${lookup(data.external.endpoint_dnsnames.*.result[count.index], "dnsname")}"
+    metastore_host     = aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name
     metastore_port     = "${lookup(var.remote_metastores[count.index], "port")}"
     mapped_databases   = "${lookup(var.remote_metastores[count.index], "mapped-databases", "")}"
     writable_whitelist = "${lookup(var.remote_metastores[count.index], "writable-whitelist", "")}"
@@ -62,7 +57,7 @@ data "template_file" "local_metastores_yaml" {
   count    = "${length(var.local_metastores)}"
   template = "${file("${path.module}/templates/waggle-dance-federation-local.yml.tmpl")}"
 
-  vars {
+  vars = {
     prefix             = "${lookup(var.local_metastores[count.index], "prefix")}"
     metastore_host     = "${lookup(var.local_metastores[count.index], "host")}"
     metastore_port     = "${lookup(var.local_metastores[count.index], "port")}"
@@ -76,16 +71,16 @@ resource "aws_route53_zone" "remote_metastore" {
   name  = "${local.remote_metastore_zone_prefix}-${var.aws_region}.${var.domain_extension}"
   tags  = "${var.tags}"
 
-  vpc = {
+  vpc {
     vpc_id = "${var.vpc_id}"
   }
 }
 
 resource "aws_route53_record" "metastore_alias" {
   count   = "${var.enable_remote_metastore_dns == "" ? 0 : length(var.remote_metastores)}"
-  zone_id = "${aws_route53_zone.remote_metastore.zone_id}"
+  zone_id = "${aws_route53_zone.remote_metastore[0].zone_id}"
   name    = "${lookup(var.remote_metastores[count.index], "prefix")}"
   type    = "CNAME"
   ttl     = "60"
-  records = ["${lookup(data.external.endpoint_dnsnames.*.result[count.index], "dnsname")}"]
+  records = [aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name]
 }

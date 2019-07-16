@@ -40,8 +40,8 @@ resource "aws_instance" "waggledance" {
   key_name      = "${var.key_name}"
   ebs_optimized = true
 
-  subnet_id              = "${var.subnets[count.index]}"
-  iam_instance_profile   = "${aws_iam_instance_profile.waggledance.id}"
+  subnet_id              = var.subnets[count.index]
+  iam_instance_profile   = "${aws_iam_instance_profile.waggledance[0].id}"
   vpc_security_group_ids = ["${aws_security_group.wd_sg.id}"]
 
   user_data_base64 = "${base64encode(data.template_file.waggledance_userdata.rendered)}"
@@ -63,7 +63,7 @@ resource "aws_cloudwatch_metric_alarm" "waggledance" {
 
   alarm_name = "Auto Reboot - ${aws_instance.waggledance.*.id[count.index]}"
 
-  dimensions {
+  dimensions = {
     InstanceId = "${aws_instance.waggledance.*.id[count.index]}"
   }
 

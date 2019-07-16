@@ -81,7 +81,7 @@ resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
     "Statement": {
         "Effect": "Allow",
         "Action": "secretsmanager:GetSecretValue",
-        "Resource": "${data.aws_secretsmanager_secret.bastion_ssh_key.arn}"
+        "Resource": "${data.aws_secretsmanager_secret.bastion_ssh_key[0].arn}"
     }
 }
 EOF

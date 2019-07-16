@@ -7,7 +7,7 @@
 data "template_file" "waggledance_playbook" {
   template = "${file("${path.module}/templates/waggledance_playbook.yml")}"
 
-  vars {
+  vars = {
     aws_region          = "${var.aws_region}"
     waggledance_version = "${var.waggledance_version}"
     server_yaml         = "${base64encode(data.template_file.server_yaml.rendered)}"
@@ -37,7 +37,7 @@ resource "aws_ssm_association" "waggledance_playbook" {
 
   targets {
     key    = "InstanceIds"
-    values = ["${aws_instance.waggledance.*.id}"]
+    values = aws_instance.waggledance.*.id
   }
 
   parameters = {

@@ -8,7 +8,7 @@ data "template_file" "graphite_server_yaml" {
   count    = "${var.graphite_host == "localhost" ? 0 : 1}"
   template = "${file("${path.module}/templates/waggle-dance-server-graphite.yml.tmpl")}"
 
-  vars {
+  vars = {
     graphite_host   = "${var.graphite_host}"
     graphite_port   = "${var.graphite_port}"
     graphite_prefix = "${var.graphite_prefix}"
@@ -18,7 +18,7 @@ data "template_file" "graphite_server_yaml" {
 data "template_file" "server_yaml" {
   template = "${file("${path.module}/templates/waggle-dance-server.yml.tmpl")}"
 
-  vars {
+  vars = {
     graphite = "${join("", data.template_file.graphite_server_yaml.*.rendered)}"
   }
 }
@@ -35,7 +35,7 @@ data "template_file" "ssh_metastores_yaml" {
   count = "${length(var.ssh_metastores)}"
   template = "${file("${path.module}/templates/waggle-dance-federation-ssh.yml.tmpl")}"
 
-  vars {
+  vars = {
     prefix = "${lookup(var.ssh_metastores[count.index], "prefix")}"
     bastion_host = "${lookup(var.ssh_metastores[count.index], "bastion-host")}"
     metastore_host = "${lookup(var.ssh_metastores[count.index], "metastore-host")}"
@@ -50,7 +50,7 @@ data "template_file" "ssh_metastores_yaml" {
 data "template_file" "federation_yaml" {
   template = "${file("${path.module}/templates/waggle-dance-federation.yml.tmpl")}"
 
-  vars {
+  vars = {
     primary_metastore_host = "${var.primary_metastore_host}"
     primary_metastore_port = "${var.primary_metastore_port}"
     primary_metastore_whitelist = "${join("", data.template_file.primary_metastore_whitelist.*.rendered)}"
@@ -63,7 +63,7 @@ data "template_file" "federation_yaml" {
 data "template_file" "waggledance" {
   template = "${file("${path.module}/templates/waggledance.json")}"
 
-  vars {
+  vars = {
     heapsize = "${var.memory}"
     docker_image = "${var.docker_image}"
     docker_version = "${var.docker_version}"

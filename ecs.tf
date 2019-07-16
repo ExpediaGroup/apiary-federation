@@ -14,17 +14,17 @@ resource "aws_ecs_service" "waggledance_service" {
   count           = "${var.wd_instance_type == "ecs" ? 1 : 0}"
   name            = "${local.instance_alias}-service"
   launch_type     = "FARGATE"
-  cluster         = "${aws_ecs_cluster.waggledance.id}"
-  task_definition = "${aws_ecs_task_definition.waggledance.arn}"
+  cluster         = "${aws_ecs_cluster.waggledance[0].id}"
+  task_definition = "${aws_ecs_task_definition.waggledance[0].arn}"
   desired_count   = "${var.wd_ecs_task_count}"
 
   network_configuration {
     security_groups = ["${aws_security_group.wd_sg.id}"]
-    subnets         = ["${var.subnets}"]
+    subnets         = var.subnets
   }
 
   service_registries {
-    registry_arn = "${aws_service_discovery_service.metastore_proxy.arn}"
+    registry_arn = "${aws_service_discovery_service.metastore_proxy[0].arn}"
   }
 }
 
