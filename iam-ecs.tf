@@ -27,14 +27,14 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "task_exec_managed" {
-  role       = "${aws_iam_role.waggledance_task_exec.id}"
+  role = "${aws_iam_role.waggledance_task_exec.id}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_exec" {
   count = "${var.docker_registry_auth_secret_name == "" ? 0 : 1}"
-  name  = "secretsmanager-exec"
-  role  = "${aws_iam_role.waggledance_task_exec.id}"
+  name = "secretsmanager-exec"
+  role = "${aws_iam_role.waggledance_task_exec.id}"
 
   policy = <<EOF
 {
@@ -72,8 +72,8 @@ EOF
 
 resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
   count = "${var.bastion_ssh_key_secret_name == "" ? 0 : 1}"
-  name  = "secretsmanager"
-  role  = "${aws_iam_role.waggledance_task.id}"
+  name = "secretsmanager"
+  role = "${aws_iam_role.waggledance_task.id}"
 
   policy = <<EOF
 {
