@@ -41,7 +41,7 @@ resource "aws_vpc_endpoint" "remote_metastores" {
 }
 
 data "external" "endpoint_dnsnames" {
-  count      = "${length(aws_vpc_endpoint.remote_metastores)}"
+  count      = "${length(aws_vpc_endpoint.remote_metastores.*.id)}"
   program    = ["bash", "${path.module}/scripts/endpoint_dns_name.sh", "${aws_vpc_endpoint.remote_metastores.*.id[count.index]}", "${var.aws_region}"]
 }
 
