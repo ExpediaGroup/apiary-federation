@@ -43,6 +43,7 @@ resource "aws_vpc_endpoint" "remote_metastores" {
 data "external" "endpoint_dnsnames" {
   count   = "${length(var.remote_metastores)}"
   program = ["bash", "${path.module}/scripts/endpoint_dns_name.sh", "${aws_vpc_endpoint.remote_metastores.*.id[count.index]}", "${var.aws_region}"]
+  depends_on = ["aws_vpc_endpoint.remote_metastores"]
 }
 
 data "template_file" "remote_metastores_yaml" {
