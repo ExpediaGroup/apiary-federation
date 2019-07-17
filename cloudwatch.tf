@@ -79,11 +79,11 @@ locals {
 resource "aws_cloudwatch_metric_alarm" "waggledance_alert" {
   count = length(local.alerts)
   alarm_name = local.alerts[count.index].alarm_name
-  comparison_operator = "${lookup(local.alerts[count.index], "comparison_operator", "GreaterThanOrEqualToThreshold")}"
+  comparison_operator = lookup(local.alerts[count.index], "comparison_operator", "GreaterThanOrEqualToThreshold")
   metric_name = local.alerts[count.index].metric_name
   namespace = local.alerts[count.index].namespace
-  period = "${lookup(local.alerts[count.index], "period", "120")}"
-  evaluation_periods = "${lookup(local.alerts[count.index], "evaluation_periods", "2")}"
+  period = lookup(local.alerts[count.index], "period", "120")
+  evaluation_periods = lookup(local.alerts[count.index], "evaluation_periods", "2")
   statistic = "Average"
   threshold = local.alerts[count.index].threshold
 

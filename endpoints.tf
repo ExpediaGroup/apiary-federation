@@ -67,7 +67,7 @@ data "template_file" "local_metastores_yaml" {
 }
 
 resource "aws_route53_zone" "remote_metastore" {
-  count = "${var.enable_remote_metastore_dns == "" ? 0 : 1}"
+  count = var.enable_remote_metastore_dns == "" ? 0 : 1
   name  = "${local.remote_metastore_zone_prefix}-${var.aws_region}.${var.domain_extension}"
   tags  = var.tags
 
@@ -77,7 +77,7 @@ resource "aws_route53_zone" "remote_metastore" {
 }
 
 resource "aws_route53_record" "metastore_alias" {
-  count   = "${var.enable_remote_metastore_dns == "" ? 0 : length(var.remote_metastores)}"
+  count   = var.enable_remote_metastore_dns == "" ? 0 : length(var.remote_metastores)
   zone_id = aws_route53_zone.remote_metastore[0].zone_id
   name    = var.remote_metastores[count.index].prefix
   type    = "CNAME"

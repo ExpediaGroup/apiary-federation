@@ -5,13 +5,13 @@
  */
 
 resource "aws_ecs_cluster" "waggledance" {
-  count = "${var.wd_instance_type == "ecs" ? 1 : 0}"
+  count = var.wd_instance_type == "ecs" ? 1 : 0
   name  = local.instance_alias
   tags  = var.tags
 }
 
 resource "aws_ecs_service" "waggledance_service" {
-  count           = "${var.wd_instance_type == "ecs" ? 1 : 0}"
+  count           = var.wd_instance_type == "ecs" ? 1 : 0
   name            = "${local.instance_alias}-service"
   launch_type     = "FARGATE"
   cluster         = aws_ecs_cluster.waggledance[0].id
@@ -29,7 +29,7 @@ resource "aws_ecs_service" "waggledance_service" {
 }
 
 resource "aws_ecs_task_definition" "waggledance" {
-  count                    = "${var.wd_instance_type == "ecs" ? 1 : 0}"
+  count                    = var.wd_instance_type == "ecs" ? 1 : 0
   family                   = local.instance_alias
   task_role_arn            = aws_iam_role.waggledance_task.arn
   execution_role_arn       = aws_iam_role.waggledance_task_exec.arn

@@ -34,8 +34,8 @@ data "template_file" "waggledance_userdata" {
 }
 
 resource "aws_instance" "waggledance" {
-  count         = "${var.wd_instance_type == "ecs" ? 0 : length(var.subnets)}"
-  ami           = "${var.ami_id == "" ? data.aws_ami.amzn.id : var.ami_id}"
+  count         = var.wd_instance_type == "ecs" ? 0 : length(var.subnets)
+  ami           = var.ami_id == "" ? data.aws_ami.amzn.id : var.ami_id
   instance_type = var.ec2_instance_type
   key_name      = var.key_name
   ebs_optimized = true
@@ -51,7 +51,7 @@ resource "aws_instance" "waggledance" {
     volume_size = var.root_vol_size
   }
 
-  tags = merge(map("Name", "${local.instance_alias}-${count.index + 1}"), "${var.tags}")
+  tags = merge(map("Name", "${local.instance_alias}-${count.index + 1}"), var.tags)
 
   lifecycle {
     create_before_destroy = true
@@ -59,7 +59,7 @@ resource "aws_instance" "waggledance" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "waggledance" {
-  count = "${var.wd_instance_type == "ecs" ? 0 : length(var.subnets)}"
+  count = var.wd_instance_type == "ecs" ? 0 : length(var.subnets)
 
   alarm_name = "Auto Reboot - ${aws_instance.waggledance.*.id[count.index]}"
 

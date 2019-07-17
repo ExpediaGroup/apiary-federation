@@ -5,7 +5,7 @@
  */
 
 data "template_file" "graphite_server_yaml" {
-  count    = "${var.graphite_host == "localhost" ? 0 : 1}"
+  count    = var.graphite_host == "localhost" ? 0 : 1
   template = file("${path.module}/templates/waggle-dance-server-graphite.yml.tmpl")
 
   vars = {
@@ -16,7 +16,7 @@ data "template_file" "graphite_server_yaml" {
 }
 
 data "template_file" "server_yaml" {
-  template = "${file("${path.module}/templates/waggle-dance-server.yml.tmpl")}"
+  template = file("${path.module}/templates/waggle-dance-server.yml.tmpl")
 
   vars = {
     graphite = join("", data.template_file.graphite_server_yaml.*.rendered)
@@ -48,7 +48,7 @@ data "template_file" "ssh_metastores_yaml" {
 }
 
 data "template_file" "federation_yaml" {
-  template = "${file("${path.module}/templates/waggle-dance-federation.yml.tmpl")}"
+  template = file("${path.module}/templates/waggle-dance-federation.yml.tmpl")
 
   vars = {
     primary_metastore_host = var.primary_metastore_host
@@ -61,7 +61,7 @@ data "template_file" "federation_yaml" {
 }
 
 data "template_file" "waggledance" {
-  template = "${file("${path.module}/templates/waggledance.json")}"
+  template = file("${path.module}/templates/waggledance.json")
 
   vars = {
     heapsize = var.memory
@@ -71,7 +71,7 @@ data "template_file" "waggledance" {
     loggroup = aws_cloudwatch_log_group.waggledance_ecs.name
     server_yaml = base64encode(data.template_file.server_yaml.rendered)
     federation_yaml = base64encode(data.template_file.federation_yaml.rendered)
-    bastion_ssh_key_arn = "${var.bastion_ssh_key_secret_name == "" ? "" : join("", data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)}"
-    docker_auth = "${var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))}"
+    bastion_ssh_key_arn = var.bastion_ssh_key_secret_name == "" ? "" : join("", data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)
+    docker_auth = var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))
   }
 }
