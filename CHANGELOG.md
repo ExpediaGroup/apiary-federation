@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Added
 - Upgrade to Terraform version 0.12
+
+## [2.0.1] - 2019-07-17
+
+### Added
 - Fixed problem adding new remote_metastores. - see [#36](https://github.com/ExpediaGroup/apiary-federation/issues/36)
 
 ## [2.0.0] - 2019-07-09
