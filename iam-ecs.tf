@@ -23,18 +23,18 @@ resource "aws_iam_role" "waggledance_task_exec" {
 }
 EOF
 
-  tags = "${var.tags}"
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "task_exec_managed" {
-  role       = "${aws_iam_role.waggledance_task_exec.id}"
+  role = aws_iam_role.waggledance_task_exec.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_exec" {
-  count = "${var.docker_registry_auth_secret_name == "" ? 0 : 1}"
-  name  = "secretsmanager-exec"
-  role  = "${aws_iam_role.waggledance_task_exec.id}"
+  count = var.docker_registry_auth_secret_name == "" ? 0 : 1
+  name = "secretsmanager-exec"
+  role = aws_iam_role.waggledance_task_exec.id
 
   policy = <<EOF
 {
@@ -71,9 +71,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
-  count = "${var.bastion_ssh_key_secret_name == "" ? 0 : 1}"
-  name  = "secretsmanager"
-  role  = "${aws_iam_role.waggledance_task.id}"
+  count = var.bastion_ssh_key_secret_name == "" ? 0 : 1
+  name = "secretsmanager"
+  role = aws_iam_role.waggledance_task.id
 
   policy = <<EOF
 {
@@ -81,20 +81,20 @@ resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
     "Statement": {
         "Effect": "Allow",
         "Action": "secretsmanager:GetSecretValue",
-        "Resource": "${data.aws_secretsmanager_secret.bastion_ssh_key.arn}"
+        "Resource": "${data.aws_secretsmanager_secret.bastion_ssh_key[0].arn}"
     }
 }
 EOF
 }
 
 resource "aws_iam_role_policy_attachment" "waggledance_ssm_policy" {
-  count      = "${var.wd_instance_type == "ecs" ? 0 : 1}"
-  role       = "${aws_iam_role.waggledance_task.name}"
+  count      = var.wd_instance_type == "ecs" ? 0 : 1
+  role       = aws_iam_role.waggledance_task.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 resource "aws_iam_instance_profile" "waggledance" {
-  count = "${var.wd_instance_type == "ecs" ? 0 : 1}"
-  name  = "${aws_iam_role.waggledance_task.name}"
-  role  = "${aws_iam_role.waggledance_task.name}"
+  count = var.wd_instance_type == "ecs" ? 0 : 1
+  name  = aws_iam_role.waggledance_task.name
+  role  = aws_iam_role.waggledance_task.name
 }

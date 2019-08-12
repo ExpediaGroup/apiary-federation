@@ -40,6 +40,8 @@
     copy:
       dest: /opt/waggle-dance/conf/waggle-dance-federation.yml
       content: "{{ federation_yaml|b64decode }}"
+    notify:
+      - restart-waggledance
 
   - name: server conf
     copy:
