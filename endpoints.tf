@@ -38,6 +38,7 @@ resource "aws_vpc_endpoint" "remote_metastores" {
   service_name       = var.remote_metastores[count.index].endpoint
   subnet_ids         = split(",", lookup(var.remote_metastores[count.index], "subnets", join(",", var.subnets)))
   security_group_ids = [aws_security_group.endpoint_sg.id]
+  tags               = merge(map("Name", "${var.remote_metastores[count.index].prefix}_metastore"), var.tags)
 }
 
 data "template_file" "remote_metastores_yaml" {

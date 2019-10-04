@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Added
 - Upgrade to Terraform version 0.12
 
+### Changed
+- Tag remote metastore VPC endpoints.
+
 ## [2.0.1] - 2019-07-17
 
 ### Added
