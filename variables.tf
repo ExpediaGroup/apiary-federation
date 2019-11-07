@@ -91,7 +91,7 @@ The amount of memory (in MiB) used to allocate for the Waggle Dance container.
 Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
-  type = "string"
+  type    = "string"
   default = "4096"
 }
 
@@ -119,6 +119,12 @@ variable "docker_image" {
 variable "docker_version" {
   description = "Waggle Dance Docker image version."
   type        = "string"
+}
+
+variable "k8s_docker_registry_secret" {
+  description = "Docker Registry authentication K8s secret name."
+  type        = "string"
+  default     = ""
 }
 
 variable "graphite_host" {
@@ -185,30 +191,30 @@ The secret's key should be `private_key` and the value should be stored as a bas
 Max character limit for a secret's value is 4096.
 EOF
 
-  type = "string"
+  type    = "string"
   default = ""
 }
 
 variable "enable_remote_metastore_dns" {
   description = "Option to enable creating DNS records for remote metastores."
-  type = "string"
-  default = ""
+  type        = "string"
+  default     = ""
 }
 
 variable "domain_extension" {
   description = "Domain name to use for Route 53 entry and service discovery."
-  type = "string"
-  default = "lcl"
+  type        = "string"
+  default     = "lcl"
 }
 
 variable "secondary_vpcs" {
   description = "List of VPCs to associate with Service Discovery namespace."
-  type = "list"
-  default = []
+  type        = "list"
+  default     = []
 }
 
 variable "docker_registry_auth_secret_name" {
   description = "Docker Registry authentication SecretManager secret name."
-  type = "string"
-  default = ""
+  type        = "string"
+  default     = ""
 }
