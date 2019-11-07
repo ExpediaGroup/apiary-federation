@@ -5,7 +5,6 @@ resource "kubernetes_deployment" "waggle_dance" {
   metadata {
     name      = "waggle-dance"
     namespace = "metastore"
-
     labels = {
       name = "waggle-dance"
     }
@@ -63,16 +62,19 @@ resource "kubernetes_service" "waggle_dance" {
   metadata {
     name      = "waggle-dance"
     namespace = "metastore"
+    annotations = {
+      "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
+      "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+    }
   }
   spec {
     selector = {
       name = "waggle-dance"
     }
-    session_affinity = "ClientIP"
     port {
       port        = 48869
       target_port = 48869
     }
-    type = "NodePort"
+    type = "LoadBalancer"
   }
 }
