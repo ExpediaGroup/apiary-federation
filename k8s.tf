@@ -1,3 +1,6 @@
+locals {
+  heapsize = ceil((var.memory * 90) / 100)
+}
 resource "kubernetes_deployment" "waggle_dance" {
   metadata {
     name      = "waggle-dance"
@@ -29,7 +32,7 @@ resource "kubernetes_deployment" "waggle_dance" {
           name  = "waggle-dance"
           env {
             name  = "HEAPSIZE"
-            value = var.memory
+            value = local.heapsize
           }
           env {
             name  = "SERVER_YAML"
