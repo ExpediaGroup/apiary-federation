@@ -32,17 +32,17 @@ EOF
 }
 
 data "template_file" "ssh_metastores_yaml" {
-  count = length(var.ssh_metastores)
+  count    = length(var.ssh_metastores)
   template = file("${path.module}/templates/waggle-dance-federation-ssh.yml.tmpl")
 
   vars = {
-    prefix = lookup(var.ssh_metastores[count.index], "prefix")
-    bastion_host = lookup(var.ssh_metastores[count.index], "bastion-host")
-    metastore_host = lookup(var.ssh_metastores[count.index], "metastore-host")
-    metastore_port = lookup(var.ssh_metastores[count.index], "port")
-    user = lookup(var.ssh_metastores[count.index], "user")
-    timeout = lookup(var.ssh_metastores[count.index], "timeout", "60000")
-    mapped_databases = lookup(var.ssh_metastores[count.index], "mapped-databases", "")
+    prefix             = lookup(var.ssh_metastores[count.index], "prefix")
+    bastion_host       = lookup(var.ssh_metastores[count.index], "bastion-host")
+    metastore_host     = lookup(var.ssh_metastores[count.index], "metastore-host")
+    metastore_port     = lookup(var.ssh_metastores[count.index], "port")
+    user               = lookup(var.ssh_metastores[count.index], "user")
+    timeout            = lookup(var.ssh_metastores[count.index], "timeout", "60000")
+    mapped_databases   = lookup(var.ssh_metastores[count.index], "mapped-databases", "")
     writable_whitelist = lookup(var.ssh_metastores[count.index], "writable-whitelist", "")
   }
 }
@@ -51,12 +51,12 @@ data "template_file" "federation_yaml" {
   template = file("${path.module}/templates/waggle-dance-federation.yml.tmpl")
 
   vars = {
-    primary_metastore_host = var.primary_metastore_host
-    primary_metastore_port = var.primary_metastore_port
+    primary_metastore_host      = var.primary_metastore_host
+    primary_metastore_port      = var.primary_metastore_port
     primary_metastore_whitelist = join("", data.template_file.primary_metastore_whitelist.*.rendered)
-    local_metastores = join("", data.template_file.local_metastores_yaml.*.rendered)
-    remote_metastores = join("", data.template_file.remote_metastores_yaml.*.rendered)
-    ssh_metastores = join("", data.template_file.ssh_metastores_yaml.*.rendered)
+    local_metastores            = join("", data.template_file.local_metastores_yaml.*.rendered)
+    remote_metastores           = join("", data.template_file.remote_metastores_yaml.*.rendered)
+    ssh_metastores              = join("", data.template_file.ssh_metastores_yaml.*.rendered)
   }
 }
 
@@ -64,14 +64,14 @@ data "template_file" "waggledance" {
   template = file("${path.module}/templates/waggledance.json")
 
   vars = {
-    heapsize = var.memory
-    docker_image = var.docker_image
-    docker_version = var.docker_version
-    region = var.aws_region
-    loggroup = aws_cloudwatch_log_group.waggledance_ecs.name
-    server_yaml = base64encode(data.template_file.server_yaml.rendered)
-    federation_yaml = base64encode(data.template_file.federation_yaml.rendered)
+    heapsize            = var.memory
+    docker_image        = var.docker_image
+    docker_version      = var.docker_version
+    region              = var.aws_region
+    loggroup            = aws_cloudwatch_log_group.waggledance_ecs.name
+    server_yaml         = base64encode(data.template_file.server_yaml.rendered)
+    federation_yaml     = base64encode(data.template_file.federation_yaml.rendered)
     bastion_ssh_key_arn = var.bastion_ssh_key_secret_name == "" ? "" : join("", data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)
-    docker_auth = var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))
+    docker_auth         = var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))
   }
 }
