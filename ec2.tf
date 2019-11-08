@@ -34,7 +34,7 @@ data "template_file" "waggledance_userdata" {
 }
 
 resource "aws_instance" "waggledance" {
-  count         = var.wd_instance_type == "ecs" ? 0 : length(var.subnets)
+  count         = var.wd_instance_type == "ec2" ? length(var.subnets) : 0
   ami           = var.ami_id == "" ? data.aws_ami.amzn.id : var.ami_id
   instance_type = var.ec2_instance_type
   key_name      = var.key_name
@@ -59,7 +59,7 @@ resource "aws_instance" "waggledance" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "waggledance" {
-  count = var.wd_instance_type == "ecs" ? 0 : length(var.subnets)
+  count = var.wd_instance_type == "ec2" ? length(var.subnets) : 0
 
   alarm_name = "Auto Reboot - ${aws_instance.waggledance.*.id[count.index]}"
 
