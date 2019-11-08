@@ -18,7 +18,7 @@ resource "aws_route53_record" "metastore_proxy" {
   name  = "metastore-proxy"
 
   zone_id = aws_route53_zone.waggledance[0].id
-  type    = "A"
+  type    = "CNAME"
   ttl     = "300"
-  records = aws_instance.waggledance.*.private_ip
+  records = kubernetes_service.waggle_dance.load_balancer_ingress.*.hostname
 }
