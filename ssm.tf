@@ -17,7 +17,7 @@ data "template_file" "waggledance_playbook" {
 
 #to delay ssm assiociation till ansible is installed
 resource "null_resource" "waggledance_delay" {
-  count = var.wd_instance_type == "ecs" ? 0 : 1
+  count = var.wd_instance_type == "ec2" ? 1 : 0
 
   triggers = {
     waggledance_instance_ids = join(",", aws_instance.waggledance.*.id)
@@ -29,7 +29,7 @@ resource "null_resource" "waggledance_delay" {
 }
 
 resource "aws_ssm_association" "waggledance_playbook" {
-  count            = var.wd_instance_type == "ecs" ? 0 : 1
+  count            = var.wd_instance_type == "ec2" ? 1 : 0
   name             = "AWS-RunAnsiblePlaybook"
   association_name = "${local.instance_alias}-playbook"
 
