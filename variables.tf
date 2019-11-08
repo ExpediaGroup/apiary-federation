@@ -11,7 +11,7 @@ variable "instance_name" {
 }
 
 variable "wd_instance_type" {
-  description = "Waggle Dance instance type, possible values: ecs,ec2."
+  description = "Waggle Dance instance type, possible values: ecs,k8s."
   type        = "string"
   default     = "ecs"
 }

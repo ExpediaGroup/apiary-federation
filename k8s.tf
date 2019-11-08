@@ -2,6 +2,7 @@ locals {
   heapsize = ceil((var.memory * 90) / 100)
 }
 resource "kubernetes_deployment" "waggle_dance" {
+  count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "waggle-dance"
     namespace = "metastore"
@@ -59,6 +60,7 @@ resource "kubernetes_deployment" "waggle_dance" {
 }
 
 resource "kubernetes_service" "waggle_dance" {
+  count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "waggle-dance"
     namespace = "metastore"
