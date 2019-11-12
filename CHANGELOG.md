@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [3.0.0] - TBD
 
 ### Added
+- Support for running Waggle Dance on Kubernetes.
 - Upgrade to Terraform version 0.12
 
 ### Changed

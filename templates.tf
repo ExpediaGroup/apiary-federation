@@ -68,7 +68,7 @@ data "template_file" "waggledance" {
     docker_image        = var.docker_image
     docker_version      = var.docker_version
     region              = var.aws_region
-    loggroup            = aws_cloudwatch_log_group.waggledance_ecs.name
+    loggroup            = var.wd_instance_type == "ecs" ? join("", aws_cloudwatch_log_group.waggledance_ecs.*.name) : ""
     server_yaml         = base64encode(data.template_file.server_yaml.rendered)
     federation_yaml     = base64encode(data.template_file.federation_yaml.rendered)
     bastion_ssh_key_arn = var.bastion_ssh_key_secret_name == "" ? "" : join("", data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)
