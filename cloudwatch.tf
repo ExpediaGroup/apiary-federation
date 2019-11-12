@@ -10,8 +10,8 @@ resource "aws_cloudwatch_log_group" "waggledance_ecs" {
 }
 
 resource "aws_cloudwatch_dashboard" "apiary_federation" {
+  count          = var.wd_instance_type == "ecs" ? 1 : 0
   dashboard_name = "${local.instance_alias}-${var.aws_region}"
-
   dashboard_body = <<EOF
   {
     "widgets": [
@@ -77,7 +77,7 @@ locals {
 }
 
 resource "aws_cloudwatch_metric_alarm" "waggledance_alert" {
-  count               = length(local.alerts)
+  count               = var.wd_instance_type == "ecs" ? length(local.alerts) : 0
   alarm_name          = local.alerts[count.index].alarm_name
   comparison_operator = lookup(local.alerts[count.index], "comparison_operator", "GreaterThanOrEqualToThreshold")
   metric_name         = local.alerts[count.index].metric_name
