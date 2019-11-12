@@ -12,6 +12,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Changed
 - Tag remote metastore VPC endpoints.
 
+### Removed
+- Support for running Waggle Dance on EC2 nodes.
+
 ## [2.0.1] - 2019-07-17
 
 ### Added
