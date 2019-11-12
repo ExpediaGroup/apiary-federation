@@ -11,7 +11,7 @@ resource "kubernetes_deployment" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "waggle-dance"
-    namespace = "metastore"
+    namespace = var.k8s_namespace
     labels = {
       name = "waggle-dance"
     }
@@ -69,7 +69,7 @@ resource "kubernetes_service" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "waggle-dance"
-    namespace = "metastore"
+    namespace = var.k8s_namespace
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
       "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"

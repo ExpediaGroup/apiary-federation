@@ -34,10 +34,10 @@ variable "root_vol_size" {
   default     = "10"
 }
 
-variable "key_name" {
-  description = "EC2 key pair name."
+variable "k8s_namespace" {
+  description = "K8s namespace to create waggle-dance deployment."
   type        = "string"
-  default     = "automation"
+  default     = "metastore"
 }
 
 variable "aws_region" {
