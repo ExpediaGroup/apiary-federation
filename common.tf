@@ -7,7 +7,6 @@
 locals {
   instance_alias               = var.instance_name == "" ? "waggledance" : format("waggledance-%s", var.instance_name)
   remote_metastore_zone_prefix = var.instance_name == "" ? "remote-metastore" : format("remote-metastore-%s", var.instance_name)
-  cw_arn                       = "arn:aws:swf:${var.aws_region}:${data.aws_caller_identity.current.account_id}:action/actions/AWS_EC2.InstanceId.Reboot/1.0"
 }
 
 data "aws_caller_identity" "current" {}
