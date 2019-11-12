@@ -5,7 +5,7 @@
  */
 
 resource "aws_route53_zone" "waggledance" {
-  count = var.wd_instance_type == "ecs" ? 0 : 1
+  count = var.wd_instance_type == "k8s" ? 1 : 0
   name  = "${local.instance_alias}-${var.aws_region}.${var.domain_extension}"
 
   vpc {
@@ -14,11 +14,11 @@ resource "aws_route53_zone" "waggledance" {
 }
 
 resource "aws_route53_record" "metastore_proxy" {
-  count = var.wd_instance_type == "ecs" ? 0 : 1
+  count = var.wd_instance_type == "k8s" ? 1 : 0
   name  = "metastore-proxy"
 
   zone_id = aws_route53_zone.waggledance[0].id
-  type    = "A"
+  type    = "CNAME"
   ttl     = "300"
-  records = aws_instance.waggledance.*.private_ip
+  records = kubernetes_service.waggle_dance[0].load_balancer_ingress.*.hostname
 }

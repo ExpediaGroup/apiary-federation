@@ -31,8 +31,8 @@ resource "aws_ecs_service" "waggledance_service" {
 resource "aws_ecs_task_definition" "waggledance" {
   count                    = var.wd_instance_type == "ecs" ? 1 : 0
   family                   = local.instance_alias
-  task_role_arn            = aws_iam_role.waggledance_task.arn
-  execution_role_arn       = aws_iam_role.waggledance_task_exec.arn
+  task_role_arn            = aws_iam_role.waggledance_task[0].arn
+  execution_role_arn       = aws_iam_role.waggledance_task_exec[0].arn
   network_mode             = "awsvpc"
   memory                   = var.memory
   cpu                      = var.cpu

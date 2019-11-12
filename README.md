@@ -19,6 +19,8 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | graphite_prefix | Prefix addded to all metrics sent to Graphite from this Waggle Dance instance. | string | `waggle-dance` | no |
 | ingress_cidr | Generally allowed ingress CIDR list. | list | - | yes |
 | instance_name | Waggle Dance instance name to identify resources in multi-instance deployments. | string | `` | no |
+| k8s_namespace | K8s namespace to create waggle-dance deployment.| string | ``| no |
+| k8s_docker_registry_secret | Docker Registry authentication K8s secret name.| string | ``| no |
 | local_metastores | List of federated Metastore endpoints directly accessible on the local network. | list | `<list>` | no |
 | memory | The amount of memory (in MiB) used to allocate for the Waggle Dance container. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `4096` | no |
 | primary_metastore_host | Primary Hive Metastore hostname configured in Waggle Dance. | string | `localhost` | no |
@@ -31,13 +33,10 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | tags | A map of tags to apply to resources. | map | `<map>` | no |
 | vpc_id | VPC ID. | string | - | yes |
 | wd_ecs_task_count | Number of ECS tasks to create. | string | `1` | no |
-| wd_instance_type | Waggle Dance instance type, possible values: `ecs`,`ec2`. | string | `ecs` | no |
+| wd_instance_type | Waggle Dance instance type, possible values: `ecs`,`k8s`. | string | `ecs` | no |
 | waggledance_version | Waggle Dance version to install on EC2 nodes | string | `3.3.2` | no |
-| key_name | Waggle Dance EC2 ssh key pair name. | string | automation | no |
 | root_vol_type | Waggle Dance EC2 root volume type. | string | `gp2` | no |
 | root_vol_size | Waggle Dance EC2 root volume size. | string | `10` | no |
-| ec2_instance_type | Waggle Dance EC2 instance type. | string | `m5.large` | no |
-| ami_id | Amazon Linux AMI. | string | - | no |
 
 ## Usage
 
