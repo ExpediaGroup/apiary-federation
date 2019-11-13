@@ -83,6 +83,7 @@ resource "kubernetes_service" "waggle_dance" {
       port        = 48869
       target_port = 48869
     }
-    type = "LoadBalancer"
+    type                        = "LoadBalancer"
+    load_balancer_source_ranges = var.ingress_cidr
   }
 }
