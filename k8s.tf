@@ -5,7 +5,7 @@
  */
 
 locals {
-  heapsize = ceil((var.memory * 90) / 100)
+  heapsize = ceil((var.memory * 85) / 100)
 }
 resource "kubernetes_deployment" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
