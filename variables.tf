@@ -209,6 +209,6 @@ variable "docker_registry_auth_secret_name" {
 
 variable "prometheus_enabled" {
   description = "Enable to expose the Prometheus endpoint. Also enables Prometheus metrics scraping from k8s pods - true or false."
-  default     = "false"
-  type        = "string"
+  default     = false
+  type        = bool
 }

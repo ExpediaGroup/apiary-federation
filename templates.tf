@@ -33,7 +33,7 @@ data "template_file" "server_yaml" {
 
   vars = {
     graphite          = join("", data.template_file.graphite_server_yaml.*.rendered)
-    exposed_endpoints = join("", data.template_file.endpoints_server_yaml.rendered)
+    exposed_endpoints = data.template_file.endpoints_server_yaml.rendered
   }
 }
 
