@@ -4,6 +4,19 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
+locals {
+  default_exposed_endpoints = "health,info,metrics"
+  exposed_endpoints         = var.prometheus_enabled == "true" ? join(",", [default_exposed_endpoints, "prometheus"]) : default_exposed_endpoints
+}
+
+data "template_file" "endpoints_server_yaml" {
+  template = file("${path.module}/templates/waggle-dance-server-endpoints.yml.tmpl")
+
+  vars = {
+    exposed_endpoints = locals.exposed_endpoints
+  }
+}
+
 data "template_file" "graphite_server_yaml" {
   count    = var.graphite_host == "localhost" ? 0 : 1
   template = file("${path.module}/templates/waggle-dance-server-graphite.yml.tmpl")
@@ -19,7 +32,8 @@ data "template_file" "server_yaml" {
   template = file("${path.module}/templates/waggle-dance-server.yml.tmpl")
 
   vars = {
-    graphite = join("", data.template_file.graphite_server_yaml.*.rendered)
+    graphite          = join("", data.template_file.graphite_server_yaml.*.rendered)
+    exposed_endpoints = join("", data.template_file.endpoints_server_yaml.rendered)
   }
 }
 

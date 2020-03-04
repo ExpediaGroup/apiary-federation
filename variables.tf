@@ -206,3 +206,9 @@ variable "docker_registry_auth_secret_name" {
   type        = "string"
   default     = ""
 }
+
+variable "prometheus_enabled" {
+  description = "Enable to pull metrics from using Prometheus - true or false."
+  default     = "false"
+  type        = "string"
+}
