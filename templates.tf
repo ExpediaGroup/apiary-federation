@@ -6,14 +6,14 @@
 
 locals {
   default_exposed_endpoints = "health,info,metrics"
-  exposed_endpoints         = var.prometheus_enabled == "true" ? join(",", [default_exposed_endpoints, "prometheus"]) : default_exposed_endpoints
+  exposed_endpoints         = var.prometheus_enabled == "true" ? join(",", [local.default_exposed_endpoints, "prometheus"]) : local.default_exposed_endpoints
 }
 
 data "template_file" "endpoints_server_yaml" {
   template = file("${path.module}/templates/waggle-dance-server-endpoints.yml.tmpl")
 
   vars = {
-    exposed_endpoints = locals.exposed_endpoints
+    exposed_endpoints = local.exposed_endpoints
   }
 }
 
