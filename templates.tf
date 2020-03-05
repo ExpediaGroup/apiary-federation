@@ -6,7 +6,7 @@
 
 locals {
   default_exposed_endpoints = "health,info,metrics"
-  exposed_endpoints         = var.prometheus_enabled == "true" ? join(",", [local.default_exposed_endpoints, "prometheus"]) : local.default_exposed_endpoints
+  exposed_endpoints         = var.prometheus_enabled ? join(",", [local.default_exposed_endpoints, "prometheus"]) : local.default_exposed_endpoints
 }
 
 data "template_file" "endpoints_server_yaml" {
