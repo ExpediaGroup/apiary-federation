@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.1.0] - TBD
+## [3.1.0] - 2020-03-05
 
 ### Changed
 - Fix waggle_dance_load_balancers output for ecs deployments.
