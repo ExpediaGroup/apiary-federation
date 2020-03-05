@@ -32,7 +32,7 @@ resource "kubernetes_deployment" "waggle_dance" {
         }
         annotations = {
           "prometheus.io/scrape": var.prometheus_enabled
-          "prometheus.io/port": 48869
+          "prometheus.io/port": 18000
           "prometheus.io/path": "/actuator/prometheus"
         }
       }
