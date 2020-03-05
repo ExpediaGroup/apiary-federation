@@ -30,6 +30,11 @@ resource "kubernetes_deployment" "waggle_dance" {
         labels = {
           name = "waggle-dance"
         }
+        annotations = {
+          "prometheus.io/scrape": var.prometheus_enabled
+          "prometheus.io/port": 18000
+          "prometheus.io/path": "/actuator/prometheus"
+        }
       }
 
       spec {
