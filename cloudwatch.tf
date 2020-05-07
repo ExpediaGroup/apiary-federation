@@ -5,9 +5,10 @@
  */
 
 resource "aws_cloudwatch_log_group" "waggledance_ecs" {
-  count = var.wd_instance_type == "ecs" ? 1 : 0
-  name  = local.instance_alias
-  tags  = var.tags
+  count             = var.wd_instance_type == "ecs" ? 1 : 0
+  name              = local.instance_alias
+  retention_in_days = var.waggledance_logs_retention_days
+  tags              = var.tags
 }
 
 resource "aws_cloudwatch_dashboard" "apiary_federation" {

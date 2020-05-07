@@ -22,6 +22,12 @@ variable "waggledance_version" {
   default     = "3.3.2"
 }
 
+variable "waggledance_logs_retention_days" {
+  description = "Log retention in days for the Waggle Dance cloudwatch log group."
+  type        = "string"
+  default     = "30"
+}
+
 variable "root_vol_type" {
   description = "Waggle Dance EC2 root volume type."
   type        = "string"
