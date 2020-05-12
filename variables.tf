@@ -23,7 +23,7 @@ variable "waggledance_version" {
 }
 
 variable "waggledance_logs_retention_days" {
-  description = "Log retention in days for the Waggle Dance cloudwatch log group."
+  description = "Log retention in days for the Waggle Dance Cloudwatch log group."
   type        = "string"
   default     = "30"
 }
