@@ -10,10 +10,10 @@ locals {
 resource "kubernetes_deployment" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
-    name      = "waggle-dance"
+    name      = local.instance_alias
     namespace = var.k8s_namespace
     labels = {
-      name = "waggle-dance"
+      name = local.instance_alias
     }
   }
 
@@ -21,26 +21,26 @@ resource "kubernetes_deployment" "waggle_dance" {
     replicas = 3
     selector {
       match_labels = {
-        name = "waggle-dance"
+        name = local.instance_alias
       }
     }
 
     template {
       metadata {
         labels = {
-          name = "waggle-dance"
+          name = local.instance_alias
         }
         annotations = {
-          "prometheus.io/scrape": var.prometheus_enabled
-          "prometheus.io/port": 18000
-          "prometheus.io/path": "/actuator/prometheus"
+          "prometheus.io/scrape" : var.prometheus_enabled
+          "prometheus.io/port" : 18000
+          "prometheus.io/path" : "/actuator/prometheus"
         }
       }
 
       spec {
         container {
           image = "${var.docker_image}:${var.docker_version}"
-          name  = "waggle-dance"
+          name  = local.instance_alias
           env {
             name  = "HEAPSIZE"
             value = local.heapsize
@@ -73,7 +73,7 @@ resource "kubernetes_deployment" "waggle_dance" {
 resource "kubernetes_service" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
-    name      = "waggle-dance"
+    name      = local.instance_alias
     namespace = var.k8s_namespace
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
@@ -82,7 +82,7 @@ resource "kubernetes_service" "waggle_dance" {
   }
   spec {
     selector = {
-      name = "waggle-dance"
+      name = local.instance_alias
     }
     port {
       port        = 48869
