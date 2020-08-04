@@ -70,7 +70,7 @@ resource "aws_iam_role" "waggledance_task" {
 }
 EOF
 
-  tags = "${var.tags}"
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
