@@ -41,32 +41,6 @@ resource "aws_vpc_endpoint" "remote_metastores" {
   tags               = merge(map("Name", "${var.remote_metastores[count.index].prefix}_metastore"), var.tags)
 }
 
-data "template_file" "remote_metastores_yaml" {
-  count    = length(var.remote_metastores)
-  template = file("${path.module}/templates/waggle-dance-federation-remote.yml.tmpl")
-
-  vars = {
-    prefix             = var.remote_metastores[count.index].prefix
-    metastore_host     = aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name
-    metastore_port     = lookup(var.remote_metastores[count.index], "port", "9083")
-    mapped_databases   = lookup(var.remote_metastores[count.index], "mapped-databases", "")
-    writable_whitelist = lookup(var.remote_metastores[count.index], "writable-whitelist", "")
-  }
-}
-
-data "template_file" "local_metastores_yaml" {
-  count    = length(var.local_metastores)
-  template = file("${path.module}/templates/waggle-dance-federation-local.yml.tmpl")
-
-  vars = {
-    prefix             = var.local_metastores[count.index].prefix
-    metastore_host     = var.local_metastores[count.index].host
-    metastore_port     = lookup(var.local_metastores[count.index], "port", "9083")
-    mapped_databases   = lookup(var.local_metastores[count.index], "mapped-databases", "")
-    writable_whitelist = lookup(var.local_metastores[count.index], "writable-whitelist", "")
-  }
-}
-
 resource "aws_route53_zone" "remote_metastore" {
   count = var.enable_remote_metastore_dns == "" ? 0 : 1
   name  = "${local.remote_metastore_zone_prefix}-${var.aws_region}.${var.domain_extension}"
