@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [3.2.0] - 2021-01-19
 ### Added
-- Added ability to pass `database_name_mapping` key/value pairs for each federated metastore.  See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.
+- Added ability to pass `database_name_mapping` key/value pairs for each federated metastore.  See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information. Requires docker image version `1.6.0` or greater.
 
 ## [3.1.1] - 2020-08-04
 
