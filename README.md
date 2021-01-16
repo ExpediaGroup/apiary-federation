@@ -67,10 +67,8 @@ module "apiary-waggledance" {
       port                  = "9083"
       prefix                = "metastore1"
       mapped-databases      = "default,test"
-      database-name-mapping = {
-        test    = "test_alias",
-        default = "default_alias"
-      }
+      database-name-mapping = "test:test_alias,default:default_alias"
+      writable-whitelist    = "test"
     },
     {
       endpoint         = "com.amazonaws.vpce.us-east-1.vpce-svc-2"
