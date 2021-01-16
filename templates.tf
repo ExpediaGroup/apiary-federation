@@ -54,7 +54,7 @@ data "template_file" "local_metastores_yaml" {
     metastore_host        = var.local_metastores[count.index].host
     metastore_port        = lookup(var.local_metastores[count.index], "port", "9083")
     mapped_databases      = lookup(var.local_metastores[count.index], "mapped-databases", "")
-    database_name_mapping = jsonencode(lookup(var.local_metastores[count.index], "database-name-mapping", {}))
+    database_name_mapping = lookup(var.local_metastores[count.index], "database-name-mapping", "{}")
     writable_whitelist    = lookup(var.local_metastores[count.index], "writable-whitelist", "")
   }
 }
@@ -68,7 +68,7 @@ data "template_file" "remote_metastores_yaml" {
     metastore_host        = aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name
     metastore_port        = lookup(var.remote_metastores[count.index], "port", "9083")
     mapped_databases      = lookup(var.remote_metastores[count.index], "mapped-databases", "")
-    database_name_mapping = jsonencode(lookup(var.remote_metastores[count.index], "database-name-mapping", {}))
+    database_name_mapping = lookup(var.local_metastores[count.index], "database-name-mapping", "{}")
     writable_whitelist    = lookup(var.remote_metastores[count.index], "writable-whitelist", "")
   }
 }
@@ -85,7 +85,7 @@ data "template_file" "ssh_metastores_yaml" {
     user                  = lookup(var.ssh_metastores[count.index], "user")
     timeout               = lookup(var.ssh_metastores[count.index], "timeout", "60000")
     mapped_databases      = lookup(var.ssh_metastores[count.index], "mapped-databases", "")
-    database_name_mapping = jsonencode(lookup(var.ssh_metastores[count.index], "database-name-mapping", {}))
+    database_name_mapping = lookup(var.local_metastores[count.index], "database-name-mapping", "{}")
     writable_whitelist    = lookup(var.ssh_metastores[count.index], "writable-whitelist", "")
   }
 }
