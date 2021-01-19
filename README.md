@@ -21,14 +21,14 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | instance_name | Waggle Dance instance name to identify resources in multi-instance deployments. | string | `` | no |
 | k8s_namespace | K8s namespace to create waggle-dance deployment.| string | ``| no |
 | k8s_docker_registry_secret | Docker Registry authentication K8s secret name.| string | ``| no |
-| local_metastores | List of federated Metastore endpoints directly accessible on the local network. | list | `<list>` | no |
+| local_metastores | List of federated Metastore endpoints directly accessible on the local network. See section [`local_metastores`](#local_metastores) for more info.| list | `<list>` | no |
 | memory | The amount of memory (in MiB) used to allocate for the Waggle Dance container. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `4096` | no |
 | primary_metastore_host | Primary Hive Metastore hostname configured in Waggle Dance. | string | `localhost` | no |
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
-| remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. | list | `<list>` | no |
+| remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. See section [`remote_metastores`](#remote_metastores) for more info.| list | `<list>` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
-| ssh_metastores | List of federated Metastores to connect to over SSH via bastion. | list | `<list>` | no |
+| ssh_metastores | List of federated Metastores to connect to over SSH via bastion. See section [`ssh_metastores`](#ssh_metastores) for more info.| list | `<list>` | no |
 | subnets | ECS container subnets. | list | - | yes |
 | tags | A map of tags to apply to resources. | map | `<map>` | no |
 | vpc_id | VPC ID. | string | - | yes |
@@ -61,12 +61,15 @@ module "apiary-waggledance" {
   primary_metastore_host      = "primary-metastore.yourdomain.com"
   primary_metastore_whitelist = ["test_.*", "team_.*"]
 
-  remote_metastores = [{
-    endpoint         = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
-    port             = "9083"
-    prefix           = "metastore1"
-    mapped-databases = "default,test"
-  },
+  remote_metastores = [
+    {
+      endpoint              = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
+      port                  = "9083"
+      prefix                = "metastore1"
+      mapped-databases      = "default,test"
+      database-name-mapping = "test:test_alias,default:default_alias"
+      writable-whitelist    = "test"
+    },
     {
       endpoint         = "com.amazonaws.vpce.us-east-1.vpce-svc-2"
       port             = "9083"
@@ -77,6 +80,101 @@ module "apiary-waggledance" {
   ]
 }
 ```
+
+### local_metastores
+
+A list of maps.  Each map entry describes a federated metastore server directly accessible on the local network.
+
+An example entry looks like:
+```
+local_metastores = [
+    {
+      host                  = "hms-readonly.metastore.svc.cluster.local"
+      port                  = "9083"
+      prefix                = "local1"
+      mapped-databases      = "default,test"
+      database-name-mapping = "test:test_alias,default:default_alias"
+      writable-whitelist    = "test"
+    }
+]
+``` 
+`local_metastores` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| host | Host name of the Hive metastore server on the local network. | string | - | yes |
+| port | IP port that the Thrift server of the Hive metastore listens on. | string | `"9083"` | no |
+| prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
+| mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
+
+See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
+
+### remote_metastores
+
+A list of maps.  Each map entry describes a federated metastore endpoint accessible via an AWS VPC endpoint.
+
+An example entry looks like:
+```
+remote_metastores = [
+    {
+      endpoint              = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
+      port                  = "9083"
+      prefix                = "remote1"
+      mapped-databases      = "default,test"
+      database-name-mapping = "test:test_alias,default:default_alias"
+      writable-whitelist    = ".*"
+    }
+]
+``` 
+`remote_metastores` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| endpoint | AWS VPC endpoint name that is connected to the remote Hive metastore. | string | - | yes |
+| port | IP port that the Thrift server of the remote Hive metastore listens on. | string | `"9083"` | no |
+| prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
+| mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
+
+See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
+
+### ssh_metastores
+
+A list of maps.  Each map entry describes a federated metastore endpoint connected via an SSH bastion host.
+
+An example entry looks like:
+```
+ssh_metastores = [
+    {
+      metastore-host        = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
+      port                  = "9083"
+      bastion-host          = "bastion.remote-account.com"
+      user                  = "bastion-user"
+      timeout               = "30000"
+      prefix                = "ssh_metastore1"
+      mapped-databases      = "default,test"
+      database-name-mapping = "test:test_alias,default:default_alias"
+    }
+]
+``` 
+`ssh_metastores` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| metastore-host | Host name of the Hive metastore that can be resolved/reached from the bastion host. | string | - | yes |
+| port | IP port that the Thrift server of the remote Hive metastore listens on. | string | `"9083"` | no |
+| bastion-host | Host name of the bastion host. | string | - | yes |
+| user | User name what will login to the bastion host. | string | - | yes |
+| timeout | The SSH session timeout in milliseconds, 0 means no timeout. Default is 60000 milliseconds, i.e. 1 minute. | string | `"60000"` | no |
+| prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
+| mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
+
+See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
 
 # Contact
 

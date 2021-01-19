@@ -10,5 +10,7 @@
       timeout: ${timeout}
 ${ mapped_databases == "" ? "" : "    mapped-databases:" }
 ${ mapped_databases == "" ? "" : join("\n",formatlist("    - %s",split(",",mapped_databases))) }
+${ database_name_mapping == "" ? "" : "    database-name-mapping:" }
+${ database_name_mapping == "" ? "" : join("\n", formatlist("      %s", split(",", replace(replace(database_name_mapping, " ", ""), ":", ": ")))) }
 ${ writable_whitelist == "" ? "" : "    writable-database-white-list:" }
 ${ writable_whitelist == "" ? "" : join("\n",formatlist("    - %s",split(",",writable_whitelist))) }
