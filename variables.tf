@@ -154,21 +154,21 @@ variable "primary_metastore_whitelist" {
 #list of maps, example: [ {host="metastore1", port="9083", prefix="pre1", writable-whitelist="db1,test" }, {host="metastore2", port="9083", prefix="pre2", mapped-databases="dm,test" } ]
 variable "local_metastores" {
   description = "List of federated Metastore endpoints directly accessible on the local network."
-  type        = list(map)
+  type        = list(map(string))
   default     = []
 }
 
 #list of maps, example: [ {endpoint="vpce1", port="9083", prefix="pre1", writable-whitelist="db1,test" }, {endpoint="vpce2", port="9083", prefix="pre2", mapped-databases="dm,test", subnets="subnet1,subnet2" } ]
 variable "remote_metastores" {
   description = "List of VPC endpoint services to federate Metastores in other accounts."
-  type        = list(map)
+  type        = list(map(string))
   default     = []
 }
 
 #list of maps, example: [ {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre1", user="my-unix-user", mapped-databases="test1,test2"}, {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre1", user="my-unix-user", writable-whitelist="db1,test", mapped-databases="test1,test2"} ]
 variable "ssh_metastores" {
   description = "List of federated Metastores to connect to over SSH via bastion."
-  type        = list(map)
+  type        = list(map(string))
   default     = []
 }
 
