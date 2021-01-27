@@ -54,9 +54,6 @@ resource "kubernetes_deployment" "waggle_dance" {
             value = base64encode(data.template_file.federation_yaml.rendered)
           }
           resources {
-            limits {
-              memory = "${var.memory}Mi"
-            }
             requests {
               memory = "${var.memory}Mi"
             }
