@@ -5,7 +5,8 @@
  */
 
 locals {
-  heapsize = ceil((var.memory * 85) / 100)
+  heapsize     = ceil((var.memory * 85) / 100)
+  memory_limit = ceil((var.memory * 120) / 100)
 }
 resource "kubernetes_deployment" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
@@ -55,7 +56,7 @@ resource "kubernetes_deployment" "waggle_dance" {
           }
           resources {
             limits {
-              memory = "${var.memory}Mi"
+              memory = "${local.memory_limit}Mi"
             }
             requests {
               memory = "${var.memory}Mi"
