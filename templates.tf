@@ -108,7 +108,7 @@ data "template_file" "hive_site_xml" {
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
-${join("\n", data.template_file.s3_path_replacement_xml.*.rendered)}
+${join("", data.template_file.s3_path_replacement_xml.*.rendered)}
 </configuration>
 EOF
 }
@@ -142,7 +142,7 @@ data "template_file" "waggledance" {
     loggroup            = var.wd_instance_type == "ecs" ? join("", aws_cloudwatch_log_group.waggledance_ecs.*.name) : ""
     server_yaml         = base64encode(data.template_file.server_yaml.rendered)
     federation_yaml     = base64encode(data.template_file.federation_yaml.rendered)
-    hive_site_xml       = base64encode(data.template_file.hive_site_xml.rendered)
+    hive_site_xml       = var.alluxio_root_url == "" ? "" : base64encode(data.template_file.hive_site_xml.rendered)
     bastion_ssh_key_arn = var.bastion_ssh_key_secret_name == "" ? "" : join("", data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)
     docker_auth         = var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))
   }

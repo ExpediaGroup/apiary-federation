@@ -56,11 +56,7 @@ resource "kubernetes_deployment" "waggle_dance" {
           }
           env {
             name  = "HIVE_SITE_XML"
-            value = base64encode(data.template_file.hive_site_xml.rendered)
-          }
-          env {
-            name  = "ENABLE_PATH_CONVERSION_HOOK"
-            value = var.alluxio_root_url == "" ? "" : "1"
+            value = var.alluxio_root_url == "" ? "" : base64encode(data.template_file.hive_site_xml.rendered)
           }
           resources {
             limits {
