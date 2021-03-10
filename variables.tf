@@ -212,3 +212,19 @@ variable "prometheus_enabled" {
   default     = false
   type        = bool
 }
+
+variable "alluxio_root_url" {
+  description = ""
+  type        = string
+  default     = ""
+}
+
+variable "alluxio_s3_mounts" {
+  type    = list(string)
+  default = []
+}
+
+variable "alluxio_hdfs_mounts" {
+  type    = list(string)
+  default = []
+}

@@ -32,6 +32,10 @@
         "value": "${federation_yaml}"
       },
       {
+        "name": "HIVE_SITE_XML",
+        "value": "${hive_site_xml}"
+      },
+      {
         "name": "BASTION_SSH_KEY_ARN",
         "value": "${bastion_ssh_key_arn}"
       }
