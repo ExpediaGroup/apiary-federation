@@ -56,7 +56,7 @@ data "template_file" "local_metastores_yaml" {
     mapped_databases       = lookup(var.local_metastores[count.index], "mapped-databases", "")
     database_name_mapping  = lookup(var.local_metastores[count.index], "database-name-mapping", "")
     writable_whitelist     = lookup(var.local_metastores[count.index], "writable-whitelist", "")
-    enable_path_conversion = lookup(var.remote_metastores[count.index], "enable_path_conversion", false)
+    enable_path_conversion = lookup(var.local_metastores[count.index], "enable_path_conversion", false)
   }
 }
 
