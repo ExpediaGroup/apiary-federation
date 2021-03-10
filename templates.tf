@@ -117,15 +117,15 @@ data "template_file" "s3_path_replacement_xml" {
   count    = length(var.alluxio_s3_mounts)
   template = <<EOF
    <property>
-       <name>apiary.path.replacement.regex.alluxio</name>
+       <name>apiary.path.replacement.regex.alluxio-${count.index}</name>
        <value>^(s3://)${var.var.alluxio_s3_mounts[count.index]}/.*</value>
    </property>
    <property>
-       <name>apiary.path.replacement.value.alluxio</name>
+       <name>apiary.path.replacement.value.alluxio-${count.index}</name>
        <value>${var.alluxio_root_url}</value>
    </property>
    <property>
-       <name>apiary.path.replacement.capturegroups.alluxio</name>
+       <name>apiary.path.replacement.capturegroups.alluxio-${count.index}</name>
        <value>1</value>
    </property>
 EOF
