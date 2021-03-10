@@ -118,7 +118,7 @@ data "template_file" "s3_path_replacement_xml" {
   template = <<EOF
    <property>
        <name>apiary.path.replacement.regex.alluxio-${count.index}</name>
-       <value>^(s3://)${var.var.alluxio_s3_mounts[count.index]}/.*</value>
+       <value>^(s3://)${var.alluxio_s3_mounts[count.index]}/.*</value>
    </property>
    <property>
        <name>apiary.path.replacement.value.alluxio-${count.index}</name>
