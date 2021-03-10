@@ -50,12 +50,13 @@ data "template_file" "local_metastores_yaml" {
   template = file("${path.module}/templates/waggle-dance-federation-local.yml.tmpl")
 
   vars = {
-    prefix                = var.local_metastores[count.index].prefix
-    metastore_host        = var.local_metastores[count.index].host
-    metastore_port        = lookup(var.local_metastores[count.index], "port", "9083")
-    mapped_databases      = lookup(var.local_metastores[count.index], "mapped-databases", "")
-    database_name_mapping = lookup(var.local_metastores[count.index], "database-name-mapping", "")
-    writable_whitelist    = lookup(var.local_metastores[count.index], "writable-whitelist", "")
+    prefix                 = var.local_metastores[count.index].prefix
+    metastore_host         = var.local_metastores[count.index].host
+    metastore_port         = lookup(var.local_metastores[count.index], "port", "9083")
+    mapped_databases       = lookup(var.local_metastores[count.index], "mapped-databases", "")
+    database_name_mapping  = lookup(var.local_metastores[count.index], "database-name-mapping", "")
+    writable_whitelist     = lookup(var.local_metastores[count.index], "writable-whitelist", "")
+    enable_path_conversion = lookup(var.remote_metastores[count.index], "enable_path_conversion", false)
   }
 }
 
@@ -64,12 +65,13 @@ data "template_file" "remote_metastores_yaml" {
   template = file("${path.module}/templates/waggle-dance-federation-remote.yml.tmpl")
 
   vars = {
-    prefix                = var.remote_metastores[count.index].prefix
-    metastore_host        = aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name
-    metastore_port        = lookup(var.remote_metastores[count.index], "port", "9083")
-    mapped_databases      = lookup(var.remote_metastores[count.index], "mapped-databases", "")
-    database_name_mapping = lookup(var.remote_metastores[count.index], "database-name-mapping", "")
-    writable_whitelist    = lookup(var.remote_metastores[count.index], "writable-whitelist", "")
+    prefix                 = var.remote_metastores[count.index].prefix
+    metastore_host         = aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name
+    metastore_port         = lookup(var.remote_metastores[count.index], "port", "9083")
+    mapped_databases       = lookup(var.remote_metastores[count.index], "mapped-databases", "")
+    database_name_mapping  = lookup(var.remote_metastores[count.index], "database-name-mapping", "")
+    writable_whitelist     = lookup(var.remote_metastores[count.index], "writable-whitelist", "")
+    enable_path_conversion = lookup(var.remote_metastores[count.index], "enable_path_conversion", false)
   }
 }
 

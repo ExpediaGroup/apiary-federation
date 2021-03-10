@@ -2,6 +2,9 @@
     access-control-type: ${ writable_whitelist == "" ? "READ_ONLY" : "READ_AND_WRITE_ON_DATABASE_WHITELIST" }
     database-prefix: ${prefix}_
     remote-meta-store-uris: thrift://${metastore_host}:${metastore_port}
+%${if enable_path_conversion }
+    hive-metastore-filter-hook: com.expediagroup.apiary.extensions.hooks.pathconversion.filters.ApiaryMetastoreFilter
+%{endif}
 ${ mapped_databases == "" ? "" : "    mapped-databases:" }
 ${ mapped_databases == "" ? "" : join("\n",formatlist("    - %s",split(",",mapped_databases))) }
 ${ database_name_mapping == "" ? "" : "    database-name-mapping:" }
