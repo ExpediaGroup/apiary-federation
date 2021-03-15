@@ -76,7 +76,7 @@ module "apiary-waggledance" {
       prefix           = "metastore2"
       subnets          = "subnet-3"
       mapped-databases = "test"
-      disabled         = true
+      enabled          = false
     },
   ]
 }
