@@ -57,6 +57,7 @@ data "template_file" "local_metastores_yaml" {
     database_name_mapping  = lookup(var.local_metastores[count.index], "database-name-mapping", "")
     writable_whitelist     = lookup(var.local_metastores[count.index], "writable-whitelist", "")
     enable_path_conversion = lookup(var.local_metastores[count.index], "enable_path_conversion", false)
+    metastore_enabled      = lookup(var.local_metastores[count.index], "enabled", true)
   }
 }
 
@@ -72,6 +73,7 @@ data "template_file" "remote_metastores_yaml" {
     database_name_mapping  = lookup(var.remote_metastores[count.index], "database-name-mapping", "")
     writable_whitelist     = lookup(var.remote_metastores[count.index], "writable-whitelist", "")
     enable_path_conversion = lookup(var.remote_metastores[count.index], "enable_path_conversion", false)
+    metastore_enabled      = lookup(var.remote_metastores[count.index], "enabled", true)
   }
 }
 
@@ -89,6 +91,7 @@ data "template_file" "ssh_metastores_yaml" {
     mapped_databases      = lookup(var.ssh_metastores[count.index], "mapped-databases", "")
     database_name_mapping = lookup(var.ssh_metastores[count.index], "database-name-mapping", "")
     writable_whitelist    = lookup(var.ssh_metastores[count.index], "writable-whitelist", "")
+    metastore_enabled     = lookup(var.ssh_metastores[count.index], "enabled", true)
   }
 }
 

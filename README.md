@@ -76,6 +76,7 @@ module "apiary-waggledance" {
       prefix           = "metastore2"
       subnets          = "subnet-3"
       mapped-databases = "test"
+      enabled          = false //option to enable/disable metastore in waggle-dance without removing vpc endpoint.
     },
   ]
 }
