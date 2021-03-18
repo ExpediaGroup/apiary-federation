@@ -220,18 +220,8 @@ variable "prometheus_enabled" {
   type        = bool
 }
 
-variable "alluxio_root_url" {
-  description = ""
-  type        = string
-  default     = ""
-}
-
-variable "alluxio_s3_mounts" {
-  type    = list(string)
-  default = []
-}
-
-variable "alluxio_hdfs_mounts" {
-  type    = list(string)
+//[ { root_url = "alluxio://alluxio1", s3_mounts = "bucket1,bucket2" }, { root_url = "alluxio://alluxio2", s3_mounts = "bucket3,bucket4" } ]
+variable "alluxio_endpoints" {
+  type    = list(map)
   default = []
 }

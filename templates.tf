@@ -126,38 +126,6 @@ data "template_file" "federation_yaml" {
   }
 }
 
-data "template_file" "hive_site_xml" {
-  template = <<EOF
-<?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-<configuration>
-  <property>
-     <name>apiary.path.replacement.enabled</name>
-     <value>true</value>
-  </property>
-${join("", data.template_file.s3_path_replacement_xml.*.rendered)}
-</configuration>
-EOF
-}
-
-data "template_file" "s3_path_replacement_xml" {
-  count    = length(var.alluxio_s3_mounts)
-  template = <<EOF
-   <property>
-       <name>apiary.path.replacement.regex.alluxio-${count.index}</name>
-       <value>^(s3://)${var.alluxio_s3_mounts[count.index]}/.*</value>
-   </property>
-   <property>
-       <name>apiary.path.replacement.value.alluxio-${count.index}</name>
-       <value>${var.alluxio_root_url}</value>
-   </property>
-   <property>
-       <name>apiary.path.replacement.capturegroups.alluxio-${count.index}</name>
-       <value>1</value>
-   </property>
-EOF
-}
-
 data "template_file" "waggledance" {
   template = file("${path.module}/templates/waggledance.json")
 
