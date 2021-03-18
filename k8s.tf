@@ -56,7 +56,7 @@ resource "kubernetes_deployment" "waggle_dance" {
           }
           env {
             name  = "HIVE_SITE_XML"
-            value = var.alluxio_root_url == "" ? "" : base64encode(data.template_file.hive_site_xml.rendered)
+            value = var.alluxio_endpoints == [] ? "" : base64encode(data.template_file.hive_site_xml.rendered)
           }
           resources {
             limits {
