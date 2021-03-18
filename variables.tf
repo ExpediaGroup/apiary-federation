@@ -220,8 +220,8 @@ variable "prometheus_enabled" {
   type        = bool
 }
 
-//[ { root_url = "alluxio://alluxio1", s3_mounts = "bucket1,bucket2" }, { root_url = "alluxio://alluxio2", s3_mounts = "bucket3,bucket4" } ]
+//[ { root_url = "alluxio://alluxio1", s3_buckets = "bucket1,bucket2" }, { root_url = "alluxio://alluxio2", s3_buckets = "bucket3,bucket4" } ]
 variable "alluxio_endpoints" {
-  type    = list(map(any))
+  type    = list(map(string))
   default = []
 }
