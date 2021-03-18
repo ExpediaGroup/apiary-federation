@@ -45,7 +45,7 @@ resource "aws_vpc_endpoint" "remote_region_metastores" {
   for_each = {
     for metastore in var.remote_region_metastores : "${metastore["endpoint"]}" => metastore
   }
-  provider           = "aws.${each.value["region"]}"
+  provider           = "aws.remote"
   vpc_id             = each.value["vpc_id"]
   vpc_endpoint_type  = "Interface"
   service_name       = each.value["endpoint"]
