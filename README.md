@@ -28,7 +28,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
 | remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. See section [`remote_metastores`](#remote_metastores) for more info.| list | `<list>` | no |
-| remote_region_metastores | List of VPC endpoint services to federate Metastores in other region,other accounts. See section [`remote_region_metastores`](#remote_region_metastores) for more info.| list | `<list>` | no |
+| remote_region_metastores | List of VPC endpoint services to federate Metastores in other region,other accounts. The actual data from tables in these metastores can be accessed using Alluxio caching instead of reading the data from S3 directly. See section [`remote_region_metastores`](#remote_region_metastores) for more info.| list | `<list>` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | ssh_metastores | List of federated Metastores to connect to over SSH via bastion. See section [`ssh_metastores`](#ssh_metastores) for more info.| list | `<list>` | no |
 | subnets | ECS container subnets. | list | - | yes |
@@ -46,6 +46,12 @@ Example module invocation:
 ```
 module "apiary-waggledance" {
   source            = "git::https://github.com/ExpediaGroup/apiary-federation.git?ref=master"
+
+  #required for creating VPC endpoints in remote region
+  providers = {
+    aws.remote = aws.remote
+  }
+
   instance_name     = "waggledance-test"
   wd_ecs_task_count = "1"
   aws_region        = "us-west-2"

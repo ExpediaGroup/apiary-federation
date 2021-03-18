@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.3.0] - 2021-03-17
+## [3.3.0] - 2021-03-18
 ### Added
 - Add support for remote region metastores and alluxio cache. Access to tables in remote region s3 can be transparently redirected to alluxio using waggle-dance and hive hook.
 
