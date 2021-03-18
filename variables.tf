@@ -220,7 +220,8 @@ variable "prometheus_enabled" {
   type        = bool
 }
 
-//[ { root_url = "alluxio://alluxio1", s3_buckets = "bucket1,bucket2" }, { root_url = "alluxio://alluxio2", s3_buckets = "bucket3,bucket4" } ]
+//[ { root_url = "alluxio://alluxio1:19998/", s3_buckets = "bucket1,bucket2" }, { root_url = "alluxio://alluxio2:19998/", s3_buckets = "bucket3,bucket4" } ]
+//it is important that root_url contains / at the end for hive hook to create valid url after replacement
 variable "alluxio_endpoints" {
   type    = list(map(string))
   default = []
