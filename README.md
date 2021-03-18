@@ -27,6 +27,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
 | remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. See section [`remote_metastores`](#remote_metastores) for more info.| list | `<list>` | no |
+| remote_metastores | List of VPC endpoint services to federate Metastores in other region,other accounts. See section [`remote_region_metastores`](#remote_region_metastores) for more info.| list | `<list>` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | ssh_metastores | List of federated Metastores to connect to over SSH via bastion. See section [`ssh_metastores`](#ssh_metastores) for more info.| list | `<list>` | no |
 | subnets | ECS container subnets. | list | - | yes |
@@ -77,6 +78,19 @@ module "apiary-waggledance" {
       subnets          = "subnet-3"
       mapped-databases = "test"
       enabled          = false //option to enable/disable metastore in waggle-dance without removing vpc endpoint.
+    },
+  ]
+  remote_region_metastores = [
+    {
+      endpoint              = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
+      port                  = "9083"
+      prefix                = "metastore1"
+      mapped-databases      = "default,test"
+      database-name-mapping = "test:test_alias,default:default_alias"
+      writable-whitelist    = "test"
+      vpc_id                = "vpc-123456"
+      subnets               = "subnet-1,subnet-2"
+      security_group_id     = "sg1"
     },
   ]
 }
@@ -142,6 +156,43 @@ Name | Description | Type | Default | Required |
 
 See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
 
+### remote_region_metastores
+
+A list of maps.  Each map entry describes a federated metastore endpoint accessible via an AWS VPC endpoint.
+
+An example entry looks like:
+```
+remote_region_metastores = [
+    {
+      endpoint              = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
+      port                  = "9083"
+      prefix                = "remote1"
+      mapped-databases      = "default,test"
+      database-name-mapping = "test:test_alias,default:default_alias"
+      writable-whitelist    = ".*"
+      vpc_id                = "vpc-123456"
+      subnets               = "subnet-1,subnet-2"
+      security_group_id     = "sg1
+    }
+]
+``` 
+`remote_region_metastores` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| endpoint | AWS VPC endpoint service name that is connected to the remote Hive metastore. | string | - | yes |
+| port | IP port that the Thrift server of the remote Hive metastore listens on. | string | `"9083"` | no |
+| prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
+| mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
+| vpc_id | Remote region AWS VPC id. | string | - | yes |
+| subnets | AWS VPC subnets in remote region. | string | - | yes |
+| security_group_id | AWS EC2 security group in remote region. | string | - | yes |
+
+See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
+
+An example entry looks like:
 ### ssh_metastores
 
 A list of maps.  Each map entry describes a federated metastore endpoint connected via an SSH bastion host.

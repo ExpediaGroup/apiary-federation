@@ -165,7 +165,7 @@ variable "remote_metastores" {
   default     = []
 }
 
-#list of maps, example: [ {region='us-west-2', endpoint="vpce1", port="9083", prefix="pre1", writable-whitelist="db1,test" } ]
+#list of maps, example: [ {endpoint="vpce1", port="9083", prefix="pre1", writable-whitelist="db1,test", vpc_id = "vpc-123456", subnets = "subnet1,subnet2", security_group_id="sg1"  } ]
 variable "remote_region_metastores" {
   description = "List of VPC endpoint services to federate Metastores in other region,other accounts."
   type        = list(map(string))
