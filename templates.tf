@@ -88,7 +88,7 @@ data "template_file" "remote_region_metastores_yaml" {
     mapped_databases       = lookup(var.remote_region_metastores[count.index], "mapped-databases", "")
     database_name_mapping  = lookup(var.remote_region_metastores[count.index], "database-name-mapping", "")
     writable_whitelist     = lookup(var.remote_region_metastores[count.index], "writable-whitelist", "")
-    enable_path_conversion = lookup(var.remote_region_metastores[count.index], "enable_path_conversion", false)
+    enable_path_conversion = lookup(var.remote_region_metastores[count.index], "enable_path_conversion", true)
     metastore_enabled      = lookup(var.remote_region_metastores[count.index], "enabled", true)
   }
 }
