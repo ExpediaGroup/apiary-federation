@@ -6,6 +6,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 ## Variables
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| alluxio_endpoints | List of Alluxio endpoints(map of root url and s3 buckets) used to replace s3 paths with alluxio paths. See section [`Usage`](#Usage)| list | `<list>` | no |
 | aws_region | AWS region to use for resources. | string | - | yes |
 | bastion_ssh_key_secret_name | Secret name in AWS Secrets Manager which stores the private key used to log in to bastions. The secret's key should be `private_key` and the value should be stored as a base64 encoded string. Max character limit for a secret's value is 4096. | string | `` | no |
 | cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
@@ -93,6 +94,19 @@ module "apiary-waggledance" {
       security_group_id     = "sg1"
     },
   ]
+
+  alluxio_endpoints = [
+    {
+      root_url   = "alluxio://alluxio1:19998/"
+      s3_buckets = "bucket1,bucket2"
+    }
+    ,
+    {
+      root_url   = "alluxio://alluxio2:19998/"
+      s3_buckets = "bucket3,bucket4"
+    }
+  ]
+
 }
 ```
 
