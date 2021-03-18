@@ -158,7 +158,7 @@ See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md
 
 ### remote_region_metastores
 
-A list of maps.  Each map entry describes a federated metastore endpoint accessible via an AWS VPC endpoint.
+A list of maps.  Each map entry describes a federated metastore endpoint accessible via an AWS VPC endpoint. The actual data for these metastores will be accessed using Alluxio caching instead of reading the data from S3 directly.
 
 An example entry looks like:
 ```
