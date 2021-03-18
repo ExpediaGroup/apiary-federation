@@ -50,7 +50,7 @@ resource "aws_vpc_endpoint" "remote_region_metastores" {
   vpc_endpoint_type  = "Interface"
   service_name       = each.value["endpoint"]
   subnet_ids         = split(",", each.value["subnets"])
-  security_group_ids = each.value["security_group_id"]
+  security_group_ids = [each.value["security_group_id"]]
   tags               = merge(map("Name", "${each.value["prefix"]}_metastore"), var.tags)
 }
 
