@@ -27,7 +27,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
 | remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. See section [`remote_metastores`](#remote_metastores) for more info.| list | `<list>` | no |
-| remote_metastores | List of VPC endpoint services to federate Metastores in other region,other accounts. See section [`remote_region_metastores`](#remote_region_metastores) for more info.| list | `<list>` | no |
+| remote_region_metastores | List of VPC endpoint services to federate Metastores in other region,other accounts. See section [`remote_region_metastores`](#remote_region_metastores) for more info.| list | `<list>` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | ssh_metastores | List of federated Metastores to connect to over SSH via bastion. See section [`ssh_metastores`](#ssh_metastores) for more info.| list | `<list>` | no |
 | subnets | ECS container subnets. | list | - | yes |
