@@ -4,7 +4,7 @@
     database-prefix: ${prefix}_
     remote-meta-store-uris: thrift://${metastore_host}:${metastore_port}
 %{if enable_path_conversion ~}
-    hive-metastore-filter-hook: com.expediagroup.apiary.extensions.hooks.pathconversion.filters.ApiaryMetastoreFilter
+    hive-metastore-filter-hook: com.expediagroup.apiary.extensions.hooks.filters.ApiaryMetastoreFilter
 %{~endif}
 ${ mapped_databases == "" ? "" : "    mapped-databases:" }
 ${ mapped_databases == "" ? "" : join("\n",formatlist("    - %s",split(",",mapped_databases))) }
