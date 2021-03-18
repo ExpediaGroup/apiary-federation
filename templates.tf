@@ -83,7 +83,7 @@ data "template_file" "remote_region_metastores_yaml" {
 
   vars = {
     prefix                 = var.remote_region_metastores[count.index].prefix
-    metastore_host         = aws_vpc_endpoint.remote_region_metastores[var.remote_region_metastores["endpoint"]].dns_entry[0].dns_name
+    metastore_host         = aws_vpc_endpoint.remote_region_metastores[var.remote_region_metastores[count.index]["endpoint"]].dns_entry[0].dns_name
     metastore_port         = lookup(var.remote_region_metastores[count.index], "port", "9083")
     mapped_databases       = lookup(var.remote_region_metastores[count.index], "mapped-databases", "")
     database_name_mapping  = lookup(var.remote_region_metastores[count.index], "database-name-mapping", "")
