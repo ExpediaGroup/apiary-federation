@@ -131,6 +131,10 @@ data "template_file" "hive_site_xml" {
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
+  <property>
+     <name>apiary.path.replacement.enabled</name>
+     <value>true</value>
+  </property>
 ${join("", data.template_file.s3_path_replacement_xml.*.rendered)}
 </configuration>
 EOF
