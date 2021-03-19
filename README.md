@@ -6,6 +6,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 ## Variables
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| alluxio_endpoints | List of Alluxio endpoints(map of root url and s3 buckets) used to replace s3 paths with alluxio paths. See section [`Usage`](#Usage)| list | `<list>` | no |
 | aws_region | AWS region to use for resources. | string | - | yes |
 | bastion_ssh_key_secret_name | Secret name in AWS Secrets Manager which stores the private key used to log in to bastions. The secret's key should be `private_key` and the value should be stored as a base64 encoded string. Max character limit for a secret's value is 4096. | string | `` | no |
 | cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
@@ -27,6 +28,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
 | remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. See section [`remote_metastores`](#remote_metastores) for more info.| list | `<list>` | no |
+| remote_region_metastores | List of VPC endpoint services to federate Metastores in other region,other accounts. The actual data from tables in these metastores can be accessed using Alluxio caching instead of reading the data from S3 directly. See section [`remote_region_metastores`](#remote_region_metastores) for more info.| list | `<list>` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | ssh_metastores | List of federated Metastores to connect to over SSH via bastion. See section [`ssh_metastores`](#ssh_metastores) for more info.| list | `<list>` | no |
 | subnets | ECS container subnets. | list | - | yes |
@@ -44,6 +46,12 @@ Example module invocation:
 ```
 module "apiary-waggledance" {
   source            = "git::https://github.com/ExpediaGroup/apiary-federation.git?ref=master"
+
+  #required for creating VPC endpoints in remote region
+  providers = {
+    aws.remote = aws.remote
+  }
+
   instance_name     = "waggledance-test"
   wd_ecs_task_count = "1"
   aws_region        = "us-west-2"
@@ -79,6 +87,32 @@ module "apiary-waggledance" {
       enabled          = false //option to enable/disable metastore in waggle-dance without removing vpc endpoint.
     },
   ]
+  remote_region_metastores = [
+    {
+      endpoint              = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
+      port                  = "9083"
+      prefix                = "metastore1"
+      mapped-databases      = "default,test"
+      database-name-mapping = "test:test_alias,default:default_alias"
+      writable-whitelist    = "test"
+      vpc_id                = "vpc-123456"
+      subnets               = "subnet-1,subnet-2"
+      security_group_id     = "sg1"
+    },
+  ]
+
+  alluxio_endpoints = [
+    {
+      root_url   = "alluxio://alluxio1:19998/"
+      s3_buckets = "bucket1,bucket2"
+    }
+    ,
+    {
+      root_url   = "alluxio://alluxio2:19998/"
+      s3_buckets = "bucket3,bucket4"
+    }
+  ]
+
 }
 ```
 
@@ -142,6 +176,43 @@ Name | Description | Type | Default | Required |
 
 See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
 
+### remote_region_metastores
+
+A list of maps.  Each map entry describes a federated metastore endpoint accessible via an AWS VPC endpoint. The actual data for these metastores will be accessed using Alluxio caching instead of reading the data from S3 directly.
+
+An example entry looks like:
+```
+remote_region_metastores = [
+    {
+      endpoint              = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
+      port                  = "9083"
+      prefix                = "remote1"
+      mapped-databases      = "default,test"
+      database-name-mapping = "test:test_alias,default:default_alias"
+      writable-whitelist    = ".*"
+      vpc_id                = "vpc-123456"
+      subnets               = "subnet-1,subnet-2"
+      security_group_id     = "sg1
+    }
+]
+``` 
+`remote_region_metastores` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| endpoint | AWS VPC endpoint service name that is connected to the remote Hive metastore. | string | - | yes |
+| port | IP port that the Thrift server of the remote Hive metastore listens on. | string | `"9083"` | no |
+| prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
+| mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
+| vpc_id | Remote region AWS VPC id. | string | - | yes |
+| subnets | AWS VPC subnets in remote region. | string | - | yes |
+| security_group_id | AWS EC2 security group in remote region. | string | - | yes |
+
+See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
+
+An example entry looks like:
 ### ssh_metastores
 
 A list of maps.  Each map entry describes a federated metastore endpoint connected via an SSH bastion host.

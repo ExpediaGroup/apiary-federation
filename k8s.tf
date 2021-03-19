@@ -54,6 +54,10 @@ resource "kubernetes_deployment" "waggle_dance" {
             name  = "FEDERATION_YAML"
             value = base64encode(data.template_file.federation_yaml.rendered)
           }
+          env {
+            name  = "HIVE_SITE_XML"
+            value = var.alluxio_endpoints == [] ? "" : base64encode(data.template_file.hive_site_xml.rendered)
+          }
           resources {
             limits {
               memory = "${local.memory_limit}Mi"

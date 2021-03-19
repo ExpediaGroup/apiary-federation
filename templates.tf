@@ -50,13 +50,14 @@ data "template_file" "local_metastores_yaml" {
   template = file("${path.module}/templates/waggle-dance-federation-local.yml.tmpl")
 
   vars = {
-    prefix                = var.local_metastores[count.index].prefix
-    metastore_host        = var.local_metastores[count.index].host
-    metastore_port        = lookup(var.local_metastores[count.index], "port", "9083")
-    mapped_databases      = lookup(var.local_metastores[count.index], "mapped-databases", "")
-    database_name_mapping = lookup(var.local_metastores[count.index], "database-name-mapping", "")
-    writable_whitelist    = lookup(var.local_metastores[count.index], "writable-whitelist", "")
-    metastore_enabled     = lookup(var.local_metastores[count.index], "enabled", true)
+    prefix                 = var.local_metastores[count.index].prefix
+    metastore_host         = var.local_metastores[count.index].host
+    metastore_port         = lookup(var.local_metastores[count.index], "port", "9083")
+    mapped_databases       = lookup(var.local_metastores[count.index], "mapped-databases", "")
+    database_name_mapping  = lookup(var.local_metastores[count.index], "database-name-mapping", "")
+    writable_whitelist     = lookup(var.local_metastores[count.index], "writable-whitelist", "")
+    enable_path_conversion = lookup(var.local_metastores[count.index], "enable_path_conversion", false)
+    metastore_enabled      = lookup(var.local_metastores[count.index], "enabled", true)
   }
 }
 
@@ -65,15 +66,33 @@ data "template_file" "remote_metastores_yaml" {
   template = file("${path.module}/templates/waggle-dance-federation-remote.yml.tmpl")
 
   vars = {
-    prefix                = var.remote_metastores[count.index].prefix
-    metastore_host        = aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name
-    metastore_port        = lookup(var.remote_metastores[count.index], "port", "9083")
-    mapped_databases      = lookup(var.remote_metastores[count.index], "mapped-databases", "")
-    database_name_mapping = lookup(var.remote_metastores[count.index], "database-name-mapping", "")
-    writable_whitelist    = lookup(var.remote_metastores[count.index], "writable-whitelist", "")
-    metastore_enabled     = lookup(var.remote_metastores[count.index], "enabled", true)
+    prefix                 = var.remote_metastores[count.index].prefix
+    metastore_host         = aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name
+    metastore_port         = lookup(var.remote_metastores[count.index], "port", "9083")
+    mapped_databases       = lookup(var.remote_metastores[count.index], "mapped-databases", "")
+    database_name_mapping  = lookup(var.remote_metastores[count.index], "database-name-mapping", "")
+    writable_whitelist     = lookup(var.remote_metastores[count.index], "writable-whitelist", "")
+    enable_path_conversion = lookup(var.remote_metastores[count.index], "enable_path_conversion", false)
+    metastore_enabled      = lookup(var.remote_metastores[count.index], "enabled", true)
   }
 }
+
+data "template_file" "remote_region_metastores_yaml" {
+  count    = length(var.remote_region_metastores)
+  template = file("${path.module}/templates/waggle-dance-federation-remote.yml.tmpl")
+
+  vars = {
+    prefix                 = var.remote_region_metastores[count.index].prefix
+    metastore_host         = aws_vpc_endpoint.remote_region_metastores[var.remote_region_metastores[count.index]["endpoint"]].dns_entry[0].dns_name
+    metastore_port         = lookup(var.remote_region_metastores[count.index], "port", "9083")
+    mapped_databases       = lookup(var.remote_region_metastores[count.index], "mapped-databases", "")
+    database_name_mapping  = lookup(var.remote_region_metastores[count.index], "database-name-mapping", "")
+    writable_whitelist     = lookup(var.remote_region_metastores[count.index], "writable-whitelist", "")
+    enable_path_conversion = lookup(var.remote_region_metastores[count.index], "enable_path_conversion", true)
+    metastore_enabled      = lookup(var.remote_region_metastores[count.index], "enabled", true)
+  }
+}
+
 
 data "template_file" "ssh_metastores_yaml" {
   count    = length(var.ssh_metastores)
@@ -102,6 +121,7 @@ data "template_file" "federation_yaml" {
     primary_metastore_whitelist = join("", data.template_file.primary_metastore_whitelist.*.rendered)
     local_metastores            = join("", data.template_file.local_metastores_yaml.*.rendered)
     remote_metastores           = join("", data.template_file.remote_metastores_yaml.*.rendered)
+    remote_region_metastores    = join("", data.template_file.remote_region_metastores_yaml.*.rendered)
     ssh_metastores              = join("", data.template_file.ssh_metastores_yaml.*.rendered)
   }
 }
@@ -117,6 +137,7 @@ data "template_file" "waggledance" {
     loggroup            = var.wd_instance_type == "ecs" ? join("", aws_cloudwatch_log_group.waggledance_ecs.*.name) : ""
     server_yaml         = base64encode(data.template_file.server_yaml.rendered)
     federation_yaml     = base64encode(data.template_file.federation_yaml.rendered)
+    hive_site_xml       = var.alluxio_endpoints == [] ? "" : base64encode(data.template_file.hive_site_xml.rendered)
     bastion_ssh_key_arn = var.bastion_ssh_key_secret_name == "" ? "" : join("", data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)
     docker_auth         = var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))
   }
