@@ -11,7 +11,7 @@ data "template_file" "hive_site_xml" {
 %{for s3_bucket in split(",", alluxio_endpoint.s3_buckets)}
    <property>
        <name>apiary.path.replacement.regex.alluxio-${s3_bucket}</name>
-       <value>^(s3://)${s3_bucket}/.*</value>
+       <value>^(s3://|s3a://|s3n://)${s3_bucket}/.*</value>
    </property>
    <property>
        <name>apiary.path.replacement.value.alluxio-${s3_bucket}</name>
