@@ -24,6 +24,10 @@
         "value": "${heapsize}"
       },
       {
+        "name": "LOGLEVEL",
+        "value": "${loglevel}"
+      },
+      {
         "name": "SERVER_YAML",
         "value": "${server_yaml}"
       },

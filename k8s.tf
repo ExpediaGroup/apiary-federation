@@ -47,6 +47,10 @@ resource "kubernetes_deployment" "waggle_dance" {
             value = local.heapsize
           }
           env {
+            name  = "LOGLEVEL"
+            value = var.wd_log_level
+          }
+          env {
             name  = "SERVER_YAML"
             value = base64encode(data.template_file.server_yaml.rendered)
           }
