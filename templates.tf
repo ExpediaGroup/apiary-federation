@@ -135,6 +135,7 @@ data "template_file" "waggledance" {
     docker_version      = var.docker_version
     region              = var.aws_region
     loggroup            = var.wd_instance_type == "ecs" ? join("", aws_cloudwatch_log_group.waggledance_ecs.*.name) : ""
+    loglevel            = var.wd_log_level
     server_yaml         = base64encode(data.template_file.server_yaml.rendered)
     federation_yaml     = base64encode(data.template_file.federation_yaml.rendered)
     hive_site_xml       = var.alluxio_endpoints == [] ? "" : base64encode(data.template_file.hive_site_xml.rendered)

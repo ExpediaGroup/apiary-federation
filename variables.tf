@@ -22,6 +22,12 @@ variable "waggledance_version" {
   default     = "3.3.2"
 }
 
+variable "wd_log_level" {
+  description = "Log level for the Waggle-Dance."
+  type        = string
+  default     = "info"
+}
+
 variable "root_vol_type" {
   description = "Waggle Dance EC2 root volume type."
   type        = string
