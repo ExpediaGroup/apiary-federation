@@ -23,7 +23,7 @@ variable "waggledance_version" {
 }
 
 variable "wd_log_level" {
-  description = "Log level for the Waggle-Dance."
+  description = "Log level for WaggleDance."
   type        = string
   default     = "info"
 }
