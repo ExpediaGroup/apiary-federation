@@ -59,8 +59,8 @@ variable "wd_ecs_task_count" {
 
 variable "k8s_replica_count" {
   description = "Number of k8s pod replicas to create."
-  type        = string
-  default     = "3"
+  type        = number
+  default     = 3
 }
 
 variable "vpc_id" {
