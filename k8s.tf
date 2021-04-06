@@ -19,7 +19,7 @@ resource "kubernetes_deployment" "waggle_dance" {
   }
 
   spec {
-    replicas = var.k8s_pod_replica_count
+    replicas = var.k8s_replica_count
     selector {
       match_labels = {
         name = local.instance_alias
