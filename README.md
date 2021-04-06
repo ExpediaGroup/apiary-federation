@@ -22,6 +22,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | instance_name | Waggle Dance instance name to identify resources in multi-instance deployments. | string | `` | no |
 | k8s_namespace | K8s namespace to create waggle-dance deployment.| string | ``| no |
 | k8s_docker_registry_secret | Docker Registry authentication K8s secret name.| string | ``| no |
+| k8s_replica_count | Number of k8s pod replicas to create. | number | `3` | no |
 | local_metastores | List of federated Metastore endpoints directly accessible on the local network. See section [`local_metastores`](#local_metastores) for more info.| list | `<list>` | no |
 | memory | The amount of memory (in MiB) used to allocate for the Waggle Dance container. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `4096` | no |
 | primary_metastore_host | Primary Hive Metastore hostname configured in Waggle Dance. | string | `localhost` | no |
