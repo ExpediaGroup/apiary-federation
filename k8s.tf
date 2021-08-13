@@ -5,8 +5,10 @@
  */
 
 locals {
-  heapsize     = ceil((var.memory * 85) / 100)
-  memory_limit = ceil((var.memory * 120) / 100)
+  heapsize      = ceil((var.memory * 85) / 100)
+  memory_limit  = ceil((var.memory * 120) / 100)
+  actuator_port = 18000
+  wd_port       = 48869
 }
 resource "kubernetes_deployment" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
@@ -33,7 +35,7 @@ resource "kubernetes_deployment" "waggle_dance" {
         }
         annotations = {
           "prometheus.io/scrape" : var.prometheus_enabled
-          "prometheus.io/port" : 18000
+          "prometheus.io/port" : local.actuator_port
           "prometheus.io/path" : "/actuator/prometheus"
         }
       }
@@ -42,6 +44,9 @@ resource "kubernetes_deployment" "waggle_dance" {
         container {
           image = "${var.docker_image}:${var.docker_version}"
           name  = local.instance_alias
+          port {
+            container_port = local.wd_port
+          }
           env {
             name  = "HEAPSIZE"
             value = local.heapsize
@@ -70,6 +75,16 @@ resource "kubernetes_deployment" "waggle_dance" {
               memory = "${var.memory}Mi"
             }
           }
+          liveness_probe {
+            http_get {
+              path = "/actuator/health"
+              port = local.actuator_port
+            }
+            initial_delay_seconds = 60
+            period_seconds        = 10
+            failure_threshold     = 3
+            success_threshold     = 1
+          }
         }
         image_pull_secrets {
           name = var.k8s_docker_registry_secret
@@ -94,8 +109,8 @@ resource "kubernetes_service" "waggle_dance" {
       name = local.instance_alias
     }
     port {
-      port        = 48869
-      target_port = 48869
+      port        = local.wd_port
+      target_port = local.wd_port
     }
     type                        = "LoadBalancer"
     load_balancer_source_ranges = var.ingress_cidr
