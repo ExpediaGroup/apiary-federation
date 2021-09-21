@@ -10,6 +10,15 @@ locals {
   actuator_port = 18000
   wd_port       = 48869
 }
+
+resource "kubernetes_service_account" "waggle_dance" {
+  metadata {
+    name      = local.instance_alias
+    namespace = var.k8s_namespace
+  }
+  automount_service_account_token = true
+}
+
 resource "kubernetes_deployment" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
@@ -41,6 +50,7 @@ resource "kubernetes_deployment" "waggle_dance" {
       }
 
       spec {
+        service_account_name = kubernetes_service_account.waggle_dance.metadata.0.name
         container {
           image = "${var.docker_image}:${var.docker_version}"
           name  = local.instance_alias
