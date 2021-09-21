@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [3.3.5] - 2021-09-21
 ### Change
-- Fixes to deploy on k8s clusters with IRSA.
+- Fixes to deploy on k8s clusters requiring serviceaccount for all deployments.
 
 ## [3.3.4] - 2021-08-13
 ### Change
