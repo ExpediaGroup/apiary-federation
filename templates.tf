@@ -58,6 +58,7 @@ data "template_file" "local_metastores_yaml" {
     writable_whitelist     = lookup(var.local_metastores[count.index], "writable-whitelist", "")
     enable_path_conversion = lookup(var.local_metastores[count.index], "enable_path_conversion", false)
     metastore_enabled      = lookup(var.local_metastores[count.index], "enabled", true)
+    latency                = lookup(var.local_metastores[count.index], "latency", var.default_latency)
   }
 }
 
@@ -74,6 +75,7 @@ data "template_file" "remote_metastores_yaml" {
     writable_whitelist     = lookup(var.remote_metastores[count.index], "writable-whitelist", "")
     enable_path_conversion = lookup(var.remote_metastores[count.index], "enable_path_conversion", false)
     metastore_enabled      = lookup(var.remote_metastores[count.index], "enabled", true)
+    latency                = lookup(var.remote_metastores[count.index], "latency", var.default_latency)
   }
 }
 
@@ -90,6 +92,7 @@ data "template_file" "remote_region_metastores_yaml" {
     writable_whitelist     = lookup(var.remote_region_metastores[count.index], "writable-whitelist", "")
     enable_path_conversion = lookup(var.remote_region_metastores[count.index], "enable_path_conversion", true)
     metastore_enabled      = lookup(var.remote_region_metastores[count.index], "enabled", true)
+    latency                = lookup(var.remote_region_metastores[count.index], "latency", var.default_latency)
   }
 }
 
@@ -109,6 +112,7 @@ data "template_file" "ssh_metastores_yaml" {
     database_name_mapping = lookup(var.ssh_metastores[count.index], "database-name-mapping", "")
     writable_whitelist    = lookup(var.ssh_metastores[count.index], "writable-whitelist", "")
     metastore_enabled     = lookup(var.ssh_metastores[count.index], "enabled", true)
+    latency               = lookup(var.ssh_metastores[count.index], "latency", var.default_latency)
   }
 }
 
@@ -118,6 +122,7 @@ data "template_file" "federation_yaml" {
   vars = {
     primary_metastore_host      = var.primary_metastore_host
     primary_metastore_port      = var.primary_metastore_port
+    primary_metastore_latency   = var.default_latency
     primary_metastore_whitelist = join("", data.template_file.primary_metastore_whitelist.*.rendered)
     local_metastores            = join("", data.template_file.local_metastores_yaml.*.rendered)
     remote_metastores           = join("", data.template_file.remote_metastores_yaml.*.rendered)
