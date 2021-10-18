@@ -51,7 +51,7 @@ resource "kubernetes_deployment" "waggle_dance" {
       }
 
       spec {
-        service_account_name = kubernetes_service_account.waggle_dance.metadata.0.name
+        service_account_name = kubernetes_service_account.waggle_dance[0].metadata.0.name
         container {
           image = "${var.docker_image}:${var.docker_version}"
           name  = local.instance_alias
