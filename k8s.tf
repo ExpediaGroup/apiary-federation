@@ -12,6 +12,7 @@ locals {
 }
 
 resource "kubernetes_service_account" "waggle_dance" {
+  count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = local.instance_alias
     namespace = var.k8s_namespace
