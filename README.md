@@ -10,6 +10,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | aws_region | AWS region to use for resources. | string | - | yes |
 | bastion_ssh_key_secret_name | Secret name in AWS Secrets Manager which stores the private key used to log in to bastions. The secret's key should be `private_key` and the value should be stored as a base64 encoded string. Max character limit for a secret's value is 4096. | string | `` | no |
 | cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
+| default_latency | Latency used for the primary metastore, and other other metastores that don't override it in their own configurations. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `0` | no |
 | docker_image | Full path Waggle Dance Docker image. | string | - | yes |
 | docker_registry_auth_secret_name | Docker Registry authentication SecretManager secret name. | string | `` | no |
 | docker_version | Waggle Dance Docker image version. | string | - | yes |
@@ -70,6 +71,8 @@ module "apiary-waggledance" {
   primary_metastore_host      = "primary-metastore.yourdomain.com"
   primary_metastore_whitelist = ["test_.*", "team_.*"]
 
+  default_latency = 2000
+
   remote_metastores = [
     {
       endpoint              = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
@@ -78,6 +81,7 @@ module "apiary-waggledance" {
       mapped-databases      = "default,test"
       database-name-mapping = "test:test_alias,default:default_alias"
       writable-whitelist    = "test"
+      latency               = 5000
     },
     {
       endpoint         = "com.amazonaws.vpce.us-east-1.vpce-svc-2"
@@ -126,6 +130,7 @@ An example entry looks like:
 local_metastores = [
     {
       host                  = "hms-readonly.metastore.svc.cluster.local"
+      latency               = 2000
       port                  = "9083"
       prefix                = "local1"
       mapped-databases      = "default,test"
@@ -139,6 +144,7 @@ local_metastores = [
 Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | host | Host name of the Hive metastore server on the local network. | string | - | yes |
+| latency | Latency used for this metastore. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `var.default_latency` | no |
 | port | IP port that the Thrift server of the Hive metastore listens on. | string | `"9083"` | no |
 | prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
 | mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
@@ -169,6 +175,7 @@ remote_metastores = [
 Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | endpoint | AWS VPC endpoint name that is connected to the remote Hive metastore. | string | - | yes |
+| latency | Latency used for this metastore. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `var.default_latency` | no |
 | port | IP port that the Thrift server of the remote Hive metastore listens on. | string | `"9083"` | no |
 | prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
 | mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
@@ -202,6 +209,7 @@ remote_region_metastores = [
 Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | endpoint | AWS VPC endpoint service name that is connected to the remote Hive metastore. | string | - | yes |
+| latency | Latency used for this metastore. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `var.default_latency` | no |
 | port | IP port that the Thrift server of the remote Hive metastore listens on. | string | `"9083"` | no |
 | prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
 | mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
@@ -237,6 +245,7 @@ ssh_metastores = [
 
 Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| latency | Latency used for this metastore. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `var.default_latency` | no |
 | metastore-host | Host name of the Hive metastore that can be resolved/reached from the bastion host. | string | - | yes |
 | port | IP port that the Thrift server of the remote Hive metastore listens on. | string | `"9083"` | no |
 | bastion-host | Host name of the bastion host. | string | - | yes |
