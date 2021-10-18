@@ -3,6 +3,7 @@ primary-meta-store:
   database-prefix: ''
   name: primary
   remote-meta-store-uris: thrift://${primary_metastore_host}:${primary_metastore_port}
+  latency: ${primary_metastore_latency}
   writable-database-white-list:
 ${primary_metastore_whitelist}
 federated-meta-stores:

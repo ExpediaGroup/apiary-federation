@@ -238,3 +238,9 @@ variable "alluxio_endpoints" {
   type    = list(map(string))
   default = []
 }
+
+variable "default_latency" {
+  type        = number
+  default     = 0
+  description = "HMS latency (in ms.) that Waggledance will tolerate.  See \"latency\" parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md."
+}

@@ -3,6 +3,7 @@
     access-control-type: ${ writable_whitelist == "" ? "READ_ONLY" : "READ_AND_WRITE_ON_DATABASE_WHITELIST" }
     database-prefix: ${prefix}_
     remote-meta-store-uris: thrift://${metastore_host}:${metastore_port}
+    latency: ${latency}
     metastore-tunnel:
       route: ${user}@${bastion_host}
       private-keys: /root/.ssh/bastion_ssh
