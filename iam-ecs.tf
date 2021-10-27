@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "task_exec_managed" {
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_exec" {
-  count = var.docker_registry_auth_secret_name == "" ? 0 : 1
+  count = var.wd_instance_type == "ecs" && var.docker_registry_auth_secret_name != "" ? 1 : 0
   name  = "secretsmanager-exec"
   role  = aws_iam_role.waggledance_task_exec[0].id
 
@@ -74,7 +74,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
-  count = var.bastion_ssh_key_secret_name == "" ? 0 : 1
+  count = var.wd_instance_type == "ecs" && var.bastion_ssh_key_secret_name != "" ? 1 : 0
   name  = "secretsmanager"
   role  = aws_iam_role.waggledance_task[0].id
 
