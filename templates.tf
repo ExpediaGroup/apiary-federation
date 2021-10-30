@@ -45,6 +45,14 @@ data "template_file" "primary_metastore_whitelist" {
 EOF
 }
 
+data "template_file" "primary_metastore_mapped_databases" {
+  count = length(var.primary_metastore_mapped_databases)
+
+  template = <<EOF
+  - ${var.primary_metastore_mapped_databases[count.index]}
+EOF
+}
+
 data "template_file" "local_metastores_yaml" {
   count    = length(var.local_metastores)
   template = file("${path.module}/templates/waggle-dance-federation-local.yml.tmpl")
@@ -124,7 +132,7 @@ data "template_file" "federation_yaml" {
     primary_metastore_port             = var.primary_metastore_port
     primary_metastore_latency          = var.default_latency
     primary_metastore_whitelist        = join("", data.template_file.primary_metastore_whitelist.*.rendered)
-    primary_metastore_mapped_databases = var.primary_metastore_mapped_databases
+    primary_metastore_mapped_databases = join("", data.template_file.primary_metastore_mapped_databases.*.rendered)
     local_metastores                   = join("", data.template_file.local_metastores_yaml.*.rendered)
     remote_metastores                  = join("", data.template_file.remote_metastores_yaml.*.rendered)
     remote_region_metastores           = join("", data.template_file.remote_region_metastores_yaml.*.rendered)

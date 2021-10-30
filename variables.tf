@@ -164,7 +164,7 @@ variable "primary_metastore_whitelist" {
 }
 
 variable "primary_metastore_mapped_databases" {
-  description = "List of Hive databases to mapped from primary Metastore."
+  description = "List of Hive databases mapped from primary Metastore."
   type        = list(string)
   default     = []
 }
