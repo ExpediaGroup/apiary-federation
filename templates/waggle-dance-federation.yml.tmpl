@@ -7,7 +7,7 @@ primary-meta-store:
 %{if primary_metastore_mapped_databases != "" ~}
   mapped-databases:
 ${primary_metastore_mapped_databases}
-%{~endif}
+%{~endif~}
   writable-database-white-list:
 ${primary_metastore_whitelist}
 federated-meta-stores:
