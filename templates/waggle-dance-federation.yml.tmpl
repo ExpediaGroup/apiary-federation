@@ -4,6 +4,9 @@ primary-meta-store:
   name: primary
   remote-meta-store-uris: thrift://${primary_metastore_host}:${primary_metastore_port}
   latency: ${primary_metastore_latency}
+%{if primary_metastore_mapped_databases != "" ~}
+  ${indent(2,yamlencode({"mapped-databases:",primary_metastore_mapped_databases}))
+%{~endif}
   writable-database-white-list:
 ${primary_metastore_whitelist}
 federated-meta-stores:

@@ -120,14 +120,15 @@ data "template_file" "federation_yaml" {
   template = file("${path.module}/templates/waggle-dance-federation.yml.tmpl")
 
   vars = {
-    primary_metastore_host      = var.primary_metastore_host
-    primary_metastore_port      = var.primary_metastore_port
-    primary_metastore_latency   = var.default_latency
-    primary_metastore_whitelist = join("", data.template_file.primary_metastore_whitelist.*.rendered)
-    local_metastores            = join("", data.template_file.local_metastores_yaml.*.rendered)
-    remote_metastores           = join("", data.template_file.remote_metastores_yaml.*.rendered)
-    remote_region_metastores    = join("", data.template_file.remote_region_metastores_yaml.*.rendered)
-    ssh_metastores              = join("", data.template_file.ssh_metastores_yaml.*.rendered)
+    primary_metastore_host             = var.primary_metastore_host
+    primary_metastore_port             = var.primary_metastore_port
+    primary_metastore_latency          = var.default_latency
+    primary_metastore_whitelist        = join("", data.template_file.primary_metastore_whitelist.*.rendered)
+    primary_metastore_mapped_databases = var.primary_metastore_mapped_databases
+    local_metastores                   = join("", data.template_file.local_metastores_yaml.*.rendered)
+    remote_metastores                  = join("", data.template_file.remote_metastores_yaml.*.rendered)
+    remote_region_metastores           = join("", data.template_file.remote_region_metastores_yaml.*.rendered)
+    ssh_metastores                     = join("", data.template_file.ssh_metastores_yaml.*.rendered)
   }
 }
 
