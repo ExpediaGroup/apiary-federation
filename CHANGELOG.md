@@ -3,19 +3,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.3.9] - 2021-010-27
+## [3.3.10] - 2021-11-01
+### Changed
+- Variable to configure pimary metastore mapped databases.
+
+## [3.3.9] - 2021-10-27
 ### Fixed
 - Fix to create ECS aws_iam_role_policy only when deploying on ECS.
 
-## [3.3.8] - 2021-010-18
+## [3.3.8] - 2021-10-18
 ### Fixed
 - Fix kubernetes serviceaccount reference.
 
-## [3.3.7] - 2021-010-18
+## [3.3.7] - 2021-10-18
 ### Fixed
 - Disable kubernetes serviceaccount creation when running on ecs.
 
-## [3.3.6] - 2021-010-18
+## [3.3.6] - 2021-10-18
 ### Added
 - Support Waggledance `latency` parameter
 
