@@ -10,7 +10,8 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | aws_region | AWS region to use for resources. | string | - | yes |
 | bastion_ssh_key_secret_name | Secret name in AWS Secrets Manager which stores the private key used to log in to bastions. The secret's key should be `private_key` and the value should be stored as a base64 encoded string. Max character limit for a secret's value is 4096. | string | `` | no |
 | cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
-| default_latency | Latency used for the primary metastore, and other other metastores that don't override it in their own configurations. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `0` | no |
+| default_latency | Latency used for other (not primary) metastores that don't override it in their own configurations. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `0` | no |
+| primary_metastore_latency | Latency used for the primary metastores. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `0` | no |
 | docker_image | Full path Waggle Dance Docker image. | string | - | yes |
 | docker_registry_auth_secret_name | Docker Registry authentication SecretManager secret name. | string | `` | no |
 | docker_version | Waggle Dance Docker image version. | string | - | yes |
@@ -71,8 +72,9 @@ module "apiary-waggledance" {
   docker_version              = "latest"
   primary_metastore_host      = "primary-metastore.yourdomain.com"
   primary_metastore_whitelist = ["test_.*", "team_.*"]
+  primary_metastore_latency   = 1000
 
-  default_latency = 2000
+  default_latency = 100
 
   remote_metastores = [
     {
@@ -139,7 +141,7 @@ local_metastores = [
       writable-whitelist    = "test"
     }
 ]
-``` 
+```
 `local_metastores` map entry fields:
 
 Name | Description | Type | Default | Required |
@@ -170,7 +172,7 @@ remote_metastores = [
       writable-whitelist    = ".*"
     }
 ]
-``` 
+```
 `remote_metastores` map entry fields:
 
 Name | Description | Type | Default | Required |
@@ -204,7 +206,7 @@ remote_region_metastores = [
       security_group_id     = "sg1
     }
 ]
-``` 
+```
 `remote_region_metastores` map entry fields:
 
 Name | Description | Type | Default | Required |
@@ -241,7 +243,7 @@ ssh_metastores = [
       database-name-mapping = "test:test_alias,default:default_alias"
     }
 ]
-``` 
+```
 `ssh_metastores` map entry fields:
 
 Name | Description | Type | Default | Required |
