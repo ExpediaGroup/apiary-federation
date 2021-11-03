@@ -11,7 +11,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | bastion_ssh_key_secret_name | Secret name in AWS Secrets Manager which stores the private key used to log in to bastions. The secret's key should be `private_key` and the value should be stored as a base64 encoded string. Max character limit for a secret's value is 4096. | string | `` | no |
 | cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
 | default_latency | Latency used for the primary metastore, and other other metastores that don't override it in their own configurations. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `0` | no |
-| primary_metastore_latency | Same as above | number | var.default_latency | no |
+| primary_metastore_latency | Same as default_latency | number | `var.default_latency` | no |
 | docker_image | Full path Waggle Dance Docker image. | string | - | yes |
 | docker_registry_auth_secret_name | Docker Registry authentication SecretManager secret name. | string | `` | no |
 | docker_version | Waggle Dance Docker image version. | string | - | yes |
