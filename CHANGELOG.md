@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [3.4.0] - 2021-11-16
-### Changed
+### Removed
 - Remove provider proxy as it not compatible with module count.
+
+## [3.3.11] - 2021-11-03
+### Added
+- Added `primary_metastore_latency` variable.
 
 ## [3.3.10] - 2021-11-01
 ### Changed

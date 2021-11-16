@@ -112,7 +112,7 @@ data "template_file" "federation_yaml" {
   vars = {
     primary_metastore_host             = var.primary_metastore_host
     primary_metastore_port             = var.primary_metastore_port
-    primary_metastore_latency          = var.default_latency
+    primary_metastore_latency          = var.primary_metastore_latency
     primary_metastore_whitelist        = join("", data.template_file.primary_metastore_whitelist.*.rendered)
     primary_metastore_mapped_databases = join("", data.template_file.primary_metastore_mapped_databases.*.rendered)
     local_metastores                   = join("", data.template_file.local_metastores_yaml.*.rendered)

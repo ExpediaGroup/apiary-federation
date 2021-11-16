@@ -241,5 +241,11 @@ variable "alluxio_endpoints" {
 variable "default_latency" {
   type        = number
   default     = 0
-  description = "HMS latency (in ms.) that Waggledance will tolerate.  See \"latency\" parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md."
+  description = "HMS latency (in ms.) that Waggledance will tolerate.  See \"latency\" parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. This sets the default for all metastores except the primary metastore."
+}
+
+variable "primary_metastore_latency" {
+  type        = number
+  default     = 0
+  description = "HMS latency (in ms.) that Waggledance will tolerate.  See \"latency\" parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. This sets the latency for the primary metastore only."
 }
