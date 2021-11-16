@@ -41,19 +41,6 @@ resource "aws_vpc_endpoint" "remote_metastores" {
   tags               = merge(map("Name", "${var.remote_metastores[count.index].prefix}_metastore"), var.tags)
 }
 
-resource "aws_vpc_endpoint" "remote_region_metastores" {
-  for_each = {
-    for metastore in var.remote_region_metastores : "${metastore["endpoint"]}" => metastore
-  }
-  provider           = "aws.remote"
-  vpc_id             = each.value["vpc_id"]
-  vpc_endpoint_type  = "Interface"
-  service_name       = each.value["endpoint"]
-  subnet_ids         = split(",", each.value["subnets"])
-  security_group_ids = [each.value["security_group_id"]]
-  tags               = merge(map("Name", "${each.value["prefix"]}_metastore"), var.tags)
-}
-
 resource "aws_route53_zone" "remote_metastore" {
   count = var.enable_remote_metastore_dns == "" ? 0 : 1
   name  = "${local.remote_metastore_zone_prefix}-${var.aws_region}.${var.domain_extension}"

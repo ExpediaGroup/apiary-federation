@@ -183,13 +183,6 @@ variable "remote_metastores" {
   default     = []
 }
 
-#list of maps, example: [ {endpoint="vpce1", port="9083", prefix="pre1", writable-whitelist="db1,test", vpc_id = "vpc-123456", subnets = "subnet1,subnet2", security_group_id="sg1"  } ]
-variable "remote_region_metastores" {
-  description = "List of VPC endpoint services to federate Metastores in other region,other accounts. The actual data from tables in these metastores can be accessed using Alluxio caching instead of reading the data from S3 directly."
-  type        = list(map(string))
-  default     = []
-}
-
 #list of maps, example: [ {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre1", user="my-unix-user", mapped-databases="test1,test2"}, {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre1", user="my-unix-user", writable-whitelist="db1,test", mapped-databases="test1,test2"} ]
 variable "ssh_metastores" {
   description = "List of federated Metastores to connect to over SSH via bastion."

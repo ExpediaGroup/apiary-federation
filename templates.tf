@@ -87,24 +87,6 @@ data "template_file" "remote_metastores_yaml" {
   }
 }
 
-data "template_file" "remote_region_metastores_yaml" {
-  count    = length(var.remote_region_metastores)
-  template = file("${path.module}/templates/waggle-dance-federation-remote.yml.tmpl")
-
-  vars = {
-    prefix                 = var.remote_region_metastores[count.index].prefix
-    metastore_host         = aws_vpc_endpoint.remote_region_metastores[var.remote_region_metastores[count.index]["endpoint"]].dns_entry[0].dns_name
-    metastore_port         = lookup(var.remote_region_metastores[count.index], "port", "9083")
-    mapped_databases       = lookup(var.remote_region_metastores[count.index], "mapped-databases", "")
-    database_name_mapping  = lookup(var.remote_region_metastores[count.index], "database-name-mapping", "")
-    writable_whitelist     = lookup(var.remote_region_metastores[count.index], "writable-whitelist", "")
-    enable_path_conversion = lookup(var.remote_region_metastores[count.index], "enable_path_conversion", true)
-    metastore_enabled      = lookup(var.remote_region_metastores[count.index], "enabled", true)
-    latency                = lookup(var.remote_region_metastores[count.index], "latency", var.default_latency)
-  }
-}
-
-
 data "template_file" "ssh_metastores_yaml" {
   count    = length(var.ssh_metastores)
   template = file("${path.module}/templates/waggle-dance-federation-ssh.yml.tmpl")
@@ -135,7 +117,6 @@ data "template_file" "federation_yaml" {
     primary_metastore_mapped_databases = join("", data.template_file.primary_metastore_mapped_databases.*.rendered)
     local_metastores                   = join("", data.template_file.local_metastores_yaml.*.rendered)
     remote_metastores                  = join("", data.template_file.remote_metastores_yaml.*.rendered)
-    remote_region_metastores           = join("", data.template_file.remote_region_metastores_yaml.*.rendered)
     ssh_metastores                     = join("", data.template_file.ssh_metastores_yaml.*.rendered)
   }
 }

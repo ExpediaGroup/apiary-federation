@@ -31,7 +31,6 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
 | primary_metastore_mapped_databases | List of Hive databases mapped from primary Metastore. | list | `<list>` | no |
 | remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. See section [`remote_metastores`](#remote_metastores) for more info.| list | `<list>` | no |
-| remote_region_metastores | List of VPC endpoint services to federate Metastores in other region,other accounts. The actual data from tables in these metastores can be accessed using Alluxio caching instead of reading the data from S3 directly. See section [`remote_region_metastores`](#remote_region_metastores) for more info.| list | `<list>` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | ssh_metastores | List of federated Metastores to connect to over SSH via bastion. See section [`ssh_metastores`](#ssh_metastores) for more info.| list | `<list>` | no |
 | subnets | ECS container subnets. | list | - | yes |
@@ -91,19 +90,6 @@ module "apiary-waggledance" {
       subnets          = "subnet-3"
       mapped-databases = "test"
       enabled          = false //option to enable/disable metastore in waggle-dance without removing vpc endpoint.
-    },
-  ]
-  remote_region_metastores = [
-    {
-      endpoint              = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
-      port                  = "9083"
-      prefix                = "metastore1"
-      mapped-databases      = "default,test"
-      database-name-mapping = "test:test_alias,default:default_alias"
-      writable-whitelist    = "test"
-      vpc_id                = "vpc-123456"
-      subnets               = "subnet-1,subnet-2"
-      security_group_id     = "sg1"
     },
   ]
 
@@ -184,28 +170,6 @@ Name | Description | Type | Default | Required |
 | writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
 
 See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
-
-### remote_region_metastores
-
-A list of maps.  Each map entry describes a federated metastore endpoint accessible via an AWS VPC endpoint. The actual data for these metastores will be accessed using Alluxio caching instead of reading the data from S3 directly.
-
-An example entry looks like:
-```
-remote_region_metastores = [
-    {
-      endpoint              = "com.amazonaws.vpce.us-west-2.vpce-svc-1"
-      port                  = "9083"
-      prefix                = "remote1"
-      mapped-databases      = "default,test"
-      database-name-mapping = "test:test_alias,default:default_alias"
-      writable-whitelist    = ".*"
-      vpc_id                = "vpc-123456"
-      subnets               = "subnet-1,subnet-2"
-      security_group_id     = "sg1
-    }
-]
-``` 
-`remote_region_metastores` map entry fields:
 
 Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
