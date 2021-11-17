@@ -38,7 +38,7 @@ resource "aws_vpc_endpoint" "remote_metastores" {
   service_name       = var.remote_metastores[count.index].endpoint
   subnet_ids         = split(",", lookup(var.remote_metastores[count.index], "subnets", join(",", var.subnets)))
   security_group_ids = [aws_security_group.endpoint_sg.id]
-  tags               = merge(map("Name", "${var.remote_metastores[count.index].prefix}_metastore"), var.tags)
+  tags               = merge(tomap({ "Name" = "${var.remote_metastores[count.index].prefix}_metastore" }), var.tags)
 }
 
 resource "aws_vpc_endpoint" "remote_region_metastores" {
@@ -51,7 +51,7 @@ resource "aws_vpc_endpoint" "remote_region_metastores" {
   service_name       = each.value["endpoint"]
   subnet_ids         = split(",", each.value["subnets"])
   security_group_ids = [each.value["security_group_id"]]
-  tags               = merge(map("Name", "${each.value["prefix"]}_metastore"), var.tags)
+  tags               = merge(tomap({ "Name" = "${each.value["prefix"]}_metastore" }), var.tags)
 }
 
 resource "aws_route53_zone" "remote_metastore" {
