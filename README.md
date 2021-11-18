@@ -138,6 +138,7 @@ local_metastores = [
       prefix                = "local1"
       mapped-databases      = "default,test"
       database-name-mapping = "test:test_alias,default:default_alias"
+      mapped-tables         = "test:test_table1,test_table1;default:default_table1.*,default_table2"
       writable-whitelist    = "test"
     }
 ]
@@ -151,10 +152,11 @@ Name | Description | Type | Default | Required |
 | port | IP port that the Thrift server of the Hive metastore listens on. | string | `"9083"` | no |
 | prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
 | mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
-| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| mapped-tables | Semicolon-separated/comma-separated list of databases and DB tables from this metastore to expose to federation. If not specified, *all* tables for each database are exposed. See [Waggle Dance Mapped Tables](https://github.com/ExpediaGroup/waggle-dance#mapped-tables) for more information.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/ExpediaGroup/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
 | writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
 
-See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
+See [Waggle Dance README](https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md) for more information on all these parameters.
 
 ### remote_metastores
 
@@ -169,6 +171,7 @@ remote_metastores = [
       prefix                = "remote1"
       mapped-databases      = "default,test"
       database-name-mapping = "test:test_alias,default:default_alias"
+      mapped-tables         = "test:test_table1,test_table1;default:default_table1.*,default_table2"
       writable-whitelist    = ".*"
     }
 ]
@@ -182,10 +185,11 @@ Name | Description | Type | Default | Required |
 | port | IP port that the Thrift server of the remote Hive metastore listens on. | string | `"9083"` | no |
 | prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
 | mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
-| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| mapped-tables | Semicolon-separated/comma-separated list of databases and DB tables from this metastore to expose to federation. If not specified, *all* tables for each database are exposed. See [Waggle Dance Mapped Tables](https://github.com/ExpediaGroup/waggle-dance#mapped-tables) for more information.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/ExpediaGroup/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
 | writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
 
-See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
+See [Waggle Dance README](https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md) for more information on all these parameters.
 
 ### remote_region_metastores
 
@@ -199,6 +203,7 @@ remote_region_metastores = [
       port                  = "9083"
       prefix                = "remote1"
       mapped-databases      = "default,test"
+      mapped-tables         = "test:test_table1,test_table1;default:default_table1.*,default_table2"
       database-name-mapping = "test:test_alias,default:default_alias"
       writable-whitelist    = ".*"
       vpc_id                = "vpc-123456"
@@ -216,13 +221,14 @@ Name | Description | Type | Default | Required |
 | port | IP port that the Thrift server of the remote Hive metastore listens on. | string | `"9083"` | no |
 | prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
 | mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
-| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| mapped-tables | Semicolon-separated/comma-separated list of databases and DB tables from this metastore to expose to federation. If not specified, *all* tables for each database are exposed. See [Waggle Dance Mapped Tables](https://github.com/ExpediaGroup/waggle-dance#mapped-tables) for more information.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/ExpediaGroup/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
 | writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
 | vpc_id | Remote region AWS VPC id. | string | - | yes |
 | subnets | AWS VPC subnets in remote region. | string | - | yes |
 | security_group_id | AWS EC2 security group in remote region. | string | - | yes |
 
-See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
+See [Waggle Dance README](https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md) for more information on all these parameters.
 
 An example entry looks like:
 ### ssh_metastores
@@ -241,6 +247,7 @@ ssh_metastores = [
       prefix                = "ssh_metastore1"
       mapped-databases      = "default,test"
       database-name-mapping = "test:test_alias,default:default_alias"
+      mapped-tables         = "test:test_table1,test_table1;default:default_table1.*,default_table2"
     }
 ]
 ```
@@ -256,10 +263,11 @@ Name | Description | Type | Default | Required |
 | timeout | The SSH session timeout in milliseconds, 0 means no timeout. Default is 60000 milliseconds, i.e. 1 minute. | string | `"60000"` | no |
 | prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
 | mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
-| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/HotelsDotCom/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| mapped-tables | Semicolon-separated/comma-separated list of databases and DB tables from this metastore to expose to federation. If not specified, *all* tables for each database are exposed. See [Waggle Dance Mapped Tables](https://github.com/ExpediaGroup/waggle-dance#mapped-tables) for more information.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/ExpediaGroup/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
 | writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
 
-See [Waggle Dance README](https://github.com/HotelsDotCom/waggle-dance/README.md) for more information on all these parameters.
+See [Waggle Dance README](https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md) for more information on all these parameters.
 
 # Contact
 
