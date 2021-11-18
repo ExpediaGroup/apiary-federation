@@ -80,7 +80,7 @@ data "template_file" "remote_metastores_yaml" {
     metastore_host         = aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name
     metastore_port         = lookup(var.remote_metastores[count.index], "port", "9083")
     mapped_databases       = lookup(var.remote_metastores[count.index], "mapped-databases", "")
-    mapped_tables          = lookup(var.local_metastores[count.index], "mapped-tables", "")
+    mapped_tables          = lookup(var.remote_metastores[count.index], "mapped-tables", "")
     database_name_mapping  = lookup(var.remote_metastores[count.index], "database-name-mapping", "")
     writable_whitelist     = lookup(var.remote_metastores[count.index], "writable-whitelist", "")
     enable_path_conversion = lookup(var.remote_metastores[count.index], "enable_path_conversion", false)
@@ -98,7 +98,7 @@ data "template_file" "remote_region_metastores_yaml" {
     metastore_host         = aws_vpc_endpoint.remote_region_metastores[var.remote_region_metastores[count.index]["endpoint"]].dns_entry[0].dns_name
     metastore_port         = lookup(var.remote_region_metastores[count.index], "port", "9083")
     mapped_databases       = lookup(var.remote_region_metastores[count.index], "mapped-databases", "")
-    mapped_tables          = lookup(var.local_metastores[count.index], "mapped-tables", "")
+    mapped_tables          = lookup(var.remote_region_metastores[count.index], "mapped-tables", "")
     database_name_mapping  = lookup(var.remote_region_metastores[count.index], "database-name-mapping", "")
     writable_whitelist     = lookup(var.remote_region_metastores[count.index], "writable-whitelist", "")
     enable_path_conversion = lookup(var.remote_region_metastores[count.index], "enable_path_conversion", true)
@@ -120,7 +120,7 @@ data "template_file" "ssh_metastores_yaml" {
     user                  = lookup(var.ssh_metastores[count.index], "user")
     timeout               = lookup(var.ssh_metastores[count.index], "timeout", "60000")
     mapped_databases      = lookup(var.ssh_metastores[count.index], "mapped-databases", "")
-    mapped_tables          = lookup(var.local_metastores[count.index], "mapped-tables", "")
+    mapped_tables         = lookup(var.ssh_metastores[count.index], "mapped-tables", "")
     database_name_mapping = lookup(var.ssh_metastores[count.index], "database-name-mapping", "")
     writable_whitelist    = lookup(var.ssh_metastores[count.index], "writable-whitelist", "")
     metastore_enabled     = lookup(var.ssh_metastores[count.index], "enabled", true)
