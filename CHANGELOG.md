@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.3.14] - 2021-12-16
+- Set env var `LOG4J_FORMAT_MSG_NO_LOOKUPS=”true”` for WD containers for log4j-shell bug.
+
 ## [3.3.13] - 2021-11-18
 ### Added
 - Added suppport for Waggledance `mapped-tables` [configuration](https://github.com/ExpediaGroup/waggle-dance#mapped-tables).  
