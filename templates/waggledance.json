@@ -42,6 +42,10 @@
       {
         "name": "BASTION_SSH_KEY_ARN",
         "value": "${bastion_ssh_key_arn}"
+      },
+      {
+        "name": "LOG4J_FORMAT_MSG_NO_LOOKUPS",
+        "value": "true"
       }
     ],
     "healthCheck": {
