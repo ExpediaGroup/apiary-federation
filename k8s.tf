@@ -62,6 +62,10 @@ resource "kubernetes_deployment" "waggle_dance" {
             name  = "HIVE_SITE_XML"
             value = var.alluxio_endpoints == [] ? "" : base64encode(data.template_file.hive_site_xml.rendered)
           }
+          env {
+              name  = "LOG4J_FORMAT_MSG_NO_LOOKUPS"
+              value = "true"
+          }          
           resources {
             limits {
               memory = "${local.memory_limit}Mi"

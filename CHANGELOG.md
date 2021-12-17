@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.3.3-log4shell-fix-1] - 2021-12-16
+- Set env var `LOG4J_FORMAT_MSG_NO_LOOKUPS=”true”` for WD containers for log4j-shell bug. HotFix for 3.3.3 branch.
+
 ## [3.3.3] - 2021-04-06
 ### Added
 - Variable to configure k8s pod replicas.
