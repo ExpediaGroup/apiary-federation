@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.3.15] - 2022-01-06
+- Add k8s headless service, so that clients running in k8s cluster can connect to a WD container instead of virtual ip.
+
 ## [3.3.14] - 2021-12-16
 - Set env var `LOG4J_FORMAT_MSG_NO_LOOKUPS=”true”` for WD containers for log4j-shell bug.
 
