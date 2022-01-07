@@ -131,3 +131,22 @@ resource "kubernetes_service" "waggle_dance" {
     load_balancer_source_ranges = var.ingress_cidr
   }
 }
+
+resource "kubernetes_service" "waggle_dance_headless" {
+  count = var.wd_instance_type == "k8s" ? 1 : 0
+  metadata {
+    name      = "${local.instance_alias}-headless"
+    namespace = var.k8s_namespace
+  }
+  spec {
+    selector = {
+      name = local.instance_alias
+    }
+    port {
+      port        = local.wd_port
+      target_port = local.wd_port
+    }
+    type       = "ClusterIP"
+    cluster_ip = "None"
+  }
+}
