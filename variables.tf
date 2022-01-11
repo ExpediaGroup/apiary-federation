@@ -28,6 +28,18 @@ variable "wd_log_level" {
   default     = "info"
 }
 
+variable "enable_autoscaling" {
+  description = "Enable k8s horizontal pod autoscaling"
+  type        = bool
+  default     = false
+}
+
+variable "wd_target_cpu_percentage" {
+  description = "waggle-dance autoscaling threshold for CPU target usage."
+  type        = number
+  default     = 60
+}
+
 variable "root_vol_type" {
   description = "Waggle Dance EC2 root volume type."
   type        = string
@@ -58,9 +70,15 @@ variable "wd_ecs_task_count" {
 }
 
 variable "k8s_replica_count" {
-  description = "Number of k8s pod replicas to create."
+  description = "Initial Number of k8s pod replicas to create."
   type        = number
   default     = 3
+}
+
+variable "k8s_max_replica_count" {
+  description = "Max Number of k8s pod replicas to create."
+  type        = number
+  default     = 10
 }
 
 variable "vpc_id" {

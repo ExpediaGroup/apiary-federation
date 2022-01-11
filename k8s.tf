@@ -9,6 +9,8 @@ locals {
   memory_limit  = ceil((var.memory * 120) / 100)
   actuator_port = 18000
   wd_port       = 48869
+  k8s_cpu       = var.cpu / 1024
+  k8s_cpu_limit = (var.cpu / 1024) * 1.25
 }
 
 resource "kubernetes_service_account" "waggle_dance" {
@@ -84,9 +86,11 @@ resource "kubernetes_deployment" "waggle_dance" {
           }
           resources {
             limits {
+              cpu    = local.k8s_cpu_limit
               memory = "${local.memory_limit}Mi"
             }
             requests {
+              cpu    = local.k8s_cpu
               memory = "${var.memory}Mi"
             }
           }
@@ -105,6 +109,28 @@ resource "kubernetes_deployment" "waggle_dance" {
           name = var.k8s_docker_registry_secret
         }
       }
+    }
+  }
+}
+
+resource "kubernetes_horizontal_pod_autoscaler" "waggle_dance" {
+  count = var.wd_instance_type == "k8s" && var.enable_autoscaling ? 1 : 0
+
+  metadata {
+    name      = local.instance_alias
+    namespace = var.k8s_namespace
+  }
+
+  spec {
+    min_replicas = var.k8s_replica_count
+    max_replicas = var.k8s_max_replica_count
+
+    target_cpu_utilization_percentage = var.wd_target_cpu_percentage
+
+    scale_target_ref {
+      api_version = "apps/v1"
+      kind        = "Deployment"
+      name        = kubernetes_deployment.waggle_dance[0].metadata[0].name
     }
   }
 }
