@@ -70,13 +70,13 @@ variable "wd_ecs_task_count" {
 }
 
 variable "k8s_replica_count" {
-  description = "Number of k8s pod replicas to create."
+  description = "Initial Number of k8s pod replicas to create."
   type        = number
   default     = 3
 }
 
 variable "k8s_max_replica_count" {
-  description = "Number of k8s pod replicas to create."
+  description = "Max Number of k8s pod replicas to create."
   type        = number
   default     = 10
 }
