@@ -74,6 +74,12 @@ variable "k8s_replica_count" {
   default     = 3
 }
 
+variable "k8s_max_replica_count" {
+  description = "Number of k8s pod replicas to create."
+  type        = number
+  default     = 10
+}
+
 variable "vpc_id" {
   description = "VPC ID."
   type        = string

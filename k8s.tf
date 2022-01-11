@@ -118,8 +118,8 @@ resource "kubernetes_horizontal_pod_autoscaler" "waggle_dance" {
   }
 
   spec {
-    min_replicas = var.wd_min_count
-    max_replicas = var.wd_max_count
+    min_replicas = var.k8s_replica_count
+    max_replicas = var.k8s_max_replica_count
 
     target_cpu_utilization_percentage = var.wd_target_cpu_percentage
 
