@@ -28,6 +28,17 @@ variable "wd_log_level" {
   default     = "info"
 }
 
+variable "enable_autoscaling" {
+  type    = bool
+  default = false
+}
+
+variable "wd_target_cpu_percentage" {
+  description = "waggle-dance autoscaling threshold for CPU target usage."
+  type        = number
+  default     = 60
+}
+
 variable "root_vol_type" {
   description = "Waggle Dance EC2 root volume type."
   type        = string

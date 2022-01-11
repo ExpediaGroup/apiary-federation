@@ -109,6 +109,28 @@ resource "kubernetes_deployment" "waggle_dance" {
   }
 }
 
+resource "kubernetes_horizontal_pod_autoscaler" "waggle_dance" {
+  count = var.wd_instance_type == "k8s" && var.enable_autoscaling ? 1 : 0
+
+  metadata {
+    name      = local.instance_alias
+    namespace = var.k8s_namespace
+  }
+
+  spec {
+    min_replicas = var.wd_min_count
+    max_replicas = var.wd_max_count
+
+    target_cpu_utilization_percentage = var.wd_target_cpu_percentage
+
+    scale_target_ref {
+      api_version = "apps/v1"
+      kind        = "Deployment"
+      name        = kubernetes_deployment.waggle_dance[0].metadata[0].name
+    }
+  }
+}
+
 resource "kubernetes_service" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
