@@ -138,7 +138,7 @@ resource "kubernetes_horizontal_pod_autoscaler" "waggle_dance" {
 resource "kubernetes_service" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
-    name      = "${local.instance_alias}-ext"
+    name      = local.instance_alias
     namespace = var.k8s_namespace
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
@@ -161,7 +161,7 @@ resource "kubernetes_service" "waggle_dance" {
 resource "kubernetes_service" "waggle_dance_internal" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
-    name      = local.instance_alias
+    name      = "${local.instance_alias}-internal"
     namespace = var.k8s_namespace
   }
   spec {
