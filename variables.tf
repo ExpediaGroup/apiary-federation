@@ -29,8 +29,9 @@ variable "wd_log_level" {
 }
 
 variable "enable_autoscaling" {
-  type    = bool
-  default = false
+  description = "Enable k8s horizontal pod autoscaling"
+  type        = bool
+  default     = false
 }
 
 variable "wd_target_cpu_percentage" {
