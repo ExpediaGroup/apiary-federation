@@ -158,6 +158,25 @@ resource "kubernetes_service" "waggle_dance" {
   }
 }
 
+resource "kubernetes_service" "waggle_dance_internal" {
+  count = var.wd_instance_type == "k8s" ? 1 : 0
+  metadata {
+    name      = "${local.instance_alias}-internal"
+    namespace = var.k8s_namespace
+  }
+  spec {
+    selector = {
+      name = local.instance_alias
+    }
+    session_affinity = "ClientIP"
+    port {
+      port        = local.wd_port
+      target_port = local.wd_port
+    }
+    type = "ClusterIP"
+  }
+}
+
 resource "kubernetes_service" "waggle_dance_headless" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {

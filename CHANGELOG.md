@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.4.1] - 2022-01-11
+- Add k8s internal service with client affinity, for usecases than cannot use headless service and seamlessly failover to new waggle-dance instances.
+
 ## [3.4.0] - 2022-01-11
 - Variable to enable waggle-dance autoscaling on k8s.
 
