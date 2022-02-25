@@ -1,0 +1,28 @@
+%{if metastore_enabled~}
+  - name: ${prefix}
+    access-control-type: ${ writable_whitelist == "" ? "READ_ONLY" : "READ_AND_WRITE_ON_DATABASE_WHITELIST" }
+    database-prefix: ${prefix}_
+    glue-config:
+      glue-account-id: ${glue_account_id}
+      glue-endpoint: ${glue_endpoint}
+    latency: ${latency}
+%{if enable_path_conversion ~}
+    hive-metastore-filter-hook: com.expediagroup.apiary.extensions.hooks.filters.ApiaryMetastoreFilter
+%{~endif}
+${ mapped_databases == "" ? "" : "    mapped-databases:" }
+${ mapped_databases == "" ? "" : join("\n",formatlist("    - %s",split(",",mapped_databases))) }
+${ database_name_mapping == "" ? "" : "    database-name-mapping:" }
+${ database_name_mapping == "" ? "" : join("\n", formatlist("      %s", split(",", replace(replace(database_name_mapping, " ", ""), ":", ": ")))) }
+${ writable_whitelist == "" ? "" : "    writable-database-white-list:" }
+${ writable_whitelist == "" ? "" : join("\n",formatlist("    - %s",split(",",writable_whitelist))) }
+%{~if mapped_tables != ""}
+    mapped-tables:
+%{~for table_mapping in split(";", mapped_tables)}
+    - database: ${element(split(":", table_mapping),0)}
+      mapped-tables:
+%{~for table in split(",",element(split(":", table_mapping),1))}
+      - ${table}
+%{~endfor}
+%{~endfor}
+%{~endif}
+%{~endif}

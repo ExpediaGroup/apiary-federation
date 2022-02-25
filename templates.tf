@@ -128,6 +128,24 @@ data "template_file" "ssh_metastores_yaml" {
   }
 }
 
+data "template_file" "glue_metastores_yaml" {
+  count    = length(var.glue_metastores)
+  template = file("${path.module}/templates/waggle-dance-federation-glue.yml.tmpl")
+
+  vars = {
+    prefix                 = var.glue_metastores[count.index].prefix
+    glue_account_id        = lookup(var.glue_metastores[count.index], "glue_account_id")
+    glue_endpoint          = lookup(var.glue_metastores[count.index], "glue_endpoint")
+    mapped_databases       = lookup(var.glue_metastores[count.index], "mapped-databases", "")
+    mapped_tables          = lookup(var.glue_metastores[count.index], "mapped-tables", "")
+    database_name_mapping  = lookup(var.glue_metastores[count.index], "database-name-mapping", "")
+    writable_whitelist     = lookup(var.glue_metastores[count.index], "writable-whitelist", "")
+    enable_path_conversion = lookup(var.glue_metastores[count.index], "enable_path_conversion", false)
+    metastore_enabled      = lookup(var.glue_metastores[count.index], "enabled", true)
+    latency                = lookup(var.glue_metastores[count.index], "latency", var.default_latency)
+  }
+}
+
 data "template_file" "federation_yaml" {
   template = file("${path.module}/templates/waggle-dance-federation.yml.tmpl")
 
@@ -135,6 +153,8 @@ data "template_file" "federation_yaml" {
     primary_metastore_host             = var.primary_metastore_host
     primary_metastore_port             = var.primary_metastore_port
     primary_metastore_latency          = var.primary_metastore_latency
+    primary_metastore_glue_account_id  = var.primary_metastore_glue_account_id
+    primary_metastore_glue_endpoint    = var.primary_metastore_glue_endpoint
     primary_metastore_whitelist        = join("", data.template_file.primary_metastore_whitelist.*.rendered)
     primary_metastore_mapped_databases = join("", data.template_file.primary_metastore_mapped_databases.*.rendered)
     local_metastores                   = join("", data.template_file.local_metastores_yaml.*.rendered)
