@@ -134,8 +134,8 @@ data "template_file" "glue_metastores_yaml" {
 
   vars = {
     prefix                 = var.glue_metastores[count.index].prefix
-    glue_account_id        = lookup(var.glue_metastores[count.index], "glue_account_id")
-    glue_endpoint          = lookup(var.glue_metastores[count.index], "glue_endpoint")
+    glue_account_id        = lookup(var.glue_metastores[count.index], "glue-account-id")
+    glue_endpoint          = lookup(var.glue_metastores[count.index], "glue-endpoint")
     mapped_databases       = lookup(var.glue_metastores[count.index], "mapped-databases", "")
     mapped_tables          = lookup(var.glue_metastores[count.index], "mapped-tables", "")
     database_name_mapping  = lookup(var.glue_metastores[count.index], "database-name-mapping", "")
