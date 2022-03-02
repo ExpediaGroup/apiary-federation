@@ -6,7 +6,7 @@ primary-meta-store:
   glue-config:
     glue-account-id: ${primary_metastore_glue_account_id}
     glue-endpoint: ${primary_metastore_glue_endpoint}
-%{else}
+%{else~}
   remote-meta-store-uris: thrift://${primary_metastore_host}:${primary_metastore_port}
 %{~endif~}
   latency: ${primary_metastore_latency}
@@ -21,3 +21,4 @@ ${local_metastores}
 ${remote_metastores}
 ${remote_region_metastores}
 ${ssh_metastores}
+${glue_metastores}
