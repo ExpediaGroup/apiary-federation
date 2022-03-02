@@ -8,7 +8,7 @@ primary-meta-store:
     glue-endpoint: ${primary_metastore_glue_endpoint}
 %{else~}
   remote-meta-store-uris: thrift://${primary_metastore_host}:${primary_metastore_port}
-%{~endif~}
+%{endif~}
   latency: ${primary_metastore_latency}
 %{if primary_metastore_mapped_databases != "" ~}
   mapped-databases:
