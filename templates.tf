@@ -133,7 +133,7 @@ data "template_file" "glue_metastores_yaml" {
   template = file("${path.module}/templates/waggle-dance-federation-glue.yml.tmpl")
 
   vars = {
-    prefix                 = var.glue_metastores[count.index].prefix
+    prefix                 = lookup(var.glue_metastores[count.index], "prefix")
     glue_account_id        = lookup(var.glue_metastores[count.index], "glue-account-id")
     glue_endpoint          = lookup(var.glue_metastores[count.index], "glue-endpoint")
     mapped_databases       = lookup(var.glue_metastores[count.index], "mapped-databases", "")
