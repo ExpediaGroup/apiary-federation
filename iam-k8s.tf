@@ -1,5 +1,5 @@
 resource "aws_iam_role" "waggle_dance_k8s_role_iam" {
-  count = var.wd_instance_type == "k8s" ? 1 : 0
+  count = var.waggle_dance_glue_assume_role_policy != "" ? 1 : 0
 
   name = "waggle-dance-k8s-role-iam-${data.aws_region.current.name}"
   tags = module.tags.tags
@@ -10,7 +10,7 @@ resource "aws_iam_role" "waggle_dance_k8s_role_iam" {
 
 }
 
-resource "aws_iam_role_policy" "waggle_dance_glue_policy" {
+resource "aws_iam_role_policy" "waggle_dance_glue_k8s_policy" {
   count = var.waggle_dance_glue_policy != "" ? 1 : 0
   role = aws_iam_role.waggle-dance-k8s-role-iam.name
   name = "glue-readonly"
