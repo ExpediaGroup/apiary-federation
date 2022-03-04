@@ -293,3 +293,15 @@ variable "primary_metastore_latency" {
   default     = 0
   description = "HMS latency (in ms.) that Waggledance will tolerate.  See \"latency\" parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. This sets the latency for the primary metastore only."
 }
+
+variable "waggle_dance_glue_policy" {
+  type        = string
+  default     = ""
+  description = "IAM policy to attach to waggle dance glue IAM role `waggle_dance_k8s_role_iam`."
+}
+
+variable "kiam_role" {
+  type        = string
+  default     = ""
+  description = "KIAM role. K8S only"
+}

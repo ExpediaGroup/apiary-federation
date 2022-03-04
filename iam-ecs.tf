@@ -89,3 +89,11 @@ resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
 }
 EOF
 }
+
+resource "aws_iam_role_policy" "waggle_dance_glue_policy" {
+  count = var.waggle_dance_glue_policy != "" ? 1 : 0
+  role = aws_iam_role.waggledance_task.name
+  name = "waggle-dance-glue-policy"
+
+  policy = var.waggle_dance_glue_policy
+}
