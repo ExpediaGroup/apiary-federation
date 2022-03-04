@@ -297,11 +297,11 @@ variable "primary_metastore_latency" {
 variable "waggle_dance_glue_policy" {
   type        = string
   default     = ""
-  description = "IAM policy to attach to waggle dance glue IAM role `waggle_dance_k8s_role_iam`."
+  description = "IAM policy to attach to Waggle Dance Glue IAM role `waggle_dance_k8s_role_iam`."
 }
 
-variable "kiam_role" {
+variable "waggle_dance_glue_assume_role_policy" {
   type        = string
   default     = ""
-  description = "KIAM role. K8S only"
+  description = "K8S assume role policy for Waggle Dance Glue IAM role `waggle_dance_k8s_role_iam`. K8S only"
 }

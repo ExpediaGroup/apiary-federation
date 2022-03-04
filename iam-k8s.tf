@@ -6,21 +6,7 @@ resource "aws_iam_role" "waggle_dance_k8s_role_iam" {
 
   description = "Role to allow AWS Glue access from WaggleDance"
 
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "${var.kiam_role}"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-POLICY
+  assume_role_policy = var.waggle_dance_glue_assume_role_policy
 
 }
 
