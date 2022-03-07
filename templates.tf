@@ -161,7 +161,7 @@ data "template_file" "federation_yaml" {
     remote_metastores                  = join("", data.template_file.remote_metastores_yaml.*.rendered)
     remote_region_metastores           = join("", data.template_file.remote_region_metastores_yaml.*.rendered)
     ssh_metastores                     = join("", data.template_file.ssh_metastores_yaml.*.rendered)
-    glue_metastores                     = join("", data.template_file.glue_metastores_yaml.*.rendered)
+    glue_metastores                    = join("", data.template_file.glue_metastores_yaml.*.rendered)
   }
 }
 
