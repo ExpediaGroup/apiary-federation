@@ -29,8 +29,8 @@ EOF
 
 data "aws_iam_policy_document" "waggle_dance_glue_policy" {
   count = var.wd_instance_type == "k8s" && length(var.glue_metastores) > 0 ? 1 : 0
-  sid = "Waggledance Glue Policy"
   statement {
+    sid = "Waggledance Glue Policy"
     actions = [
       "glue:GetDatabase",
       "glue:GetDatabases",
