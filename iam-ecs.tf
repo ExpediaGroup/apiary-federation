@@ -95,5 +95,5 @@ resource "aws_iam_role_policy" "waggle_dance_glue_ecs_policy" {
   role = aws_iam_role.waggledance_task[0].name
   name = "waggle-dance-glue-policy"
 
-  policy = data.aws_iam_policy_document.waggle_dance_glue_policy
+  policy = data.aws_iam_policy_document.waggle_dance_glue_policy[0].json
 }

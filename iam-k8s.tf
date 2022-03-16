@@ -54,5 +54,5 @@ resource "aws_iam_role_policy" "waggle_dance_glue_k8s_policy" {
   role  = aws_iam_role.waggle_dance_k8s_role_iam[0].name
   name  = "waggle-dance-glue-readonly"
 
-  policy = data.aws_iam_policy_document.waggle_dance_glue_policy
+  policy = data.aws_iam_policy_document.waggle_dance_glue_policy[0].json
 }
