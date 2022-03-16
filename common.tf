@@ -43,8 +43,8 @@ data "aws_iam_policy_document" "waggle_dance_glue_policy" {
       "glue:GetUserDefinedFunctions"
     ]
     resources = [
-    for glue_metastore in var.glue_metastores:
-    format("arn:aws:glue:%s:%s:*", var.aws_region, glue_metastore["glue-account-id"])
+      for glue_metastore in var.glue_metastores:
+        format("arn:aws:glue:%s:%s:*", var.aws_region, glue_metastore["glue-account-id"])
     ]
   }
 }
