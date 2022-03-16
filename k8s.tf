@@ -46,7 +46,7 @@ resource "kubernetes_deployment" "waggle_dance" {
           name = local.instance_alias
         }
         annotations = {
-          "iam.amazonaws.com/role" = var.oidc_provider != "" aws_iam_role.waggle_dance_k8s_role_iam[0].arn : ""
+          "iam.amazonaws.com/role" = var.oidc_provider != "" ? aws_iam_role.waggle_dance_k8s_role_iam[0].arn : ""
           "prometheus.io/scrape" : var.prometheus_enabled
           "prometheus.io/port" : local.actuator_port
           "prometheus.io/path" : "/actuator/prometheus"
