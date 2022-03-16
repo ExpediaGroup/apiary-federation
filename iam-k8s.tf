@@ -27,36 +27,32 @@ resource "aws_iam_role" "waggle_dance_k8s_role_iam" {
 EOF
 }
 
+data "aws_iam_policy_document" "waggle_dance_glue_policy" {
+  count = var.wd_instance_type == "k8s" && length(var.glue_metastores) > 0 ? 1 : 0
+  sid = "Waggledance Glue Policy"
+  statement {
+    actions = [
+      "glue:GetDatabase",
+      "glue:GetDatabases",
+      "glue:GetTable",
+      "glue:GetTables",
+      "glue:GetTableVersions",
+      "glue:GetPartition",
+      "glue:GetPartitions",
+      "glue:BatchGetPartition",
+      "glue:GetUserDefinedFunction",
+      "glue:GetUserDefinedFunctions"
+    ]
+    resources = [
+      "${join("\",\"", formatlist("arn:aws:glue:%s:%s:*", var.aws_region, [for glue_metastore in var.glue_metastores: glue_metastore["glue-account-id"]]))}"
+    ]
+  }
+}
+
 resource "aws_iam_role_policy" "waggle_dance_glue_k8s_policy" {
   count = var.wd_instance_type == "k8s" && length(var.glue_metastores) > 0 ? 1 : 0
   role  = aws_iam_role.waggle_dance_k8s_role_iam[0].name
   name  = "waggle-dance-glue-readonly"
 
-  policy = <<EOF
-{
-   "Version" : "2012-10-17",
-   "Statement" :
-   [
-     {
-       "Sid" : "Waggledance Glue Policy",
-       "Effect" : "Allow",
-       "Action" : [
-          "glue:GetDatabase",
-          "glue:GetDatabases",
-          "glue:GetTable",
-          "glue:GetTables",
-          "glue:GetTableVersions",
-          "glue:GetPartition",
-          "glue:GetPartitions",
-          "glue:BatchGetPartition",
-          "glue:GetUserDefinedFunction",
-          "glue:GetUserDefinedFunctions"
-        ],
-       "Resource" : [
-          "${join("\",\"", formatlist("arn:aws:glue:%s:%s:*", var.aws_region, [for glue_metastore in var.glue_metastores: glue_metastore["glue-account-id"]]))}"
-        ]
-     }
-   ]
-}
-EOF
+  policy = data.aws_iam_policy_document.waggle_dance_glue_policy
 }

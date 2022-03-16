@@ -91,9 +91,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "waggle_dance_glue_ecs_policy" {
-  count = var.wd_instance_type == "ecs" && var.waggle_dance_glue_policy != "" ? 1 : 0
+  count = var.wd_instance_type == "ecs" && length(var.glue_metastores) > 0 ? 1 : 0
   role = aws_iam_role.waggledance_task[0].name
   name = "waggle-dance-glue-policy"
 
-  policy = var.waggle_dance_glue_policy
+  policy = data.aws_iam_policy_document.waggle_dance_glue_policy
 }
