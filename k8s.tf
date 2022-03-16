@@ -46,7 +46,7 @@ resource "kubernetes_deployment" "waggle_dance" {
           name = local.instance_alias
         }
         annotations = {
-          "iam.amazonaws.com/role" = aws_iam_role.waggle_dance_k8s_role_iam[0].arn
+          "iam.amazonaws.com/role" = var.oidc_provider != "" aws_iam_role.waggle_dance_k8s_role_iam[0].arn : ""
           "prometheus.io/scrape" : var.prometheus_enabled
           "prometheus.io/port" : local.actuator_port
           "prometheus.io/path" : "/actuator/prometheus"
@@ -54,7 +54,8 @@ resource "kubernetes_deployment" "waggle_dance" {
       }
 
       spec {
-        service_account_name = kubernetes_service_account.waggle_dance[0].metadata.0.name
+        service_account_name            = kubernetes_service_account.waggle_dance[0].metadata.0.name
+        automount_service_account_token = true
         container {
           image = "${var.docker_image}:${var.docker_version}"
           name  = local.instance_alias
