@@ -7,23 +7,23 @@ resource "aws_iam_role" "waggle_dance_k8s_role_iam" {
   description = "Role to allow AWS Glue access from WaggleDance"
 
   assume_role_policy = <<EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Principal": {
-          "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${var.oidc_provider}"
-        },
-        "Action": "sts:AssumeRoleWithWebIdentity",
-        "Condition": {
-         "StringEquals": {
-           "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${local.instance_alias}"
-         }
-        }
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${var.oidc_provider}"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+       "StringEquals": {
+         "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${local.instance_alias}"
+       }
       }
-    ]
-  }
+    }
+  ]
+}
 EOF
 }
 
@@ -44,7 +44,8 @@ data "aws_iam_policy_document" "waggle_dance_glue_policy" {
       "glue:GetUserDefinedFunctions"
     ]
     resources = [
-      "${join("\",\"", formatlist("arn:aws:glue:%s:%s:*", var.aws_region, [for glue_metastore in var.glue_metastores: glue_metastore["glue-account-id"]]))}"
+      for glue_metastore in var.glue_metastores:
+        format("arn:aws:glue:%s:%s:*", var.aws_region, glue_metastore["glue-account-id"])
     ]
   }
 }
