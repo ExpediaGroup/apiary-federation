@@ -51,7 +51,7 @@ resource "aws_appautoscaling_target" "waggledance" {
   service_namespace  = "ecs"
 
   depends_on = [
-    aws_ecs_service.waggleance_service,
+    aws_ecs_service.waggledance_service,
   ]
 }
 
