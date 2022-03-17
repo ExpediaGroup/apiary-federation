@@ -43,13 +43,13 @@ variable "wd_target_cpu_percentage" {
 variable "cpu_scale_in_cooldown" {
   type        = number
   default     = 300
-  description = "cool down time of scale in task by cpu usage"
+  description = "cool down time(seconds) of scale in task by cpu usage"
 }
 
 variable "cpu_scale_out_cooldown" {
   type        = number
   default     = 120
-  description = "cool down time of scale out task by cpu usage"
+  description = "cool down time(seconds) of scale out task by cpu usage"
 }
 
 variable "root_vol_type" {
