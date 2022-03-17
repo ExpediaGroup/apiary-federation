@@ -44,7 +44,7 @@ resource "aws_ecs_task_definition" "waggledance" {
 resource "aws_appautoscaling_target" "waggledance" {
   count = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
 
-  max_capacity       = var.wd.ecs_max_task_count
+  max_capacity       = var.wd_ecs_max_task_count
   min_capacity       = var.wd_ecs_task_count
   resource_id        = "service/${local.instance_alias}/${local.instance_alias}-service"
   scalable_dimension = "ecs:service:DesiredCount"
