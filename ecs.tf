@@ -29,6 +29,15 @@ resource "aws_ecs_service" "waggledance_service" {
       registry_arn = var.enable_autoscaling ? null : aws_service_discovery_service.metastore_proxy[0].arn
     }
   }
+
+  dynamic "load_balancer" {
+    for_each = var.enable_autoscaling ? ["1"] : []
+    content {
+      target_group_arn = aws_alb_target_group.waggledance[0].arn
+      container_name   = "waggledance"
+      container_port   = var.wd_port
+    }
+  }
 }
 
 resource "aws_ecs_task_definition" "waggledance" {
@@ -91,12 +100,13 @@ resource "aws_lb" "waggledance" {
 }
 
 resource "aws_lb_target_group" "waggledance" {
-  count    = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
-  name     = local.instance_alias
-  port     = local.wd_port
-  protocol = "TCP"
-  vpc_id   = var.vpc_id
-  tags     = var.tags
+  count       = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+  name        = local.instance_alias
+  port        = local.wd_port
+  protocol    = "TCP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+  tags        = var.tags
 }
 
 resource "aws_lb_listener" "waggledance" {
