@@ -35,7 +35,7 @@ resource "aws_ecs_service" "waggledance_service" {
     content {
       target_group_arn = aws_lb_target_group.waggledance[0].arn
       container_name   = "waggledance"
-      container_port   = var.wd_port
+      container_port   = local.wd_port
     }
   }
 }
