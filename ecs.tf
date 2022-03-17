@@ -101,7 +101,6 @@ resource "aws_lb" "waggledance" {
 
 resource "aws_lb_target_group" "waggledance" {
   count       = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
-  name_prefix = local.instance_alias
   port        = local.wd_port
   protocol    = "TCP"
   target_type = "ip"
