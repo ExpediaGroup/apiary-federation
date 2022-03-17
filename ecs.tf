@@ -26,7 +26,7 @@ resource "aws_ecs_service" "waggledance_service" {
   dynamic "service_registries" {
     for_each = var.enable_autoscaling ? [] : ["1"]
     content {
-      registry_arn = var.enable_autoscaling ? null : aws_service_discovery_service.metastore_proxy[0].arn
+      registry_arn = aws_service_discovery_service.metastore_proxy[0].arn
     }
   }
 
