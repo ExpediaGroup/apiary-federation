@@ -117,6 +117,10 @@ resource "aws_lb_target_group" "waggledance" {
     unhealthy_threshold = 5
     //matcher             = var.healthcheck_matcher
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_lb_listener" "waggledance" {
