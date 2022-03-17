@@ -107,6 +107,16 @@ resource "aws_lb_target_group" "waggledance" {
   target_type = "ip"
   vpc_id      = var.vpc_id
   tags        = var.tags
+  health_check {
+    protocol            = "HTTP"
+    port                = 18000
+    path                = "/actuator/health"
+    interval            = 5
+    timeout             = 5
+    healthy_threshold   = 3
+    unhealthy_threshold = 5
+    //matcher             = var.healthcheck_matcher
+  }
 }
 
 resource "aws_lb_listener" "waggledance" {
