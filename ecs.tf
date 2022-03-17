@@ -33,7 +33,7 @@ resource "aws_ecs_service" "waggledance_service" {
   dynamic "load_balancer" {
     for_each = var.enable_autoscaling ? ["1"] : []
     content {
-      target_group_arn = aws_alb_target_group.waggledance[0].arn
+      target_group_arn = aws_lb_target_group.waggledance[0].arn
       container_name   = "waggledance"
       container_port   = var.wd_port
     }
