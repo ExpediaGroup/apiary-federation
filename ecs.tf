@@ -74,6 +74,6 @@ resource "aws_appautoscaling_policy" "waggledance" {
     scale_out_cooldown = var.cpu_scale_out_cooldown
   }
 
-  depends_on = [aws_appautoscaling_target.waggleance]
+  depends_on = [aws_appautoscaling_target.waggledance]
 }
 
