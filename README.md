@@ -10,6 +10,8 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | aws_region | AWS region to use for resources. | string | - | yes |
 | bastion_ssh_key_secret_name | Secret name in AWS Secrets Manager which stores the private key used to log in to bastions. The secret's key should be `private_key` and the value should be stored as a base64 encoded string. Max character limit for a secret's value is 4096. | string | `` | no |
 | cpu | The number of CPU units to reserve for the Waggle Dance container. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `1024` | no |
+| cpu_scale_in_cooldown | cool down time of scale in task by cpu usage | number | 300 | no |
+| cpu_scale_out_cooldown | cool down time of scale out task by cpu usage | number | 120 | no |
 | default_latency | Latency used for other (not primary) metastores that don't override it in their own configurations. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `0` | no |
 | primary_metastore_latency | Latency used for the primary metastores. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `0` | no |
 | docker_image | Full path Waggle Dance Docker image. | string | - | yes |
@@ -41,6 +43,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | tags | A map of tags to apply to resources. | map | `<map>` | no |
 | vpc_id | VPC ID. | string | - | yes |
 | wd_ecs_task_count | Number of ECS tasks to create. | string | `1` | no |
+| wd_ecs_max_task_count | Max Number of ECS tasks to create. | string | `10` | no |
 | wd_instance_type | Waggle Dance instance type, possible values: `ecs`,`k8s`. | string | `ecs` | no |
 | wd_target_cpu_percentage | Waggle Dance autoscaling threshold for CPU target usage. | number | `60` | no |
 | waggledance_version | Waggle Dance version to install on EC2 nodes | string | `3.3.2` | no |
