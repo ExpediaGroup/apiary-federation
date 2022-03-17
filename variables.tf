@@ -40,6 +40,18 @@ variable "wd_target_cpu_percentage" {
   default     = 60
 }
 
+variable "cpu_scale_in_cooldown" {
+  type        = number
+  default     = 300
+  description = "cool down time of scale in task by cpu usage"
+}
+
+variable "cpu_scale_out_cooldown" {
+  type        = number
+  default     = 120
+  description = "cool down time of scale out task by cpu usage"
+}
+
 variable "root_vol_type" {
   description = "Waggle Dance EC2 root volume type."
   type        = string
@@ -67,6 +79,12 @@ variable "wd_ecs_task_count" {
   description = "Number of ECS tasks to create."
   type        = string
   default     = "1"
+}
+
+variable "wd_ecs_max_task_count" {
+  description = "Max Number of ECS tasks to create."
+  type        = string
+  default     = "10"
 }
 
 variable "k8s_replica_count" {

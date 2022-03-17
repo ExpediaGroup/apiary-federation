@@ -40,3 +40,40 @@ resource "aws_ecs_task_definition" "waggledance" {
   container_definitions    = data.template_file.waggledance.rendered
   tags                     = var.tags
 }
+
+resource "aws_appautoscaling_target" "waggledance" {
+  count = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+
+  max_capacity       = var.wd.ecs_max_task_count
+  min_capacity       = var.wd_ecs_task_count
+  resource_id        = "service/${local.instance_alias}/${local.instance_alias}-service"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+
+  depends_on = [
+    aws_ecs_service.waggleance_service,
+  ]
+}
+
+resource "aws_appautoscaling_policy" "waggledance" {
+  count = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+
+  name               = "cpu"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.waggledance[0].resource_id
+  scalable_dimension = aws_appautoscaling_target.waggledance[0].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.waggledance[0].service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+
+    target_value       = var.wd_target_cpu_percentage
+    scale_in_cooldown  = var.cpu_scale_in_cooldown
+    scale_out_cooldown = var.cpu_scale_out_cooldown
+  }
+
+  depends_on = [aws_appautoscaling_target.waggleance]
+}
+
