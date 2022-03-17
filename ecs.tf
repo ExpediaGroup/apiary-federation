@@ -23,8 +23,11 @@ resource "aws_ecs_service" "waggledance_service" {
     subnets         = var.subnets
   }
 
-  service_registries {
-    registry_arn = var.enable_autoscaling ? null : aws_service_discovery_service.metastore_proxy[0].arn
+  dynamic "service_registries" {
+    for_each = var.enable_autscaling ? [] : ["1"]
+    content {
+      registry_arn = var.enable_autoscaling ? null : aws_service_discovery_service.metastore_proxy[0].arn
+    }
   }
 }
 
