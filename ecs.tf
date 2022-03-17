@@ -80,3 +80,12 @@ resource "aws_appautoscaling_policy" "waggledance" {
   depends_on = [aws_appautoscaling_target.waggledance]
 }
 
+resource "aws_lb" "waggledance" {
+  count              = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+  name               = local.instance_alias
+  internal           = true
+  load_balancer_type = "network"
+  subnets            = var.subnets
+
+  tags = var.tags
+}
