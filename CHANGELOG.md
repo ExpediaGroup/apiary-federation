@@ -3,8 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.5.0] - 2022-07-08
+## [3.6.0] - 2022-03-22
 - Added support for AWS Glue metastore federation.
+
+## [3.5.1] - 2022-03-17
+- Update waggle-dance security group ingress to fix healthcheck.
+
+## [3.5.0] - 2022-03-17
+- Variable to enable autoscaling in ECS deployments.
+
+## [3.4.2] - 2022-03-16
+- Configure ECS task file limits.
 
 ## [3.4.1] - 2022-01-11
 - Add k8s internal service with client affinity, for usecases than cannot use headless service and seamlessly failover to new waggle-dance instances.
