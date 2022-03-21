@@ -1,59 +1,71 @@
 [
   {
-    "name": "waggledance",
-    "image": "${docker_image}:${docker_version}",
-    ${docker_auth}
-    "essential": true,
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "${loggroup}",
-        "awslogs-region": "${region}",
-        "awslogs-stream-prefix": "/"
-      }
-    },
-    "portMappings": [
-      {
-        "containerPort": 48869,
-        "hostPort": 48869
-      }
-    ],
-    "environment":[
-      {
-        "name": "HEAPSIZE",
-        "value": "${heapsize}"
-      },
-      {
-        "name": "LOGLEVEL",
-        "value": "${loglevel}"
-      },
-      {
-        "name": "SERVER_YAML",
-        "value": "${server_yaml}"
-      },
-      {
-        "name": "FEDERATION_YAML",
-        "value": "${federation_yaml}"
-      },
-      {
-        "name": "HIVE_SITE_XML",
-        "value": "${hive_site_xml}"
-      },
-      {
-        "name": "BASTION_SSH_KEY_ARN",
-        "value": "${bastion_ssh_key_arn}"
-      },
-      {
-        "name": "LOG4J_FORMAT_MSG_NO_LOOKUPS",
-        "value": "true"
-      }
-    ],
-    "healthCheck": {
-      "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
-      "interval": 5,
-      "retries": 3,
-      "startPeriod": 60,
-      "timeout": 5
-    }
+	"name": "waggledance",
+	"image": "${docker_image}:${docker_version}",
+	${docker_auth}
+	"essential": true,
+	"logConfiguration": {
+	  "logDriver": "awslogs",
+	  "options": {
+		"awslogs-group": "${loggroup}",
+		"awslogs-region": "${region}",
+		"awslogs-stream-prefix": "/"
+	  }
+	},
+	"portMappings": [
+	  {
+		"containerPort": 48869,
+		"hostPort": 48869
+	  }
+	],
+	"environment":[
+	  {
+		"name": "HEAPSIZE",
+		"value": "${heapsize}"
+	  },
+	  {
+		"name": "LOGLEVEL",
+		"value": "${loglevel}"
+	  },
+	  {
+		"name": "SERVER_YAML",
+		"value": "${server_yaml}"
+	  },
+	  {
+		"name": "FEDERATION_YAML",
+		"value": "${federation_yaml}"
+	  },
+	  {
+		"name": "HIVE_SITE_XML",
+		"value": "${hive_site_xml}"
+	  },
+	  {
+		"name": "BASTION_SSH_KEY_ARN",
+		"value": "${bastion_ssh_key_arn}"
+	  },
+	  {
+		"name": "LOG4J_FORMAT_MSG_NO_LOOKUPS",
+		"value": "true"
+	  }
+	],
+	"healthCheck": {
+	  "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
+	  "interval": 5,
+	  "retries": 3,
+	  "startPeriod": 60,
+	  "timeout": 5
+	},
+	"ulimits": [
+	  {
+		"name": "nofile",
+		"softLimit": 65536,
+		"hardLimit": 65536
+	  },
+	  {
+		"name": "nproc",
+		"softLimit": 65536,
+		"hardLimit": 65536
+	  }
+	]
   }
 ]

@@ -40,6 +40,18 @@ variable "wd_target_cpu_percentage" {
   default     = 60
 }
 
+variable "cpu_scale_in_cooldown" {
+  type        = number
+  default     = 300
+  description = "cool down time(seconds) of scale in task by cpu usage"
+}
+
+variable "cpu_scale_out_cooldown" {
+  type        = number
+  default     = 120
+  description = "cool down time(seconds) of scale out task by cpu usage"
+}
+
 variable "root_vol_type" {
   description = "Waggle Dance EC2 root volume type."
   type        = string
@@ -67,6 +79,12 @@ variable "wd_ecs_task_count" {
   description = "Number of ECS tasks to create."
   type        = string
   default     = "1"
+}
+
+variable "wd_ecs_max_task_count" {
+  description = "Max Number of ECS tasks to create."
+  type        = string
+  default     = "10"
 }
 
 variable "k8s_replica_count" {
@@ -294,14 +312,8 @@ variable "primary_metastore_latency" {
   description = "HMS latency (in ms.) that Waggledance will tolerate.  See \"latency\" parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. This sets the latency for the primary metastore only."
 }
 
-variable "waggle_dance_glue_policy" {
+variable "oidc_provider" {
+  description = "EKS cluster OIDC provider name, required for configuring IAM using IRSA."
   type        = string
   default     = ""
-  description = "IAM policy to attach to Waggle Dance Glue IAM role `waggle_dance_k8s_role_iam`."
-}
-
-variable "waggle_dance_glue_assume_role_policy" {
-  type        = string
-  default     = ""
-  description = "K8S assume role policy for Waggle Dance Glue IAM role `waggle_dance_k8s_role_iam`. K8S only"
 }

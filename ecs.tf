@@ -23,8 +23,20 @@ resource "aws_ecs_service" "waggledance_service" {
     subnets         = var.subnets
   }
 
-  service_registries {
-    registry_arn = aws_service_discovery_service.metastore_proxy[0].arn
+  dynamic "service_registries" {
+    for_each = var.enable_autoscaling ? [] : ["1"]
+    content {
+      registry_arn = aws_service_discovery_service.metastore_proxy[0].arn
+    }
+  }
+
+  dynamic "load_balancer" {
+    for_each = var.enable_autoscaling ? ["1"] : []
+    content {
+      target_group_arn = aws_lb_target_group.waggledance[0].arn
+      container_name   = "waggledance"
+      container_port   = local.wd_port
+    }
   }
 }
 
@@ -39,4 +51,80 @@ resource "aws_ecs_task_definition" "waggledance" {
   requires_compatibilities = ["EC2", "FARGATE"]
   container_definitions    = data.template_file.waggledance.rendered
   tags                     = var.tags
+}
+
+resource "aws_appautoscaling_target" "waggledance" {
+  count = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+
+  max_capacity       = var.wd_ecs_max_task_count
+  min_capacity       = var.wd_ecs_task_count
+  resource_id        = "service/${local.instance_alias}/${local.instance_alias}-service"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+
+  depends_on = [
+    aws_ecs_service.waggledance_service,
+  ]
+}
+
+resource "aws_appautoscaling_policy" "waggledance" {
+  count = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+
+  name               = "cpu"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.waggledance[0].resource_id
+  scalable_dimension = aws_appautoscaling_target.waggledance[0].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.waggledance[0].service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+
+    target_value       = var.wd_target_cpu_percentage
+    scale_in_cooldown  = var.cpu_scale_in_cooldown
+    scale_out_cooldown = var.cpu_scale_out_cooldown
+  }
+
+  depends_on = [aws_appautoscaling_target.waggledance]
+}
+
+resource "aws_lb" "waggledance" {
+  count              = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+  name               = local.instance_alias
+  internal           = true
+  load_balancer_type = "network"
+  subnets            = var.subnets
+
+  tags = var.tags
+}
+
+resource "aws_lb_target_group" "waggledance" {
+  count       = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+  port        = local.wd_port
+  protocol    = "TCP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+  tags        = var.tags
+  health_check {
+    protocol = "HTTP"
+    port     = 18000
+    path     = "/actuator/health"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_lb_listener" "waggledance" {
+  count             = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+  load_balancer_arn = aws_lb.waggledance[0].arn
+  protocol          = "TCP"
+  port              = local.wd_port
+
+  default_action {
+    target_group_arn = aws_lb_target_group.waggledance[0].arn
+    type             = "forward"
+  }
 }
