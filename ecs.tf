@@ -117,11 +117,41 @@ resource "aws_lb_target_group" "waggledance" {
   }
 }
 
+resource "aws_lb_target_group" "waggledance" {
+  count       = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+  port        = 18000
+  protocol    = "TCP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+  tags        = var.tags
+  health_check {
+    protocol = "HTTP"
+    port     = 18000
+    path     = "/actuator/health"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_lb_listener" "waggledance" {
   count             = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
   load_balancer_arn = aws_lb.waggledance[0].arn
   protocol          = "TCP"
   port              = local.wd_port
+
+  default_action {
+    target_group_arn = aws_lb_target_group.waggledance[0].arn
+    type             = "forward"
+  }
+}
+
+resource "aws_lb_listener" "waggledance-prometheus" {
+  count             = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+  load_balancer_arn = aws_lb.waggledance[0].arn
+  protocol          = "TCP"
+  port              = 18000
 
   default_action {
     target_group_arn = aws_lb_target_group.waggledance[0].arn
