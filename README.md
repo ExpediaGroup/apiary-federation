@@ -33,6 +33,8 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 | memory | The amount of memory (in MiB) used to allocate for the Waggle Dance container. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `4096` | no |
 | primary_metastore_host | Primary Hive Metastore hostname configured in Waggle Dance. | string | `localhost` | no |
 | primary_metastore_port | Primary Hive Metastore port | string | `9083` | no |
+| primary_metastore_glue_account_id| Primary metastore Glue AWS account id, optional. Use with `primary_metastore_glue_endpoint` and instead of `primary_metastore_host/primary_metastore_port` | string | `` | no |
+| primary_metastore_glue_endpoint | Primary metastore Glue endpoint `glue.us-east-1.amazonaws.com`, optional. Use with `primary_metastore_glue_account_id` and instead of `primary_metastore_host` and `primary_metastore_port` | string | `` | no |
 | primary_metastore_whitelist | List of Hive databases to whitelist on primary Metastore. | list | `<list>` | no |
 | primary_metastore_mapped_databases | List of Hive databases mapped from primary Metastore. | list | `<list>` | no |
 | remote_metastores | List of VPC endpoint services to federate Metastores in other accounts. See section [`remote_metastores`](#remote_metastores) for more info.| list | `<list>` | no |
@@ -236,7 +238,6 @@ Name | Description | Type | Default | Required |
 
 See [Waggle Dance README](https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md) for more information on all these parameters.
 
-An example entry looks like:
 ### ssh_metastores
 
 A list of maps.  Each map entry describes a federated metastore endpoint connected via an SSH bastion host.
@@ -267,6 +268,36 @@ Name | Description | Type | Default | Required |
 | bastion-host | Host name of the bastion host. | string | - | yes |
 | user | User name what will login to the bastion host. | string | - | yes |
 | timeout | The SSH session timeout in milliseconds, 0 means no timeout. Default is 60000 milliseconds, i.e. 1 minute. | string | `"60000"` | no |
+| prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
+| mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
+| mapped-tables | Semicolon-separated/comma-separated list of databases and DB tables from this metastore to expose to federation. If not specified, *all* tables for each database are exposed. See [Waggle Dance Mapped Tables](https://github.com/ExpediaGroup/waggle-dance#mapped-tables) for more information.| string | `""` | no |
+| database-name-mapping | Comma-separated list of `<database>:<alias>` key/value pairs to add aliases for the given databases. Default is no aliases. This is used primarily in migration scenarios where a database has been renamed/relocated. See [Waggle Dance Database Name Mapping](https://github.com/ExpediaGroup/waggle-dance#database-name-mapping) for more information.  | string | `""` | no |
+| writable-whitelist | Comma-separated list of databases from this metastore that can be in read-write mode. If not specified, all databases are read-only. Use `.*` to allow all databases to be written to. | string | `""` | no |
+
+See [Waggle Dance README](https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md) for more information on all these parameters.
+
+### glue_metastores
+
+A list of maps.  Each map entry describes a federated metastore endpoint connected to AWS Glue datacatalog.
+
+An example entry looks like:
+```
+glue_metastores = [
+    {
+      glue-account-id       = "123456789012"
+      glue-endpoint         = "glue.us-east-1.amazonaws.com"
+      prefix                = "glue_metastore1"
+      mapped-databases      = "default,test"
+    }
+]
+```
+`glue_metastores` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| latency | Latency used for this metastore. See `latency` parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. | number | `var.default_latency` | no |
+| glue-account-id | Glue AWS account id. | string | - | yes |
+| glue-endpoint | Glue endpoint 'glue.us-east-1.amazonaws.com'. | string | - | yes |
 | prefix | Prefix added to the database names from this metastore. Must be unique among all local, remote, and SSH federated metastores in this Waggle Dance instance. | string | - | yes |
 | mapped-databases | Comma-separated list of databases from this metastore to expose to federation. If not specified, *all* databases are exposed.| string | `""` | no |
 | mapped-tables | Semicolon-separated/comma-separated list of databases and DB tables from this metastore to expose to federation. If not specified, *all* tables for each database are exposed. See [Waggle Dance Mapped Tables](https://github.com/ExpediaGroup/waggle-dance#mapped-tables) for more information.| string | `""` | no |

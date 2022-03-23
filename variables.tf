@@ -193,6 +193,18 @@ variable "primary_metastore_port" {
   default     = "9083"
 }
 
+variable "primary_metastore_glue_account_id" {
+  description = "Primary metastore Glue AWS account id, optional. Use with 'primary_metastore_glue_endpoint' and instead of 'primary_metastore_host/primary_metastore_port'"
+  type        = string
+  default     = ""
+}
+
+variable "primary_metastore_glue_endpoint" {
+  description = "Primary metastore Glue endpoint 'glue.us-east-1.amazonaws.com', optional. Use with 'primary_metastore_glue_account_id' and instead of 'primary_metastore_host/primary_metastore_port'"
+  type        = string
+  default     = ""
+}
+
 variable "primary_metastore_whitelist" {
   description = "List of Hive databases to whitelist on primary Metastore."
   type        = list(string)
@@ -226,9 +238,16 @@ variable "remote_region_metastores" {
   default     = []
 }
 
-#list of maps, example: [ {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre1", user="my-unix-user", mapped-databases="test1,test2"}, {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre1", user="my-unix-user", writable-whitelist="db1,test", mapped-databases="test1,test2"} ]
+#list of maps, example: [ {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre1", user="my-unix-user", mapped-databases="test1,test2"}, {bastion-host="10.x.x.x", metastore-host="10.x.x.x", port="9083", prefix="pre2", user="my-unix-user", writable-whitelist="db1,test", mapped-databases="test1,test2"} ]
 variable "ssh_metastores" {
   description = "List of federated Metastores to connect to over SSH via bastion."
+  type        = list(map(string))
+  default     = []
+}
+
+#list of maps, example: [ {glue-account-id="123456789012", glue-endpoint="glue.us-east-1.amazonaws.com", prefix="pre1", mapped-databases="test1,test2"}, {glue-account-id="111111111112", glue-endpoint="glue.us-east-1.amazonaws.com", prefix="pre2", mapped-databases="test1,test2"} ]
+variable "glue_metastores" {
+  description = "List of federated AWS Glue Data Catalogs."
   type        = list(map(string))
   default     = []
 }
@@ -291,4 +310,10 @@ variable "primary_metastore_latency" {
   type        = number
   default     = 0
   description = "HMS latency (in ms.) that Waggledance will tolerate.  See \"latency\" parameter in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md. This sets the latency for the primary metastore only."
+}
+
+variable "oidc_provider" {
+  description = "EKS cluster OIDC provider name, required for configuring IAM using IRSA."
+  type        = string
+  default     = ""
 }
