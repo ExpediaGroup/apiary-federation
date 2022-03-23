@@ -117,7 +117,7 @@ resource "aws_lb_target_group" "waggledance" {
   }
 }
 
-resource "aws_lb_target_group" "waggledance" {
+resource "aws_lb_target_group" "waggledance_prometheus" {
   count       = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
   port        = 18000
   protocol    = "TCP"
