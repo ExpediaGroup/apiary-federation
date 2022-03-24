@@ -154,7 +154,7 @@ resource "aws_lb_listener" "waggledance-prometheus" {
   port              = 18000
 
   default_action {
-    target_group_arn = aws_lb_target_group.waggledance[0].arn
+    target_group_arn = aws_lb_target_group.waggledance_prometheus[0].arn
     type             = "forward"
   }
 }
