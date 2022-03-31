@@ -7,7 +7,7 @@
  locals {
  //avoiding name clash with LB entry when autoscaling
  //need both names for prometheus scraping
-   dns_name = var.enable_autoscaling ? "${local.instance_alias}-${var.aws_region}.${var.domain_extension}-sd" : ${local.instance_alias}-${var.aws_region}.${var.domain_extension}"
+   dns_name = var.enable_autoscaling ? "${local.instance_alias}-${var.aws_region}.${var.domain_extension}-sd" : "${local.instance_alias}-${var.aws_region}.${var.domain_extension}"
  }
 
 resource "aws_service_discovery_private_dns_namespace" "waggledance" {
