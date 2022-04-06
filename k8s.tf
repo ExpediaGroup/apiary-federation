@@ -73,6 +73,10 @@ resource "kubernetes_deployment" "waggle_dance" {
             value = var.wd_log_level
           }
           env {
+            name  = "INVOCATIONLOGLEVEL"
+            value = var.enable_invocation_logs ? "debug" : "info"
+          }
+          env {
             name  = "SERVER_YAML"
             value = base64encode(data.template_file.server_yaml.rendered)
           }
