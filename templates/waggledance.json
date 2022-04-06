@@ -28,6 +28,10 @@
 		"value": "${loglevel}"
 	  },
 	  {
+		"name": "INVOCATIONLOGLEVEL",
+		"value": "${invocationloglevel}"
+	  },
+	  {
 		"name": "SERVER_YAML",
 		"value": "${server_yaml}"
 	  },
