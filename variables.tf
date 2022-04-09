@@ -29,7 +29,7 @@ variable "wd_log_level" {
 }
 
 variable "enable_invocation_logs" {
-  description = "Turns on Waggledance invocation logs in log4j"
+  description = "Turns on Waggledance invocation logs in log4j, by default only slow (1 minute+) invocations are logged."
   type        = bool
   default     = false
 }
