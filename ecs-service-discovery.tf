@@ -17,13 +17,18 @@ resource "aws_service_discovery_service" "metastore_proxy" {
   dns_config {
     namespace_id = aws_service_discovery_private_dns_namespace.waggledance[0].id
 
-    dns_records {
-      ttl = 10
-      type = "A"
-    }
+    # We always want SRV record, but we only want A records if we are not auto-scaling.
+    # If we are auto-scaling, we have an ELB that manages the instances.
     dns_records {
       ttl = 10
       type = "SRV"
+    }
+    dynamic "dns_records" {
+      for_each = var.enable_autoscaling ? [] : ["1"]
+      content {
+        ttl = 10
+        type = "A"
+      }
     }
 
     routing_policy = "MULTIVALUE"
