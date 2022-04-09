@@ -24,7 +24,6 @@ resource "aws_service_discovery_service" "metastore_proxy" {
     dns_records {
       ttl = 10
       type = "SRV"
-      port = 48869
     }
 
     routing_policy = "MULTIVALUE"
