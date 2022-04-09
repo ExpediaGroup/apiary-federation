@@ -15,7 +15,7 @@ resource "aws_service_discovery_service" "metastore_proxy" {
   name  = "metastore-proxy"
 
   dns_config {
-    namespace_id = var.enable_autoscaling ? aws_route53_zone.waggledance.id : aws_service_discovery_private_dns_namespace.waggledance[0].id
+    namespace_id = var.enable_autoscaling ? aws_route53_zone.waggledance[0].id : aws_service_discovery_private_dns_namespace.waggledance[0].id
 
     # We always want SRV records, but we only want A records if we are not auto-scaling.
     # If we are auto-scaling, we have an ELB that manages the instances.
