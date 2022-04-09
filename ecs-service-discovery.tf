@@ -17,16 +17,14 @@ resource "aws_service_discovery_service" "metastore_proxy" {
   dns_config {
     namespace_id = aws_service_discovery_private_dns_namespace.waggledance[0].id
 
-    dns_records = [
-      {
-        ttl  = 10
-        type = "A"
-      },
-      {
-        ttl  = 10
-        type = "SRV"
-      }
-    ]
+    dns_records {
+      ttl = 10
+      type = "A"
+    }
+    dns_records {
+      ttl = 10
+      type = "SRV"
+    }
 
     routing_policy = "MULTIVALUE"
   }
