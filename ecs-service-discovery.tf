@@ -54,6 +54,6 @@ resource "aws_service_discovery_instance" "loadbalancer" {
   service_id  = aws_service_discovery_service.metastore_proxy[0].id
 
   attributes = {
-    AWS_ALIAS_DNS_NAME = aws_lb.waggledance[0].dns_name
+    AWS_INSTANCE_CNAME = aws_lb.waggledance[0].dns_name
   }
 }
