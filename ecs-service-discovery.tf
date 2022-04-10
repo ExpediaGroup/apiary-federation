@@ -5,7 +5,7 @@
  */
 
 resource "aws_service_discovery_private_dns_namespace" "waggledance" {
-  count = var.wd_instance_type == "ecs" && var.enable_autoscaling == false ? 1 : 0
+  count = var.wd_instance_type == "ecs" ? 1 : 0
   name  = "${local.instance_alias}-${var.aws_region}.${var.domain_extension}"
   vpc   = var.vpc_id
 }
