@@ -16,7 +16,8 @@ resource "aws_service_discovery_service" "metastore_proxy" {
 
   dns_config {
     # This line does not work if we have autoscaling enabled.
-    namespace_id = var.enable_autoscaling ? aws_route53_zone.waggledance[0].id : aws_service_discovery_private_dns_namespace.waggledance[0].id
+    #namespace_id = var.enable_autoscaling ? aws_route53_zone.waggledance[0].id : aws_service_discovery_private_dns_namespace.waggledance[0].id
+    namespace_id = aws_service_discovery_private_dns_namespace.waggledance[0].id
 
     # We always want SRV records, but we only want A records if we are not auto-scaling.
     # If we are auto-scaling, we have an ELB that manages the instances.
@@ -32,7 +33,7 @@ resource "aws_service_discovery_service" "metastore_proxy" {
       }
     }
 
-    routing_policy = "MULTIVALUE"
+    routing_policy = var.enable_autoscaling ? "WEIGHTED" : "MULTIVALUE"
   }
 
   health_check_custom_config {
@@ -45,4 +46,14 @@ resource "aws_route53_zone_association" "secondary" {
   zone_id    = aws_service_discovery_private_dns_namespace.waggledance[0].hosted_zone
   vpc_id     = var.secondary_vpcs[count.index]
   vpc_region = var.aws_region
+}
+
+resource "aws_service_discovery_instance" "loadbalancer" {
+  count = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+  instance_id = "waggledance-${var.instance_name}-lb-instance-id"
+  service_id  = aws_service_discovery_service.metastore_proxy[0].id
+
+  attributes = {
+    AWS_ALIAS_DNS_NAME = aws_lb.waggledance[0].name
+  }
 }
