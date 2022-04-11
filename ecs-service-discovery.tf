@@ -48,14 +48,14 @@ resource "aws_route53_zone_association" "secondary" {
   vpc_region = var.aws_region
 }
 
-resource "aws_service_discovery_instance" "loadbalancer" {
-  count = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
-  instance_id = "waggledance-${var.instance_name}-lb-instance-id"
-  service_id  = aws_service_discovery_service.metastore_proxy[0].id
-
-  attributes = {
-    AWS_INSTANCE_CNAME = aws_lb.waggledance[0].dns_name
-    AWS_INSTANCE_PORT = "48869"
-    AWS_INSTANCE_IPV4 = "10.0.0.1"
-  }
-}
+#resource "aws_service_discovery_instance" "loadbalancer" {
+#  count = var.wd_instance_type == "ecs" && var.enable_autoscaling ? 1 : 0
+#  instance_id = "waggledance-${var.instance_name}-lb-instance-id"
+#  service_id  = aws_service_discovery_service.metastore_proxy[0].id
+#
+#  attributes = {
+#    AWS_INSTANCE_CNAME = aws_lb.waggledance[0].dns_name
+#    AWS_INSTANCE_PORT = "48869"
+#    AWS_INSTANCE_IPV4 = "10.0.0.1"
+#  }
+#}
