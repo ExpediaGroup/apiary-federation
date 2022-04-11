@@ -56,5 +56,6 @@ resource "aws_service_discovery_instance" "loadbalancer" {
   attributes = {
     AWS_INSTANCE_CNAME = aws_lb.waggledance[0].dns_name
     AWS_INSTANCE_PORT = "48869"
+    AWS_INSTANCE_IPV4 = "10.0.0.1"
   }
 }
