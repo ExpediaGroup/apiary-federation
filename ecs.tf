@@ -25,7 +25,7 @@ resource "aws_ecs_service" "waggledance_service" {
 
   service_registries {
     registry_arn = aws_service_discovery_service.metastore_proxy[0].arn
-    port         = 48869
+    port         = 18000
   }
 
   dynamic "load_balancer" {
