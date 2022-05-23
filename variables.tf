@@ -323,3 +323,9 @@ variable "oidc_provider" {
   type        = string
   default     = ""
 }
+
+variable "enable_query_functions_across_all_metastores" {
+  default     = false
+  type        = bool
+  description = "See `queryFunctionsAcrossAllMetastores` in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md, overriding the WaggleDance default as we will get better performance"
+}
