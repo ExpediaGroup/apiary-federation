@@ -32,8 +32,9 @@ data "template_file" "server_yaml" {
   template = file("${path.module}/templates/waggle-dance-server.yml.tmpl")
 
   vars = {
-    graphite          = join("", data.template_file.graphite_server_yaml.*.rendered)
-    exposed_endpoints = data.template_file.endpoints_server_yaml.rendered
+    queryFunctionsAcrossAllMetastores = var.queryFunctionsAcrossAllMetastores
+    graphite                          = join("", data.template_file.graphite_server_yaml.*.rendered)
+    exposed_endpoints                 = data.template_file.endpoints_server_yaml.rendered
   }
 }
 
