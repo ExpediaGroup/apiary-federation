@@ -16,8 +16,8 @@ locals {
 resource "kubernetes_service_account" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
-    name        = local.instance_alias
-    namespace   = var.k8s_namespace
+    name      = local.instance_alias
+    namespace = var.k8s_namespace
     annotations = {
       "eks.amazonaws.com/role-arn" = var.oidc_provider == "" ? "" : aws_iam_role.waggle_dance_k8s_role_iam[0].arn
     }
@@ -149,8 +149,9 @@ resource "kubernetes_service" "waggle_dance" {
     name      = local.instance_alias
     namespace = var.k8s_namespace
     annotations = {
-      "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
-      "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+      "service.beta.kubernetes.io/aws-load-balancer-type"            = "external"
+      "service.beta.kubernetes.io/aws-load-balancer-nlb-target-type" = "ip"
+      "service.beta.kubernetes.io/aws-load-balancer-scheme"          = "internal"
     }
   }
   spec {
