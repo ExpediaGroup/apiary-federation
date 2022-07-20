@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.0.1] - 2022-07-20
+### Changed
+- Add waggle-dance load balancer output when using ECS and autoscaling.
+
 ## [4.0.0] - 2022-05-23
 ### Added
 - Variable `enable_query_functions_across_all_metastores` for disabling potential slow and cross metastore function lookup. Disabled by default which break backward compatibility. See README for more info on this variable.
