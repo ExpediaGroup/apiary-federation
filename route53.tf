@@ -11,6 +11,10 @@ resource "aws_route53_zone" "waggledance" {
   vpc {
     vpc_id = var.vpc_id
   }
+  
+  lifecycle {
+    ignore_changes = [vpc]
+  }
 }
 
 resource "aws_route53_record" "metastore_proxy" {
@@ -21,4 +25,12 @@ resource "aws_route53_record" "metastore_proxy" {
   type    = "CNAME"
   ttl     = "300"
   records = var.wd_instance_type == "k8s" ? kubernetes_service.waggle_dance[0].load_balancer_ingress.*.hostname : [aws_lb.waggledance[0].dns_name]
+}
+
+resource "aws_route53_zone_association" "waggledance_secondary_vpc" {
+  count      = var.enable_autoscaling ? length(var.secondary_vpcs) : 0
+  
+  zone_id    = aws_route53_zone.waggledance[0].id
+  vpc_id     = var.secondary_vpcs[count.index]
+  vpc_region = var.aws_region
 }
