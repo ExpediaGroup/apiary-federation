@@ -11,6 +11,10 @@ resource "aws_route53_zone" "waggledance" {
   vpc {
     vpc_id = var.vpc_id
   }
+  
+  lifecycle {
+    ignore_changes = [vpc]
+  }
 }
 
 resource "aws_route53_record" "metastore_proxy" {
