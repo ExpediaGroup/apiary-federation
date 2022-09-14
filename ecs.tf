@@ -96,6 +96,8 @@ resource "aws_lb" "waggledance" {
   load_balancer_type = "network"
   subnets            = var.subnets
 
+  enable_cross_zone_load_balancing = true
+
   tags = var.tags
 }
 
