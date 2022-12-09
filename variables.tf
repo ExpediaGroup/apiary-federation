@@ -329,3 +329,9 @@ variable "enable_query_functions_across_all_metastores" {
   type        = bool
   description = "See `queryFunctionsAcrossAllMetastores` in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md, overriding the WaggleDance default as we will get better performance"
 }
+
+variable "primary_metastore_access_type" {
+  description = "Primary metastore access control type."
+  type        = string
+  default     = "READ_AND_WRITE_ON_DATABASE_WHITELIST"
+}

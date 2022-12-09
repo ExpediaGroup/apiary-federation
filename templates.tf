@@ -158,6 +158,7 @@ data "template_file" "federation_yaml" {
     primary_metastore_glue_endpoint    = var.primary_metastore_glue_endpoint
     primary_metastore_whitelist        = join("", data.template_file.primary_metastore_whitelist.*.rendered)
     primary_metastore_mapped_databases = join("", data.template_file.primary_metastore_mapped_databases.*.rendered)
+    primary_metastore_access_type      = var.primary_metastore_access_type
     local_metastores                   = join("", data.template_file.local_metastores_yaml.*.rendered)
     remote_metastores                  = join("", data.template_file.remote_metastores_yaml.*.rendered)
     remote_region_metastores           = join("", data.template_file.remote_region_metastores_yaml.*.rendered)

@@ -1,5 +1,5 @@
 primary-meta-store:
-  access-control-type: READ_AND_WRITE_ON_DATABASE_WHITELIST
+  access-control-type: ${primary_metastore_access_type}
   database-prefix: ''
   name: primary
 %{if primary_metastore_glue_account_id != "" ~}
