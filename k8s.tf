@@ -104,7 +104,7 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
           }
           liveness_probe {
             http_get {
-              path = "/actuator/health/liveness"
+              path = "/actuator/health"
               port = local.actuator_port
             }
             initial_delay_seconds = 60
