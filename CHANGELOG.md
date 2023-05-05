@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [4.0.6] - 2023-05-05
 ### Changed
 - Changed kubernetes deployment to support eks version 1.22+.
+- Fix kubernetes service attribute refereing with v2.x.
 
 ## [4.0.5] - 2022-12-09
 ### Added
