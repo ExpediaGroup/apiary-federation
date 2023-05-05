@@ -25,7 +25,7 @@ resource "kubernetes_service_account" "waggle_dance" {
   automount_service_account_token = true
 }
 
-resource "kubernetes_deployment" "waggle_dance" {
+resource "kubernetes_deployment_v1" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = local.instance_alias
@@ -93,18 +93,18 @@ resource "kubernetes_deployment" "waggle_dance" {
             value = "true"
           }
           resources {
-            limits {
+            limits   = {
               cpu    = local.k8s_cpu_limit
               memory = "${local.memory_limit}Mi"
             }
-            requests {
+            requests = {
               cpu    = local.k8s_cpu
               memory = "${var.memory}Mi"
             }
           }
           liveness_probe {
             http_get {
-              path = "/actuator/health"
+              path = "/actuator/health/liveness"
               port = local.actuator_port
             }
             initial_delay_seconds = 60
@@ -138,7 +138,7 @@ resource "kubernetes_horizontal_pod_autoscaler" "waggle_dance" {
     scale_target_ref {
       api_version = "apps/v1"
       kind        = "Deployment"
-      name        = kubernetes_deployment.waggle_dance[0].metadata[0].name
+      name        = kubernetes_deployment_v1.waggle_dance[0].metadata[0].name
     }
   }
 }
