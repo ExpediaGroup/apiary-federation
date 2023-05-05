@@ -138,7 +138,7 @@ resource "kubernetes_horizontal_pod_autoscaler" "waggle_dance" {
     scale_target_ref {
       api_version = "apps/v1"
       kind        = "Deployment"
-      name        = kubernetes_deployment.waggle_dance[0].metadata[0].name
+      name        = kubernetes_deployment_v1.waggle_dance[0].metadata[0].name
     }
   }
 }
