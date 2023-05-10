@@ -49,6 +49,9 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
           name = local.instance_alias
         }
         annotations = {
+          "ad.datadoghq.com/waggledance.check_names": "[\"openmetrics\"]"
+          "ad.datadoghq.com/waggledance.init_configs": "[{}]"
+          "ad.datadoghq.com/waggledance.instances": "[{ \"prometheus_url\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance\", \"metrics\": [ \"counter*\" ], \"send_histograms_buckets\": true,\"send_monotonic_counter\": true,\"send_distribution_buckets\": true,\"send_distribution_counts_as_monotonic\": true }]"
           "prometheus.io/scrape" : var.prometheus_enabled
           "prometheus.io/port" : local.actuator_port
           "prometheus.io/path" : "/actuator/prometheus"
