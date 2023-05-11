@@ -112,7 +112,7 @@ resource "aws_lb_target_group" "waggledance" {
   health_check {
     protocol = "HTTP"
     port     = 18000
-    path     = "/actuator/health"
+    path     = "/actuator/health/liveness"
   }
 
   lifecycle {
