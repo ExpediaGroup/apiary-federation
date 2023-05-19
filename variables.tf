@@ -335,3 +335,12 @@ variable "primary_metastore_access_type" {
   type        = string
   default     = "READ_AND_WRITE_ON_DATABASE_WHITELIST"
 }
+
+variable "datadog_metrics_waggledance" {
+  description = "WaggleDance metrics to be sent to Datadog."
+  type        = list(string)
+  default = [
+    "metastore_status_total*",
+    "counter_com_hotels_bdp_waggledance_server*"
+  ]
+}

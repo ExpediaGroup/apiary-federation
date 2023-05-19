@@ -3,9 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.0.8] - 2023-05-18
+## [4.1.0] - 2023-05-19
 ### Added
-- Added the annotations to push prometheus metrics to Datadog UI.
+- Added the annotations to push waggle dance metrics to Datadog UI.
 
 ## [4.0.7] - 2023-05-12
 ### Changed
