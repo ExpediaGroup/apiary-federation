@@ -344,3 +344,15 @@ variable "datadog_metrics_waggledance" {
     "counter_com_hotels_bdp_waggledance_server*"
   ]
 }
+
+variable "metrics_port" {
+  description = "Port in which metrics will be send for Datadog"
+  type        = string
+  default     = "18000"
+}
+
+variable "datadog_metrics_enabled" {
+  description = "Enable Datadog metrics for HMS"
+  type        = bool
+  default     = false
+}
