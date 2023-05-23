@@ -345,7 +345,7 @@ variable "datadog_metrics_waggledance" {
   ]
 }
 
-variable "metrics_port" {
+variable "datadog_metrics_port" {
   description = "Port in which metrics will be send for Datadog"
   type        = string
   default     = "18000"
