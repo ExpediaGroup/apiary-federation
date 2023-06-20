@@ -341,7 +341,10 @@ variable "datadog_metrics_waggledance" {
   type        = list(string)
   default = [
     "metastore_status_total*",
-    "counter_com_hotels_bdp_waggledance_server*"
+    "counter_com_hotels_bdp_waggledance_server*",
+    "jvm_*",
+    "system_*",
+    "timer_*"
   ]
 }
 
