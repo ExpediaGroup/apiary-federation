@@ -19,7 +19,7 @@ variable "wd_instance_type" {
 variable "waggledance_version" {
   description = "Waggle Dance version to install on EC2 nodes."
   type        = string
-  default     = "3.3.2"
+  default     = "3.11.4"
 }
 
 variable "wd_log_level" {
