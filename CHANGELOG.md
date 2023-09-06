@@ -3,9 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.1.2] - 2023-09-06
+### Added
+- Metrics have been incorporated into Waggle Dance with the inclusion of tags, which will facilitate filtering within Datadog.
+
 ## [4.1.1] - 2023-06-20
 ### Added
-- Added JVM, System and Timer metrics in WaggleDance Dadadog annotations.
+- Added JVM, System and Timer metrics in WaggleDance Datadog annotations.
 
 ## [4.1.0] - 2023-05-23
 ### Added
