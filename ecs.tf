@@ -113,6 +113,8 @@ resource "aws_lb_target_group" "waggledance" {
     protocol = "HTTP"
     port     = 18000
     path     = "/actuator/health/liveness"
+    interval = 30
+    timeout  = 10
   }
 
   lifecycle {
