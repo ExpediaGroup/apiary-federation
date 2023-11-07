@@ -29,7 +29,7 @@
 	  },
 	  {
 		"name": "INVOCATIONLOGLEVEL",
-		"value": "${invocationloglevel}"
+		"value": "debug"
 	  },
 	  {
 		"name": "SERVER_YAML",
