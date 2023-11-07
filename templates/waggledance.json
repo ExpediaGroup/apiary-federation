@@ -54,9 +54,9 @@
 	],
 	"healthCheck": {
 	  "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health/liveness || exit 1"],
-	  "interval": 5,
+	  "interval": 30,
 	  "retries": 3,
-	  "startPeriod": 60,
+	  "startPeriod": 120,
 	  "timeout": 5
 	},
 	"ulimits": [
