@@ -25,11 +25,11 @@
 	  },
 	  {
 		"name": "LOGLEVEL",
-		"value": "debug"
+		"value": "${loglevel}"
 	  },
 	  {
 		"name": "INVOCATIONLOGLEVEL",
-		"value": "debug"
+		"value": "${invocationloglevel}"
 	  },
 	  {
 		"name": "SERVER_YAML",
@@ -54,7 +54,7 @@
 	],
 	"healthCheck": {
 	  "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
-	  "interval": 30,
+	  "interval": 5,
 	  "retries": 3,
 	  "startPeriod": 60,
 	  "timeout": 5
