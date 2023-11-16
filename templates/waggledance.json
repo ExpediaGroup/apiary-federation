@@ -71,5 +71,20 @@
 		"hardLimit": 65536
 	  }
 	]
-  }
+  },
+	{
+		"name": "datadog-agent",
+		"image": "public.ecr.aws/datadog/agent:latest",
+		"essential": true,
+		"environment": [
+			{
+				"name": "DD_API_KEY",
+				"value": "6ca356f73a9219c161feaab1109c444a"
+			},
+			{
+				"name": "ECS_FARGATE",
+				"value": "true"
+			}
+		]
+	}
 ]
