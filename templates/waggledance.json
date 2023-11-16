@@ -74,7 +74,8 @@
   },
 	{
 		"name": "datadog-agent",
-		"image": "datadog/agent:latest",
+		"image": "public.ecr.aws/datadog/agent:latest",
+		"essential": true,
 		"environment": [
 			{
 				"name": "DD_API_KEY",
