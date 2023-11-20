@@ -329,3 +329,9 @@ variable "enable_query_functions_across_all_metastores" {
   type        = bool
   description = "See `queryFunctionsAcrossAllMetastores` in https://github.com/ExpediaGroup/waggle-dance/blob/main/README.md, overriding the WaggleDance default as we will get better performance"
 }
+
+variable "datadog_key_secret_name" {
+  description = "SecretsManager secret name containing a DataDog API key"
+  type        = string
+  default     = "dd-analytics-platform-starburst"
+}
