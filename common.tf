@@ -61,9 +61,9 @@ output "datadog_key" {
   value = data.aws_secretsmanager_secret.datadog_key.id
 }
 
-output "datadog_api_key" {
+/*output "datadog_api_key" {
   value = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).api_key
-}
+}*/
 
 /*output "datadog_app_key" {
   value = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).app_key
