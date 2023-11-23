@@ -12,14 +12,10 @@ terraform {
       version               = ">= 2.7.0"
       configuration_aliases = [aws.remote]
     }
-  }
-}
-
-terraform {
-  required_providers {
     datadog = {
       source = "DataDog/datadog"
       version = "3.25.0"
     }
   }
 }
+
