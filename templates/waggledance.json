@@ -87,7 +87,7 @@
 		"environment": [
 			{
 				"name": "DD_API_KEY",
-				"value": "${jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).api_key}"
+				"value": ""
 			},
 			{
 				"name": "ECS_FARGATE",
