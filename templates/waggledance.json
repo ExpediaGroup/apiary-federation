@@ -75,7 +75,11 @@
           {
                 "namespace": "net.ipv4.tcp_keepalive_time", 
                 "value": "300"
+          },
+          {
+                "namespace": "net.ipv4.tcp_keepalive_probes",
+                "value": "2"
           }
-       ]
+        ] 
   }
 ]
