@@ -70,6 +70,12 @@
 		"softLimit": 65536,
 		"hardLimit": 65536
 	  }
-	]
+	],
+        "systemControls": [
+          {
+                "namespace": "net.ipv4.tcp_keepalive_time", 
+                "value": "300"
+          }
+       ]
   }
 ]
