@@ -77,7 +77,7 @@
                 "value": "200"
           },
           {
-                "namespacer": "tcp_keepalive_intvl",
+                "namespace": "net.ipv4.tcp_keepalive_intvl",
                 "value": "30"
           },
           {
