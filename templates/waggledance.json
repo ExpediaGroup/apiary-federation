@@ -74,7 +74,11 @@
         "systemControls": [
           {
                 "namespace": "net.ipv4.tcp_keepalive_time", 
-                "value": "300"
+                "value": "200"
+          },
+          {
+                "namespacer": "tcp_keepalive_intvl",
+                "value": "30"
           },
           {
                 "namespace": "net.ipv4.tcp_keepalive_probes",
