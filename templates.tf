@@ -183,5 +183,8 @@ data "template_file" "waggledance" {
     hive_site_xml       = var.alluxio_endpoints == [] ? "" : base64encode(data.template_file.hive_site_xml.rendered)
     bastion_ssh_key_arn = var.bastion_ssh_key_secret_name == "" ? "" : join("", data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)
     docker_auth         = var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))
+    tcp_keepalive_time  = var.tcp_keepalive_time
+    tcp_keepalive_intvl = var.tcp_keepalive_intvl
+    tcp_keepalive_probes = var.tcp_keepalive_probes
   }
 }
