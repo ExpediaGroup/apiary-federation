@@ -359,3 +359,21 @@ variable "datadog_metrics_enabled" {
   type        = bool
   default     = false
 }
+
+variable "tcp_keepalive_time" {
+  description = "Sets net.ipv4.tcp_keepalive_time (seconds), currently only supported in ECS."
+  type        = number
+  default     = 200
+}
+
+variable "tcp_keepalive_intvl" {
+  description = "Sets net.ipv4.tcp_keepalive_intvl (seconds), currently only supported in ECS."
+  type        = number
+  default     = 30
+}
+
+variable "tcp_keepalive_probes" {
+  description = "Sets net.ipv4.tcp_keepalive_probes (number), currently only supported in ECS."
+  type        = number
+  default     = 2
+}
