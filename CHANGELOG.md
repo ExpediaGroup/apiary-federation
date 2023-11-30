@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.1.5] - 2023-11-30
+### Fixed
+- Issue in where request can hit 10min connection timeout, TCP keepalive prevents NLB closing idle connections.
+
 ## [4.1.4] - 2023-11-08
 ### Fixed
 - Added tags to ECS service and tasks.
