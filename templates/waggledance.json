@@ -13,9 +13,21 @@
 	  }
 	},
 	"docker_labels": {
-		"com.datadoghq.waggledance.instances": [{ "prometheus_url": "http://%%host%%:18000/actuator/prometheus", "namespace": "waggledance", "metrics": ["metastore_status_total*","counter_com_hotels_bdp_waggledance_server*","jvm_*","system_*","timer_*"] }],
-		"com.datadoghq.waggledance.check_names": "[\"openmetrics\"]",
-		"com.datadoghq.waggledance.init_configs": "[{}]"
+	"com.datadoghq.waggledance.instances": [
+		{
+			"prometheus_url": "http://%%host%%:18000/actuator/prometheus",
+			"namespace": "waggledance",
+			"metrics": [
+				"metastore_status_total*",
+				"counter_com_hotels_bdp_waggledance_server*",
+				"jvm_*",
+				"system_*",
+				"timer_*"
+			]
+		}
+	],
+	"com.datadoghq.waggledance.check_names": ["openmetrics"],
+	"com.datadoghq.waggledance.init_configs": [{}]
 	},
 	"portMappings": [
 	  {
