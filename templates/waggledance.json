@@ -13,12 +13,12 @@
 		}
 	},
 	"dockerLabels": {
-		"tags.datadoghq.com/waggledance.env": "dev",
-		"tags.datadoghq.com/waggledance.service": "my-waggledance",
-		"tags.datadoghq.com/waggledance.version": "0.0.7",
-		"ad.datadoghq.com/waggledance.instances": "[{\"host\":\"%%host%%\", \"port\":\"18000\"}]",
-		"ad.datadoghq.com/waggledance.check_names": "[\"openmetrics\"]",
-		"ad.datadoghq.com/waggledance.init_configs": "[{}]"
+		"com.datadoghq.tags.env": "dev",
+		"com.datadoghq.tags.service": "my-waggledance",
+		"com.datadoghq.tags.version": "0.0.7",
+		"com.datadoghq.ad.instances": "[{\"host\":\"%%host%%\", \"port\":\"18000\"}]",
+		"com.datadoghq.ad.check_names": "[\"openmetrics\"]",
+		"com.datadoghq.ad.init_configs": "[{}]"
 	},
 	"portMappings": [
 	{
