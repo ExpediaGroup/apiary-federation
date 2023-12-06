@@ -13,11 +13,9 @@
 		}
 	},
 	"dockerLabels": {
-		"annotations": {
 			"ad.datadoghq.com/waggledance.instances": "[{\"host\":\"%%host%%\", \"port\":\"18000\"}]",
 			"ad.datadoghq.com/waggledance.check_names": "[\"openmetrics\"]",
 			"ad.datadoghq.com/waggledance.init_configs": "[{}]"
-		}
 	},
 	"portMappings": [
 	{
