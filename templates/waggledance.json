@@ -13,9 +13,9 @@
 		}
 	},
 	"dockerLabels": {
-		"com.datadoghq.ad.instances": "[{\"host\":\"%%host%%\", \"port\":\"18000\", \"openmetrics_endpoint\":\"http://%%host%%:18000/actuator/prometheus\"}]",
-		"com.datadoghq.ad.check_names": "[\"waggledance\"]",
-		"com.datadoghq.ad.init_configs": "[{\"is_jmx\": true, \"collect_default_metrics\": true}]"
+		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"abdhruv\", \"metrics\": [\"metastore_status_total*\",\"counter_com_hotels_bdp_waggledance_server*\",\"jvm_*\",\"system_*\",\"timer_*\"]}]",
+		"com.datadoghq.ad.check_names": "[\"openmetrics\"]",
+		"com.datadoghq.ad.init_configs": "[{}]"
 	},
 	"portMappings": [
 	{
