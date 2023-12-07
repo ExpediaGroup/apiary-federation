@@ -125,6 +125,11 @@
 			"startPeriod": 60,
 			"timeout": 5
 		}
-	}
+	},
+	"requiresCompatibilities": [
+		"FARGATE"
+	],
+	"cpu": "256",
+	"memory": "512"
 ]
 
