@@ -1,5 +1,4 @@
 [
-	"containerDefinitions": [
 	{
 		"name": "waggledance",
 		"image": "${docker_image}:${docker_version}",
@@ -127,5 +126,5 @@
 			"timeout": 5
 		}
 	}
- ]
 ]
+
