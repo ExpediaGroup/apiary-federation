@@ -15,7 +15,7 @@
 	"dockerLabels": {
 		"com.datadoghq.ad.instances": "[{\"host\":\"%%host%%\", \"port\":\"18000\"}]",
 		"com.datadoghq.ad.check_names": "[\"waggledance\"]",
-		"com.datadoghq.ad.init_configs": "[{\"is_jmx\": true, \"collect_default_metrics\": true, \"service\":\"omp-tracking-tool-loader\"}]"
+		"com.datadoghq.ad.init_configs": "[{\"is_jmx\": true, \"collect_default_metrics\": true}]"
 	},
 	"portMappings": [
 	{
