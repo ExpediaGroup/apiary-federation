@@ -13,12 +13,9 @@
 		}
 	},
 	"dockerLabels": {
-		"com.datadoghq.tags.env": "dev",
-		"com.datadoghq.tags.service": "my-waggledance",
-		"com.datadoghq.tags.version": "0.0.7",
 		"com.datadoghq.ad.instances": "[{\"host\":\"%%host%%\", \"port\":\"18000\"}]",
 		"com.datadoghq.ad.check_names": "[\"waggledance\"]",
-		"com.datadoghq.ad.init_configs": "[{}]"
+		"com.datadoghq.ad.init_configs": "[{\"is_jmx\": true, \"collect_default_metrics\": true, \"service\":\"omp-tracking-tool-loader\"}]"
 	},
 	"portMappings": [
 	{
