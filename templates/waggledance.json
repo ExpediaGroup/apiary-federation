@@ -13,7 +13,7 @@
 		}
 	},
 	"dockerLabels": {
-		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"abdhruv\", \"metrics\": [\"metastore_*\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"] }]",
+		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance\", \"metrics\": [\"metastore_status\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"] }]",
 		"com.datadoghq.ad.check_names": "[\"openmetrics\"]",
 		"com.datadoghq.ad.init_configs": "[{}]"
 	},
@@ -95,7 +95,7 @@
 	},
 	{
 		"name": "datadog-agent",
-		"image": "public.ecr.aws/datadog/agent:latest",
+		"image": "public.ecr.aws/datadog/agent:3.25.0",
 		"essential": true,
 		"logConfiguration": {
 			"logDriver": "awslogs",
