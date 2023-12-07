@@ -13,7 +13,7 @@
 		}
 	},
 	"dockerLabels": {
-		"com.datadoghq.ad.instances": "[{\"host\":\"%%host%%\", \"port\":\"18000\"}]",
+		"com.datadoghq.ad.instances": "[{\"host\":\"%%host%%\", \"port\":\"18000\", \"openmetrics_endpoint\":\"http://%%host%%:18000/actuator/prometheus\"}]",
 		"com.datadoghq.ad.check_names": "[\"waggledance\"]",
 		"com.datadoghq.ad.init_configs": "[{\"is_jmx\": true, \"collect_default_metrics\": true}]"
 	},
