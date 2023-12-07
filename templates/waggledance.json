@@ -69,7 +69,11 @@
 	},
 	{
 		"name": "DD_VERSION",
-		"value": "0.0.7"
+		"value": "3.25.0"
+	},
+	{
+		"name":	"DD_USE_DOGSTATSD",
+		"value": "true"
 	}
 ],
 	"healthCheck": {
