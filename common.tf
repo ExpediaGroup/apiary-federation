@@ -62,3 +62,20 @@ provider "datadog" {
   app_key  = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).app_key
 }
 
+data "aws_caller_identity" "current" {}
+
+output "account_id" {
+  value = data.aws_caller_identity.current.account_id
+}
+
+data "aws_iam_account_alias" "current" {}
+
+output "account_alias" {
+  value = data.aws_iam_account_alias.current.account_alias
+}
+
+data "aws_region" "current" {}
+
+output "current_region" {
+  value = data.aws_region.current.name
+}

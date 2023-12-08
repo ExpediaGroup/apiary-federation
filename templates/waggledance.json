@@ -13,10 +13,7 @@
 		}
 	},
 	"dockerLabels": {
-		"tags.datadoghq.com/env": "dhruvdev",
-		"tags.datadoghq.com/service": "my-waggledance",
-		"tags.datadoghq.com/version": "0.0.7",
-		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance_legacy\", \"metrics\": [\"metastore_status\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": [\"app:ws\"] }]",
+		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance_legacy\", \"metrics\": [\"metastore_status\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": [\"awsaccountname:ws\"] }]",
 		"com.datadoghq.ad.check_names": "[\"openmetrics\"]",
 		"com.datadoghq.ad.init_configs": "[{}]"
 	},
