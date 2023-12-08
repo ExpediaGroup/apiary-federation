@@ -115,9 +115,6 @@
 				"value": "true"
 			}
 		],
-		"requiresCompatibilities": [
-			"FARGATE"
-		],
 		"healthCheck": {
 			"command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
 			"interval": 5,
