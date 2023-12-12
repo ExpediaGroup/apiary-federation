@@ -3,6 +3,47 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.1.5] - 2023-11-30
+### Fixed
+- Issue where requests can hit 10min connection timeout, TCP keepalive prevents NLB closing idle connections. Similar to the issue explained here: https://paramount.tech/blog/2021/07/26/mitigation-of-connection-reset-in-aws.html
+
+## [4.1.4] - 2023-11-08
+### Fixed
+- Added tags to ECS service and tasks.
+
+## [4.1.3] - 2023-11-08
+### Fixed
+- ECS healtcheck endpoints, switched back to `/actuator/health`
+
+## [4.1.2] - 2023-09-06
+### Added
+- Metrics have been incorporated into Waggle Dance with the inclusion of tags, which will facilitate filtering within Datadog.
+
+## [4.1.1] - 2023-06-20
+### Added
+- Added JVM, System and Timer metrics in WaggleDance Datadog annotations.
+
+## [4.1.0] - 2023-05-23
+### Added
+- Added the annotations to push waggle dance metrics to Datadog UI.
+
+## [4.0.7] - 2023-05-12
+### Changed
+- Changed `/actuator/health` to `/actuator/health/liveness` due to WD spring boot upgrade. 
+
+## [4.0.6] - 2023-05-05
+### Changed
+- Changed kubernetes deployment to support eks version 1.22+.
+- Fix kubernetes service attribute refereing with v2.x.
+
+## [4.0.5] - 2022-12-09
+### Added
+- Variable `primary_metastore_access_type` for enabling customized primary hive metastore access control type. See README for more info on this variable.
+
+## [4.0.4] - 2022-09-14
+### Changed
+- Enable cross zone load balancing so that usage is spread evenly.
+
 ## [4.0.3] - 2022-09-01
 ### Changed
 - Preserve ip in ECS LB to enforce security group rules.

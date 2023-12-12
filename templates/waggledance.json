@@ -72,14 +72,14 @@
 		"name":	"DD_USE_DOGSTATSD",
 		"value": "true"
 	}
-],
+	],
 	"healthCheck": {
 	"command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
 	"interval": 5,
 	"retries": 3,
 	"startPeriod": 60,
 	"timeout": 5
-},
+	},
 	"ulimits": [
 	{
 		"name": "nofile",
@@ -91,8 +91,23 @@
 		"softLimit": 65536,
 		"hardLimit": 65536
 	}
-]
-	},
+	],
+	"systemControls": [
+		{
+			"namespace": "net.ipv4.tcp_keepalive_time",
+			"value": "${tcp_keepalive_time}"
+		},
+		{
+			"namespace": "net.ipv4.tcp_keepalive_intvl",
+			"value": "${tcp_keepalive_intvl}"
+		},
+		{
+			"namespace": "net.ipv4.tcp_keepalive_probes",
+			"value": "${tcp_keepalive_probes}"
+		}
+	]
+},
+
 	{
 		"name": "datadog-agent",
 		"image": "public.ecr.aws/datadog/agent:latest",

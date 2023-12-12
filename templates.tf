@@ -158,6 +158,7 @@ data "template_file" "federation_yaml" {
     primary_metastore_glue_endpoint    = var.primary_metastore_glue_endpoint
     primary_metastore_whitelist        = join("", data.template_file.primary_metastore_whitelist.*.rendered)
     primary_metastore_mapped_databases = join("", data.template_file.primary_metastore_mapped_databases.*.rendered)
+    primary_metastore_access_type      = var.primary_metastore_access_type
     local_metastores                   = join("", data.template_file.local_metastores_yaml.*.rendered)
     remote_metastores                  = join("", data.template_file.remote_metastores_yaml.*.rendered)
     remote_region_metastores           = join("", data.template_file.remote_region_metastores_yaml.*.rendered)
@@ -183,5 +184,8 @@ data "template_file" "waggledance" {
     bastion_ssh_key_arn = var.bastion_ssh_key_secret_name == "" ? "" : join("", data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)
     docker_auth         = var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))
     datadog_secret_key  = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).api_key
+    tcp_keepalive_time  = var.tcp_keepalive_time
+    tcp_keepalive_intvl = var.tcp_keepalive_intvl
+    tcp_keepalive_probes = var.tcp_keepalive_probes
   }
 }

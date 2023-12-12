@@ -19,7 +19,7 @@ variable "wd_instance_type" {
 variable "waggledance_version" {
   description = "Waggle Dance version to install on EC2 nodes."
   type        = string
-  default     = "3.3.2"
+  default     = "3.11.4"
 }
 
 variable "wd_log_level" {
@@ -334,4 +334,52 @@ variable "datadog_key_secret_name" {
   description = "SecretsManager secret name containing a DataDog API key"
   type        = string
   default     = "dd-analytics-platform-starburst"
+}
+
+variable "primary_metastore_access_type" {
+  description = "Primary metastore access control type."
+  type        = string
+  default     = "READ_AND_WRITE_ON_DATABASE_WHITELIST"
+}
+
+variable "datadog_metrics_waggledance" {
+  description = "WaggleDance metrics to be sent to Datadog."
+  type        = list(string)
+  default = [
+    "metastore_status_total*",
+    "counter_com_hotels_bdp_waggledance_server*",
+    "jvm_*",
+    "system_*",
+    "timer_*"
+  ]
+}
+
+variable "datadog_metrics_port" {
+  description = "Port in which metrics will be send for Datadog"
+  type        = string
+  default     = "18000"
+}
+
+variable "datadog_metrics_enabled" {
+  description = "Enable Datadog metrics for HMS"
+  type        = bool
+  default     = false
+}
+
+variable "tcp_keepalive_time" {
+  description = "Sets net.ipv4.tcp_keepalive_time (seconds), currently only supported in ECS."
+  type        = number
+  default     = 200
+}
+
+variable "tcp_keepalive_intvl" {
+  description = "Sets net.ipv4.tcp_keepalive_intvl (seconds), currently only supported in ECS."
+  type        = number
+  default     = 30
+}
+
+variable "tcp_keepalive_probes" {
+  description = "Sets net.ipv4.tcp_keepalive_probes (number), currently only supported in ECS."
+  type        = number
+  default     = 2
 }

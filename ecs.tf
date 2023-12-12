@@ -18,6 +18,9 @@ resource "aws_ecs_service" "waggledance_service" {
   task_definition = aws_ecs_task_definition.waggledance[0].arn
   desired_count   = var.wd_ecs_task_count
 
+  propagate_tags  = "SERVICE"
+  tags            = var.tags
+
   network_configuration {
     security_groups = [aws_security_group.wd_sg.id]
     subnets         = var.subnets
@@ -95,6 +98,8 @@ resource "aws_lb" "waggledance" {
   internal           = true
   load_balancer_type = "network"
   subnets            = var.subnets
+
+  enable_cross_zone_load_balancing = true
 
   tags = var.tags
 }
