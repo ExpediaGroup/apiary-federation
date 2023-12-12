@@ -295,7 +295,7 @@ variable "docker_registry_auth_secret_name" {
 
 variable "prometheus_enabled" {
   description = "Enable to expose the Prometheus endpoint. Also enables Prometheus metrics scraping from k8s pods - true or false."
-  default     = false
+  default     = true
   type        = bool
 }
 
@@ -376,4 +376,10 @@ variable "tcp_keepalive_probes" {
   description = "Sets net.ipv4.tcp_keepalive_probes (number), currently only supported in ECS."
   type        = number
   default     = 2
+}
+
+variable "datadog_key_secret_name" {
+  description = "SecretsManager secret name containing a DataDog API key"
+  type        = string
+  default     = "dd-analytics-platform-starburst"
 }
