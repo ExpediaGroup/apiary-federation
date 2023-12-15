@@ -186,5 +186,6 @@ data "template_file" "waggledance" {
     tcp_keepalive_time  = var.tcp_keepalive_time
     tcp_keepalive_intvl = var.tcp_keepalive_intvl
     tcp_keepalive_probes = var.tcp_keepalive_probes
+    datadog_secret_key = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).api_key
   }
 }

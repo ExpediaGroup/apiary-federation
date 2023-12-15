@@ -377,3 +377,9 @@ variable "tcp_keepalive_probes" {
   type        = number
   default     = 2
 }
+
+variable "datadog_key_secret_name" {
+  description = "SecretsManager secret name containing a DataDog API key"
+  type        = string
+  default     = ""
+}

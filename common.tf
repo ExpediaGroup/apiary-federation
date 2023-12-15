@@ -48,3 +48,16 @@ data "aws_iam_policy_document" "waggle_dance_glue_policy" {
     ]
   }
 }
+
+data "aws_secretsmanager_secret" "datadog_key" {
+  name  = var.datadog_key_secret_name
+}
+
+data "aws_secretsmanager_secret_version" "datadog_key" {
+  secret_id = data.aws_secretsmanager_secret.datadog_key.id
+}
+
+provider "datadog" {
+  api_key  = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).api_key
+  app_key  = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).app_key
+}
