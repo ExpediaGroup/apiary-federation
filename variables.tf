@@ -381,5 +381,5 @@ variable "tcp_keepalive_probes" {
 variable "datadog_key_secret_name" {
   description = "SecretsManager secret name containing a DataDog API key"
   type        = string
-  default     = ""
+  default     = "dd-analytics-platform-starburst"
 }
