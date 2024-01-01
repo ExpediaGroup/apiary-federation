@@ -13,7 +13,7 @@
 	  }
 	},
 	"dockerLabels": {
-	"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:${datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"waggledance_abc\", \"metrics\": [\"metastore_status\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": { \"region\":\"${region}\", \"instance_type\":\"${wd_instance_type}\"} }]",
+	"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:${datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"waggledance_abcd\", \"metrics\": [\"metastore_status\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": { \"region\":\"${region}\", \"instance_type\":\"${wd_instance_type}\"} }]",
 	"com.datadoghq.ad.check_names": "[\"openmetrics\"]",
 	"com.datadoghq.ad.init_configs": "[{}]"
 	},
@@ -56,18 +56,6 @@
 		"name": "LOG4J_FORMAT_MSG_NO_LOOKUPS",
 		"value": "true"
 	  },
-	{
-		"name": "DD_ENV",
-		"value": "dev"
-	},
-	{
-		"name": "DD_SERVICE",
-		"value": "waggledance"
-	},
-	{
-		"name": "DD_VERSION",
-		"value": "3.25.0"
-	},
 	{
 		"name": "DD_USE_DOGSTATSD",
 		"value": "true"
