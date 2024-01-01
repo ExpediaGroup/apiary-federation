@@ -189,6 +189,5 @@ data "template_file" "waggledance" {
     datadog_secret_key = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).api_key
     wd_instance_type = var.wd_instance_type
     datadog_metrics_port = var.datadog_metrics_port
-    datadog_metrics_waggledance = var.datadog_metrics_waggledance
   }
 }
