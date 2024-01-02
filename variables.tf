@@ -383,3 +383,9 @@ variable "datadog_key_secret_name" {
   type        = string
   default     = ""
 }
+
+variable "datadog_agent_version" {
+  description = "Enable Datadog metrics for HMS"
+  type        = string
+  default     = "7.46.0-jmx"
+}
