@@ -190,5 +190,6 @@ data "template_file" "waggledance" {
     wd_instance_type = var.wd_instance_type
     datadog_metrics_port = var.datadog_metrics_port
     datadog_agent_version = var.datadog_agent_version
+    include_datadog_agent = var.include_datadog_agent
   }
 }

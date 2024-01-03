@@ -389,3 +389,9 @@ variable "datadog_agent_version" {
   type        = string
   default     = "7.46.0-jmx"
 }
+
+variable "include_datadog_agent" {
+  description = "Whether to include the datadog-agent container"
+  type        = bool
+  default     = true
+}
