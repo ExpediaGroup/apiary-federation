@@ -53,12 +53,16 @@ resource "aws_ecs_task_definition" "waggledance" {
   cpu                      = var.cpu
   requires_compatibilities = ["EC2", "FARGATE"]
   #container_definitions    = data.template_file.waggledance.rendered
-  container_definitions = <<DEFINITION
-  [
-      ${data.template_file.waggledance.rendered},
-      ${var.include_datadog_agent ? data.template_file.datadog-agent.rendered : ""}
-  ]
-  DEFINITION
+  #container_definitions = <<DEFINITION
+  #[
+  #    ${data.template_file.waggledance.rendered},
+  #    ${var.include_datadog_agent ? data.template_file.datadog-agent.rendered : ""}
+  #]
+  #DEFINITION
+  container_definitions = jsonencode([
+    data.template_file.waggledance.rendered,
+    var.include_datadog_agent ? data.template_file.datadog-agent.rendered : null
+  ])
   tags                     = var.tags
 }
 
