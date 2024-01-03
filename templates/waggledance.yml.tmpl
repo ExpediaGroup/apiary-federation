@@ -1,0 +1,76 @@
+- name: waggledance
+  image: "${docker_image}:${docker_version}"
+  ${docker_auth}
+  essential: true
+  logConfiguration:
+    logDriver: awslogs
+    options:
+      awslogs-group: "${loggroup}"
+      awslogs-region: "${region}"
+      awslogs-stream-prefix: "/"
+  dockerLabels:
+    com.datadoghq.ad.instances: '[{"openmetrics_endpoint": "http://%%host%%:${datadog_metrics_port}/actuator/prometheus", "namespace": "waggledance", "metrics": ["metastore_status","counter_*","jvm_*","system_*","timer_*","http_*","process_*"], "tags": { "region":"${region}", "instance_type":"${wd_instance_type}"}}]'
+    com.datadoghq.ad.check_names: '["openmetrics"]'
+    com.datadoghq.ad.init_configs: '[{}]'
+  portMappings:
+    - containerPort: 48869
+      hostPort: 48869
+  environment:
+    - name: HEAPSIZE
+      value: "${heapsize}"
+    - name: LOGLEVEL
+      value: "${loglevel}"
+    - name: INVOCATIONLOGLEVEL
+      value: "${invocationloglevel}"
+    - name: SERVER_YAML
+      value: "${server_yaml}"
+    - name: FEDERATION_YAML
+      value: "${federation_yaml}"
+    - name: HIVE_SITE_XML
+      value: "${hive_site_xml}"
+    - name: BASTION_SSH_KEY_ARN
+      value: "${bastion_ssh_key_arn}"
+    - name: LOG4J_FORMAT_MSG_NO_LOOKUPS
+      value: "true"
+    - name: DD_USE_DOGSTATSD
+      value: "true"
+  healthCheck:
+    command: ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"]
+    interval: 5
+    retries: 3
+    startPeriod: 60
+    timeout: 5
+  ulimits:
+    - name: nofile
+      softLimit: 65536
+      hardLimit: 65536
+    - name: nproc
+      softLimit: 65536
+      hardLimit: 65536
+  systemControls:
+    - namespace: net.ipv4.tcp_keepalive_time
+      value: "${tcp_keepalive_time}"
+    - namespace: net.ipv4.tcp_keepalive_intvl
+      value: "${tcp_keepalive_intvl}"
+    - namespace: net.ipv4.tcp_keepalive_probes
+      value: "${tcp_keepalive_probes}"
+- name: datadog-agent
+  image: "public.ecr.aws/datadog/agent:${datadog_agent_version}"
+  essential: true
+  logConfiguration:
+    logDriver: awslogs
+    options:
+      awslogs-group: "${loggroup}"
+      awslogs-region: "${region}"
+      awslogs-stream-prefix: "/"
+  environment:
+    - name: DD_API_KEY
+      value: "${datadog_secret_key}"
+    - name: ECS_FARGATE
+      value: "true"
+  healthCheck:
+    command: ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"]
+    interval: 5
+    retries: 3
+    startPeriod: 60
+    timeout: 5
