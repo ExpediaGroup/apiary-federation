@@ -55,8 +55,8 @@ resource "aws_ecs_task_definition" "waggledance" {
   #container_definitions    = data.template_file.waggledance.rendered
   container_definitions = <<DEFINITION
   [
-      ${data.template_file.waggledance.rendered},
-      ${var.include_datadog_agent ? data.template_file.datadog-agent.rendered : null}
+      ${data.template_file.waggledance.rendered}
+      ${var.include_datadog_agent ? data.template_file.datadog-agent.rendered : ""}
   ]
   DEFINITION
   tags                     = var.tags

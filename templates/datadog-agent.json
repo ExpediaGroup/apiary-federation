@@ -1,3 +1,4 @@
+,
 {
   "name": "datadog-agent",
   "image": "public.ecr.aws/datadog/agent:${datadog_agent_version}",
