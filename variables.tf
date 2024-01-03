@@ -393,5 +393,5 @@ variable "datadog_agent_version" {
 variable "include_datadog_agent" {
   description = "Whether to include the datadog-agent container"
   type        = bool
-  default     = false
+  default     = true
 }
