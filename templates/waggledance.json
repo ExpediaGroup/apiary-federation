@@ -95,7 +95,7 @@
 	}
 ]
 	},
-	${include_datadog_agent ?
+	"${include_datadog_agent}" ?
 	{
 		"name": "datadog-agent",
 		"image": "public.ecr.aws/datadog/agent:${datadog_agent_version}",
@@ -129,5 +129,4 @@
 			"timeout": 5
 		}
 	} : null
-	}
 ]
