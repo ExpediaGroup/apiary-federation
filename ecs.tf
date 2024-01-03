@@ -59,12 +59,13 @@ resource "aws_ecs_task_definition" "waggledance" {
   #    ${var.include_datadog_agent ? data.template_file.datadog-agent.rendered : ""}
   #]
   #DEFINITION
-  container_definitions = jsonencode(
-    concat(
-      [data.template_file.waggledance.rendered],
-      var.include_datadog_agent ? [data.template_file.datadog-agent.rendered] : []
-    )
-  )
+  container_definitions = <<DEFINITION
+[
+  ${data.template_file.waggledance.rendered},
+  <span class="math-inline">\{var\.include\_datadog\_agent ? "," \: ""\}</span>{var.include_datadog_agent ? data.template_file.datadog-agent.rendered : ""}
+]
+DEFINITION
+
   tags                     = var.tags
 }
 
