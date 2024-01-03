@@ -22,7 +22,7 @@
     }
   ],
   "healthCheck": {
-    "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
+    "command": ["CMD-SHELL", "curl -f http://localhost:{metrics_port}/actuator/health || exit 1"],
     "interval": 5,
     "retries": 3,
     "startPeriod": 60,

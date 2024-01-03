@@ -187,7 +187,7 @@ data "template_file" "waggledance" {
     tcp_keepalive_intvl = var.tcp_keepalive_intvl
     tcp_keepalive_probes = var.tcp_keepalive_probes
     wd_instance_type = var.wd_instance_type
-    datadog_metrics_port = var.datadog_metrics_port
+    metrics_port = var.metrics_port
   }
 }
 
@@ -197,9 +197,9 @@ data "template_file" "datadog-agent" {
   vars = {
     region              = var.aws_region
     loggroup            = var.wd_instance_type == "ecs" ? join("", aws_cloudwatch_log_group.waggledance_ecs.*.name) : ""
-    datadog_secret_key = var.include_datadog_agent ? jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).api_key : null
+    datadog_secret_key = jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string).api_key
     wd_instance_type = var.wd_instance_type
-    datadog_metrics_port = var.datadog_metrics_port
+    metrics_port = var.metrics_port
     datadog_agent_version = var.datadog_agent_version
   }
 }
