@@ -55,8 +55,8 @@ data "aws_secretsmanager_secret" "datadog_key" {
 }
 
 data "aws_secretsmanager_secret_version" "datadog_key" {
-  count  = var.include_datadog_agent ? 1 : 0
-  secret_id = var.include_datadog_agent ? data.aws_secretsmanager_secret.datadog_key.id : null
+  count     = var.include_datadog_agent ? 1 : 0
+  secret_id = var.include_datadog_agent ? data.aws_secretsmanager_secret.datadog_key[count.index].id : null
 }
 
 provider "datadog" {
