@@ -385,13 +385,13 @@ variable "datadog_key_secret_name" {
 }
 
 variable "datadog_agent_version" {
-  description = "Enable Datadog metrics for HMS"
+  description = "Version of the Datadog Agent running in the ECS cluster"
   type        = string
   default     = "7.46.0-jmx"
 }
 
 variable "include_datadog_agent" {
-  description = "Whether to include the datadog-agent container"
+  description = "Whether to include the datadog-agent container alongside waggledance"
   type        = bool
-  default     = true
+  default     = false
 }
