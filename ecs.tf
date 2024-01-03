@@ -52,7 +52,6 @@ resource "aws_ecs_task_definition" "waggledance" {
   memory                   = var.memory
   cpu                      = var.cpu
   requires_compatibilities = ["EC2", "FARGATE"]
-  #container_definitions    = data.template_file.waggledance.rendered
   container_definitions = <<DEFINITION
   [
       ${data.template_file.waggledance.rendered}
