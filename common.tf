@@ -54,7 +54,7 @@ data "aws_secretsmanager_secret" "datadog_key" {
 }
 
 data "aws_secretsmanager_secret_version" "datadog_key" {
-  secret_id = data.aws_secretsmanager_secret.datadog_key[0].id
+  secret_id = data.aws_secretsmanager_secret.datadog_key.id
 }
 
 provider "datadog" {
