@@ -393,6 +393,6 @@ variable "datadog_agent_version" {
 variable "include_datadog_agent" {
   description = "Whether to include the datadog-agent container alongside waggledance. This is only applicable to ECS deployments."
   type        = bool
-  default     = false
+  default     = true
 }
 
