@@ -379,19 +379,19 @@ variable "tcp_keepalive_probes" {
 }
 
 variable "datadog_key_secret_name" {
-  description = "SecretsManager secret name containing a DataDog API key"
+  description = "Name of the secret containing the DataDog API key. This needs to be created manually in AWS secrets manager. This is only applicable to ECS deployments."
   type        = string
   default     = ""
 }
 
 variable "datadog_agent_version" {
-  description = "Version of the Datadog Agent running in the ECS cluster"
+  description = "Version of the Datadog Agent running in the ECS cluster. This is only applicable to ECS deployments."
   type        = string
   default     = "7.46.0-jmx"
 }
 
 variable "include_datadog_agent" {
-  description = "Whether to include the datadog-agent container alongside waggledance"
+  description = "Whether to include the datadog-agent container alongside waggledance. This is only applicable to ECS deployments."
   type        = bool
   default     = false
 }
