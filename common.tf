@@ -55,13 +55,11 @@ data "aws_secretsmanager_secret" "datadog_key" {
 }
 
 data "aws_secretsmanager_secret_version" "datadog_key" {
-  count = length(data.aws_secretsmanager_secret_version.datadog_key) > 0 ? 1 : 0
+  count = length(data.aws_secretsmanager_secret.datadog_key) > 0 ? 1 : 0
   secret_id = data.aws_secretsmanager_secret.datadog_key[0].id
 }
 
 provider "datadog" {
-  count = length(data.aws_secretsmanager_secret_version.datadog_key) > 0 ? 1 : 0
-
-  api_key  = jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string).api_key
-  app_key  = jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string).app_key
+  api_key  = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).api_key
+  app_key  = jsondecode(data.aws_secretsmanager_secret_version.datadog_key.secret_string).app_key
 }
