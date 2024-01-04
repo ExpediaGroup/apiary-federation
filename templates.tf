@@ -188,6 +188,8 @@ data "template_file" "waggledance" {
     tcp_keepalive_probes = var.tcp_keepalive_probes
     wd_instance_type = var.wd_instance_type
     metrics_port = var.metrics_port
+    datadog_agent_version = var.datadog_agent_version
+    include_datadog_agent = var.include_datadog_agent
   }
 }
 
