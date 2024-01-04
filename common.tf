@@ -64,7 +64,6 @@ locals {
 }
 
 provider "datadog" {
-  count = length(data.aws_secretsmanager_secret.datadog_key) > 0 ? 1 : 0
   api_key  = local.datadog_keys.api_key != null ? local.datadog_keys.api_key : ""
   app_key  = local.datadog_keys.app_key != null ? local.datadog_keys.app_key : ""
 }
