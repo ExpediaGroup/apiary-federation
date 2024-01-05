@@ -190,6 +190,7 @@ data "template_file" "waggledance" {
     metrics_port = var.metrics_port
     datadog_agent_version = var.datadog_agent_version
     include_datadog_agent = var.include_datadog_agent
+    dd_use_dogstatsd = var.dd_use_dogstatsd
   }
 }
 

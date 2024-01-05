@@ -54,11 +54,7 @@
 	  {
 		"name": "LOG4J_FORMAT_MSG_NO_LOOKUPS",
 		"value": "true"
-	  },
-	{
-		"name": "DD_USE_DOGSTATSD",
-		"value": "true"
-	}
+	  }
 	],
 	"healthCheck": {
 	  "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
