@@ -60,11 +60,12 @@ data "aws_secretsmanager_secret_version" "datadog_key" {
   secret_id = data.aws_secretsmanager_secret.datadog_key[0].id
 }
 
-locals {
-  datadog_keys = length(var.datadog_key_secret_name) > 0 ? [] : jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string)
+data "external" "datadog_key" {
+  count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
+  program = ["echo", "${data.aws_secretsmanager_secret_version.datadog_key[0].secret_string}"]
 }
 
 provider "datadog" {
-  api_key  = local.datadog_keys.api_key != null ? local.datadog_keys.api_key : ""
-  app_key  = local.datadog_keys.app_key != null ? local.datadog_keys.app_key : ""
+  api_key  = chomp(data.external.datadog_key.result["api_key"])
+  app_key  = chomp(data.external.datadog_key.result["app_key"])
 }
