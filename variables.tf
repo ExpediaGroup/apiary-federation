@@ -381,7 +381,7 @@ variable "tcp_keepalive_probes" {
 variable "datadog_key_secret_name" {
   description = "Name of the secret containing the DataDog API key. This needs to be created manually in AWS secrets manager. This is only applicable to ECS deployments."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "datadog_agent_version" {
