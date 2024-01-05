@@ -49,18 +49,21 @@ data "aws_iam_policy_document" "waggle_dance_glue_policy" {
   }
 }
 
+
 data "aws_secretsmanager_secret" "datadog_key" {
-  count = length(var.datadog_key_secret_name) == 0 ? 0 : 1
   name  = var.datadog_key_secret_name
 }
 
 data "aws_secretsmanager_secret_version" "datadog_key" {
-  count = length(var.datadog_key_secret_name) == 0 ? 0 : 1
-  secret_id = data.aws_secretsmanager_secret.datadog_key[0].id
+  count = length(data.aws_secretsmanager_secret.datadog_key) > 0 ? 1 : 0
+  secret_id = data.aws_secretsmanager_secret.datadog_key.id
+}
+
+locals {
+  datadog_keys = jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string)
 }
 
 provider "datadog" {
-  api_key  = length(data.aws_secretsmanager_secret_version.datadog_key) > 0 ? jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string).api_key : ""
-  app_key  = length(data.aws_secretsmanager_secret_version.datadog_key) > 0 ? jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string).app_key : ""
+  api_key  = local.datadog_keys.api_key != null ? local.datadog_keys.api_key : ""
+  app_key  = local.datadog_keys.app_key != null ? local.datadog_keys.app_key : ""
 }
-
