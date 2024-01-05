@@ -61,7 +61,7 @@ data "aws_secretsmanager_secret_version" "datadog_key" {
 }
 
 locals {
-  datadog_keys = length(var.var.datadog_key_secret_name) > 0 ? [] : jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string)
+  datadog_keys = length(var.datadog_key_secret_name) > 0 ? [] : jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string)
 }
 
 provider "datadog" {
