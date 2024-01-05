@@ -66,6 +66,6 @@ data "external" "datadog_key" {
 }
 
 provider "datadog" {
-  api_key  = chomp(data.external.datadog_key.result["api_key"])
-  app_key  = chomp(data.external.datadog_key.result["app_key"])
+  api_key  = chomp(data.external.datadog_key[0].result["api_key"])
+  app_key  = chomp(data.external.datadog_key[0].result["app_key"])
 }
