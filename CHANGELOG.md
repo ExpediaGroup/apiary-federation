@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.2.1] - 2024-01-05
+### Added
+- Added ECR permission to ECS tasks IAM role to support using ECR images.
+### Fixed
+- Changed `HIVE_SITE_XML` condition expression from `var.alluxio_endpoints == []` to `length(var.alluxio_endpoints) == 0`, the previously expression does not work when `var.alluxio_endpoints` is empty.
+- 
 ## [4.2.0] - 2024-01-05
 ### Added
 - Added datadog to ECS clusters.

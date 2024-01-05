@@ -97,3 +97,49 @@ resource "aws_iam_role_policy" "waggle_dance_glue_ecs_policy" {
 
   policy = data.aws_iam_policy_document.waggle_dance_glue_policy[0].json
 }
+
+resource "aws_iam_role_policy" "ecr_permission_for_task_exec" {
+  count = var.wd_instance_type == "ecs" ? 1 : 0
+  name  = "ecr-permission"
+  role  = aws_iam_role.waggledance_task_exec[0].id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "ecr_permission_for_task" {
+  count = var.wd_instance_type == "ecs" ? 1 : 0
+  name  = "ecr-permission"
+  role  = aws_iam_role.waggledance_task[0].id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
