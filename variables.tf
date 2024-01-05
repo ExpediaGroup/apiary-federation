@@ -348,7 +348,7 @@ variable "datadog_metrics_waggledance" {
   ]
 }
 
-variable "datadog_metrics_port" {
+variable "metrics_port" {
   description = "Port in which metrics will be send for Datadog"
   type        = string
   default     = "18000"
@@ -377,3 +377,22 @@ variable "tcp_keepalive_probes" {
   type        = number
   default     = 2
 }
+
+variable "datadog_key_secret_name" {
+  description = "Name of the secret containing the DataDog API key. This needs to be created manually in AWS secrets manager. This is only applicable to ECS deployments."
+  type        = string
+  default     = null
+}
+
+variable "datadog_agent_version" {
+  description = "Version of the Datadog Agent running in the ECS cluster. This is only applicable to ECS deployments."
+  type        = string
+  default     = "7.46.0-jmx"
+}
+
+variable "include_datadog_agent" {
+  description = "Whether to include the datadog-agent container alongside waggledance. This is only applicable to ECS deployments."
+  type        = bool
+  default     = false
+}
+

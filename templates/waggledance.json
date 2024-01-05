@@ -1,5 +1,4 @@
-[
-  {
+{
 	"name": "waggledance",
 	"image": "${docker_image}:${docker_version}",
 	${docker_auth}
@@ -11,6 +10,11 @@
 		"awslogs-region": "${region}",
 		"awslogs-stream-prefix": "/"
 	  }
+	},
+	"dockerLabels": {
+		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance\", \"metrics\": [\"metastore_status\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": { \"region\":\"${region}\", \"instance_type\":\"${wd_instance_type}\"} }]",
+		"com.datadoghq.ad.check_names": "[\"openmetrics\"]",
+		"com.datadoghq.ad.init_configs": "[{}]"
 	},
 	"portMappings": [
 	  {
@@ -71,9 +75,9 @@
 		"hardLimit": 65536
 	  }
 	],
-        "systemControls": [
+	"systemControls": [
           {
-                "namespace": "net.ipv4.tcp_keepalive_time", 
+                "namespace": "net.ipv4.tcp_keepalive_time",
                 "value": "${tcp_keepalive_time}"
           },
           {
@@ -84,6 +88,5 @@
                 "namespace": "net.ipv4.tcp_keepalive_probes",
                 "value": "${tcp_keepalive_probes}"
           }
-        ] 
-  }
-]
+        ]
+}
