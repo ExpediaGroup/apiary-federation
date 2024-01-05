@@ -60,7 +60,6 @@ data "aws_secretsmanager_secret_version" "datadog_key" {
 }
 
 provider "datadog" {
-  count    = length(var.datadog_key_secret_name) == 0 ? 0 : 1
   api_key  = length(data.aws_secretsmanager_secret_version.datadog_key) > 0 ? jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string).api_key : ""
   app_key  = length(data.aws_secretsmanager_secret_version.datadog_key) > 0 ? jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string).app_key : ""
 }
