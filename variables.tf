@@ -377,3 +377,9 @@ variable "tcp_keepalive_probes" {
   type        = number
   default     = 2
 }
+
+variable "use_ecr" {
+  description = "Sets net.ipv4.tcp_keepalive_probes (number), currently only supported in ECS."
+  type        = bool
+  default     = false
+}
