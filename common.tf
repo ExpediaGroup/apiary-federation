@@ -51,17 +51,17 @@ data "aws_iam_policy_document" "waggle_dance_glue_policy" {
 
 
 data "aws_secretsmanager_secret" "datadog_key" {
-  count = length(data.aws_secretsmanager_secret.datadog_key) > 0 ? 1 : 0
+  count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
   name  = var.datadog_key_secret_name
 }
 
 data "aws_secretsmanager_secret_version" "datadog_key" {
-  count = length(data.aws_secretsmanager_secret.datadog_key) > 0 ? 1 : 0
+  count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
   secret_id = data.aws_secretsmanager_secret.datadog_key[0].id
 }
 
 locals {
-  datadog_keys = length(data.aws_secretsmanager_secret.datadog_key) > 0 ? {} : jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string)
+  datadog_keys = length(var.var.datadog_key_secret_name) > 0 ? {} : jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string)
 }
 
 provider "datadog" {
