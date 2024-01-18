@@ -61,6 +61,21 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
       spec {
         service_account_name            = kubernetes_service_account.waggle_dance[0].metadata.0.name
         automount_service_account_token = true
+        dynamic "security_context"  {
+          for_each = var.enable_sysctl_config_in_eks ? ["enabled"] : []
+          content {
+            sysctl = [{
+              name="net.ipv4.tcp_keepalive_time"
+              value="${var.tcp_keepalive_time}"
+            },{
+              name="net.ipv4.tcp_keepalive_intvl"
+              value="${var.tcp_keepalive_intvl}"
+            },{
+              name="net.ipv4.tcp_keepalive_probes"
+              value="${var.tcp_keepalive_probes}"
+            }]
+          }
+        }
         container {
           image = "${var.docker_image}:${var.docker_version}"
           name  = local.instance_alias

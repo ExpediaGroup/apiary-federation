@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.2.3] - 2024-01-19
+### Fixed
+- Enable optional sysctl settings for EKS. To overwrite TCP keepalive settings.
+
 ## [4.2.2] - 2024-01-05
 ### Fixed
 - Conditional reading of Secrets from SecretManager fix.
