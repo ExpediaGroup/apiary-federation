@@ -360,6 +360,12 @@ variable "datadog_metrics_enabled" {
   default     = false
 }
 
+variable "enable_sysctl_config_in_eks" {
+  description = "Enable sysctl configuration for Hive Metastore. For EKS you need to allow this on your cluster (https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/ check EKS version for details). Also see tcp_keepalive_* variables."
+  type        = bool
+  default     = false
+}
+
 variable "tcp_keepalive_time" {
   description = "Sets net.ipv4.tcp_keepalive_time (seconds), currently only supported in ECS."
   type        = number
