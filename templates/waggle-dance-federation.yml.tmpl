@@ -8,6 +8,9 @@ primary-meta-store:
     glue-endpoint: ${primary_metastore_glue_endpoint}
 %{else~}
   remote-meta-store-uris: thrift://${primary_metastore_host}:${primary_metastore_port}
+  %{if primary_metastore_host_read_only != "" ~}
+  read-only-remote-meta-store-uris: thrift://${primary_metastore_host_read_only}:${primary_metastore_port_read_only}
+  %{~endif~}
 %{endif~}
   latency: ${primary_metastore_latency}
 %{if primary_metastore_mapped_databases != "" ~}
