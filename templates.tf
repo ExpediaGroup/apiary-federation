@@ -165,6 +165,7 @@ data "template_file" "federation_yaml" {
     ssh_metastores                     = join("", data.template_file.ssh_metastores_yaml.*.rendered)
     glue_metastores                    = join("", data.template_file.glue_metastores_yaml.*.rendered)
     primary_metastore_host_read_only   = var.primary_metastore_host_read_only
+    primary_metastore_port_read_only   = var.primary_metastore_port_read_only
   }
 }
 
