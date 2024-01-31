@@ -12,7 +12,7 @@
 	  }
 	},
 	"dockerLabels": {
-		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance_dhruv\", \"metrics\": [\"metastore_status*\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": { \"region\":\"${region}\", \"instance_type\":\"${wd_instance_type}\"} }]",
+		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance_dhruv\", \"metrics\": [\"metastore_status_total*\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": { \"region\":\"${region}\", \"instance_type\":\"${wd_instance_type}\"} }]",
 		"com.datadoghq.ad.check_names": "[\"openmetrics\"]",
 		"com.datadoghq.ad.init_configs": "[{}]"
 	},
