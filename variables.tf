@@ -199,13 +199,13 @@ variable "primary_metastore_port" {
   default     = "9083"
 }
 
-variable "primary_metastore_host_read_only" {
+variable "primary_metastore_read_only_host" {
   description = "Optional Primary Hive Metastore READ ONLY hostname configured in Waggle Dance."
   type        = string
   default     = ""
 }
 
-variable "primary_metastore_port_read_only" {
+variable "primary_metastore_read_only_port" {
   description = "Optional Primary Hive Metastore READ ONLY port configured in Waggle Dance."
   type        = string
   default     = "9083"

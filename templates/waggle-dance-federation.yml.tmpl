@@ -9,7 +9,7 @@ primary-meta-store:
 %{else~}
   remote-meta-store-uris: thrift://${primary_metastore_host}:${primary_metastore_port}
 %{if primary_metastore_host_read_only != "" ~}
-  read-only-remote-meta-store-uris: thrift://${primary_metastore_host_read_only}:${primary_metastore_port_read_only}
+  read-only-remote-meta-store-uris: thrift://${primary_metastore_read_only_host}:${primary_metastore_read_only_port}
 %{endif~}
 %{endif~}
   latency: ${primary_metastore_latency}
