@@ -199,6 +199,18 @@ variable "primary_metastore_port" {
   default     = "9083"
 }
 
+variable "primary_metastore_read_only_host" {
+  description = "Primary Hive Metastore READ ONLY hostname configured in Waggle Dance. Optional."
+  type        = string
+  default     = ""
+}
+
+variable "primary_metastore_read_only_port" {
+  description = "Primary Hive Metastore READ ONLY port configured in Waggle Dance. Optional."
+  type        = string
+  default     = "9083"
+}
+
 variable "primary_metastore_glue_account_id" {
   description = "Primary metastore Glue AWS account id, optional. Use with 'primary_metastore_glue_endpoint' and instead of 'primary_metastore_host/primary_metastore_port'"
   type        = string
