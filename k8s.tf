@@ -11,6 +11,7 @@ locals {
   wd_port       = 48869
   k8s_cpu       = var.cpu / 1024
   k8s_cpu_limit = (var.cpu / 1024) * 1.25
+  instance_alias = var.instance_name == "" ? "waggledance" : format("waggledance-%s", var.instance_name)
 }
 
 resource "kubernetes_service_account" "waggle_dance" {
