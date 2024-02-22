@@ -11,6 +11,7 @@ locals {
   wd_port       = 48869
   k8s_cpu       = var.cpu / 1024
   k8s_cpu_limit = (var.cpu / 1024) * 1.25
+  abc           = local.instance_alias
 }
 
 resource "kubernetes_service_account" "waggle_dance" {
@@ -49,9 +50,9 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
           name = local.instance_alias
         }
         annotations = {
-          "ad.datadoghq.com/${local.instance_alias}.check_names" = var.datadog_metrics_enabled ?  "[\"openmetrics\"]" : null
-          "ad.datadoghq.com/${local.instance_alias}.init_configs" = var.datadog_metrics_enabled ?  "[{}]" : null
-          "ad.datadoghq.com/${local.instance_alias}.instances" = var.datadog_metrics_enabled ?  "[{ \"prometheus_url\": \"http://%%host%%:${var.metrics_port}/actuator/prometheus\", \"namespace\": \"${local.instance_alias}\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_waggledance)}\" ]  }]" : null
+          "ad.datadoghq.com/${local.abc}.check_names" = var.datadog_metrics_enabled ?  "[\"openmetrics\"]" : null
+          "ad.datadoghq.com/${local.abc}.init_configs" = var.datadog_metrics_enabled ?  "[{}]" : null
+          "ad.datadoghq.com/${local.abc}.instances" = var.datadog_metrics_enabled ?  "[{ \"prometheus_url\": \"http://%%host%%:${var.metrics_port}/actuator/prometheus\", \"namespace\": \"waggledance\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_waggledance)}\" ]  }]" : null
           "prometheus.io/scrape" : var.prometheus_enabled
           "prometheus.io/port" : local.actuator_port
           "prometheus.io/path" : "/actuator/prometheus"
