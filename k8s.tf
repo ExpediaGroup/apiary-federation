@@ -10,7 +10,7 @@ locals {
   actuator_port = 18000
   wd_port       = 48869
   k8s_cpu       = var.cpu / 1024
-  k8s_cpu_limit = (var.cpu / 1024) * 1.25
+  k8s_cpu_limit = length(var.cpu_limit) == 0 ? (var.cpu / 1024) * 1.25 : var.cpu_limit
 }
 
 resource "kubernetes_service_account" "waggle_dance" {

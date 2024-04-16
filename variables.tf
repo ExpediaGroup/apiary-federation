@@ -158,6 +158,17 @@ EOF
   default = "1024"
 }
 
+variable "cpu_limit" {
+  description = <<EOF
+The number of CPU units limit to reserve for the Waggle Dance container.
+Valid values can be 256, 512, 1024, 2048 and 4096.
+Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = string
+  default = ""
+}
+
 variable "ingress_cidr" {
   description = "Generally allowed ingress CIDR list."
   type        = list(string)
