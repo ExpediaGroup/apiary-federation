@@ -137,6 +137,16 @@ EOF
   default = "4096"
 }
 
+variable "memory_limit" {
+  description = <<EOF
+The amount of memory limit (in MiB) used to allocate for the Waggle Dance container.
+Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = string
+  default = ""
+}
+
 variable "cpu" {
   description = <<EOF
 The number of CPU units to reserve for the Waggle Dance container.

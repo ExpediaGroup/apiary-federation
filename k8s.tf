@@ -6,7 +6,7 @@
 
 locals {
   heapsize      = ceil((var.memory * 85) / 100)
-  memory_limit  = ceil((var.memory * 120) / 100)
+  memory_limit  = length(var.memory_limit) == 0 ? ceil((var.memory * 120) / 100) : var.memory_limit
   actuator_port = 18000
   wd_port       = 48869
   k8s_cpu       = var.cpu / 1024
