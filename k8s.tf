@@ -6,11 +6,11 @@
 
 locals {
   heapsize      = ceil((var.memory * 85) / 100)
-  memory_limit  = length(var.memory_limit) == 0 ? ceil((var.memory * 120) / 100) : var.memory_limit
+  memory_limit  = var.pod_resource_guaranteed ? var.memory : ceil((var.memory * 120) / 100)
   actuator_port = 18000
   wd_port       = 48869
   k8s_cpu       = var.cpu / 1024
-  k8s_cpu_limit = length(var.cpu_limit) == 0 ? (var.cpu / 1024) * 1.25 : var.cpu_limit
+  k8s_cpu_limit = var.pod_resource_guaranteed ? var.cpu : (var.cpu / 1024) * 1.25
 }
 
 resource "kubernetes_service_account" "waggle_dance" {
