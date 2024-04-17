@@ -7,6 +7,7 @@
 locals {
   instance_alias               = var.instance_name == "" ? "waggledance" : format("waggledance-%s", var.instance_name)
   remote_metastore_zone_prefix = var.instance_name == "" ? "remote-metastore" : format("remote-metastore-%s", var.instance_name)
+  datadog_tags                 = join(" ", formatlist("%s:%s", keys(var.tags), values(var.tags)))
 }
 
 data "aws_caller_identity" "current" {}

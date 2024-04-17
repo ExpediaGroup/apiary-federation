@@ -17,6 +17,10 @@
       "value": "${datadog_secret_key}"
     },
     {
+      "name": "DD_TAGS",
+      "value": "${datadog_tags}"
+    },
+    {
       "name": "ECS_FARGATE",
       "value": "true"
     }
