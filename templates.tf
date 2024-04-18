@@ -206,5 +206,6 @@ data "template_file" "datadog-agent" {
     wd_instance_type      = var.wd_instance_type
     metrics_port          = var.metrics_port
     datadog_agent_version = var.datadog_agent_version
+    datadog_tags          = local.datadog_tags
   }
 }
