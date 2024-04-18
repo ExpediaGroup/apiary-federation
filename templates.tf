@@ -186,26 +186,16 @@ data "template_file" "waggledance" {
     hive_site_xml       = length(var.alluxio_endpoints) == 0 ? "" : base64encode(data.template_file.hive_site_xml.rendered)
     bastion_ssh_key_arn = var.bastion_ssh_key_secret_name == "" ? "" : join("", data.aws_secretsmanager_secret.bastion_ssh_key.*.arn)
     docker_auth         = var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))
-    tcp_keepalive_time  = var.tcp_keepalive_time
-    tcp_keepalive_intvl = var.tcp_keepalive_intvl
+    wd_instance_type    = var.wd_instance_type
+
+    tcp_keepalive_time   = var.tcp_keepalive_time
+    tcp_keepalive_intvl  = var.tcp_keepalive_intvl
     tcp_keepalive_probes = var.tcp_keepalive_probes
-    wd_instance_type = var.wd_instance_type
-    metrics_port = var.metrics_port
-    datadog_agent_version = var.datadog_agent_version
-    include_datadog_agent = var.include_datadog_agent
-  }
-}
 
-data "template_file" "datadog-agent" {
-  template = file("${path.module}/templates/datadog-agent.json")
-
-  vars = {
-    region                = var.aws_region
-    loggroup              = var.wd_instance_type == "ecs" ? join("", aws_cloudwatch_log_group.waggledance_ecs.*.name) : ""
-    datadog_secret_key    = length(var.datadog_key_secret_name) > 0 ? chomp(data.external.datadog_key[0].result["api_key"]) : ""
-    wd_instance_type      = var.wd_instance_type
     metrics_port          = var.metrics_port
     datadog_agent_version = var.datadog_agent_version
+    include_datadog_agent = var.include_datadog_agent
     datadog_tags          = local.datadog_tags
+    datadog_secret_key    = length(var.datadog_key_secret_name) > 0 ? chomp(data.external.datadog_key[0].result["api_key"]) : ""
   }
 }
