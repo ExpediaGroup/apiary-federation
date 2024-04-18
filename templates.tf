@@ -35,6 +35,7 @@ data "template_file" "server_yaml" {
     enable_query_functions_across_all_metastores = var.enable_query_functions_across_all_metastores
     graphite                                     = join("", data.template_file.graphite_server_yaml.*.rendered)
     exposed_endpoints                            = data.template_file.endpoints_server_yaml.rendered
+    extended_server_config                       = yamlencode(var.extended_server_config)
   }
 }
 
