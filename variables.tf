@@ -137,6 +137,17 @@ EOF
   default = "4096"
 }
 
+variable "memory_limit" {
+  description = <<EOF
+The amount of memory limit (in MiB) used to allocate for the Waggle Dance container. It will use memory * 1.25 
+if this value is not specified.
+Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = string
+  default = ""
+}
+
 variable "cpu" {
   description = <<EOF
 The number of CPU units to reserve for the Waggle Dance container.
@@ -148,11 +159,17 @@ EOF
   default = "1024"
 }
 
-variable "pod_resource_guaranteed" {
-  description = "Set pod resource request same as limit to guarantee required resources"
-  type        = bool
-  default     = false
+variable "cpu_limit" {
+  description = <<EOF
+The number of CPU units limit to reserve for the Waggle Dance container.
+Valid values can be 256, 512, 1024, 2048 and 4096.It will use cpu * 1.25 if this value is not specified.
+Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = string
+  default = ""
 }
+
 variable "ingress_cidr" {
   description = "Generally allowed ingress CIDR list."
   type        = list(string)
