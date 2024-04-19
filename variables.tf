@@ -429,7 +429,7 @@ waggledance.extensions.ratelimit.reddison.embedded.config: |
 EOT
 */
 variable "extended_server_config" {
-  description = "Extended waggle-dance-server.yml configuration for Waggle Dance. String will be yamlencoded (https://developer.hashicorp.com/terraform/language/functions/yamlencode)."
+  description = "Extended waggle-dance-server.yml configuration for Waggle Dance. This is a YAML string."
   type        = string
   default     = ""
 }
