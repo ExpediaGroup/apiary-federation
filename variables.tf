@@ -412,7 +412,7 @@ variable "include_datadog_agent" {
 Example:
 extended_server_config = <<EOT
 waggledance.extensions.ratelimit.enabled: true
-waggledance.extensions.ratelimit.storage: memory
+waggledance.extensions.ratelimit.storage: redis
 waggledance.extensions.ratelimit.capacity: 2000
 waggledance.extensions.ratelimit.tokensPerMinute: 1000
 waggledance.extensions.ratelimit.reddison.embedded.config: |
