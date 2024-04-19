@@ -19,6 +19,10 @@
     {
       "name": "ECS_FARGATE",
       "value": "true"
+    },
+    {
+        "name": "DD_TAGS",
+        "value": "${datadog_tags}"
     }
   ],
   "healthCheck": {
