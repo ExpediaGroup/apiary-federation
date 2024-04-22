@@ -18,7 +18,7 @@ resource "aws_ecs_service" "waggledance_service" {
   task_definition = aws_ecs_task_definition.waggledance[0].arn
   desired_count   = var.wd_ecs_task_count
 
-  platform_version = "1.4"
+  platform_version = "1.4.0"
 
   # propagate_tags  = "SERVICE"
   tags            = var.tags
