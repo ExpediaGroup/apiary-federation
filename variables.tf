@@ -430,3 +430,28 @@ variable "include_datadog_agent" {
   default     = false
 }
 
+/*
+Example:
+extended_server_config = <<EOT
+waggledance.extensions.ratelimit.enabled: true
+waggledance.extensions.ratelimit.storage: redis
+waggledance.extensions.ratelimit.capacity: 2000
+waggledance.extensions.ratelimit.tokensPerMinute: 1000
+waggledance.extensions.ratelimit.reddison.embedded.config: |
+  replicatedServersConfig:
+    idleConnectionTimeout: 10000
+    connectTimeout: 3000
+    timeout: 1000
+    retryAttempts: 0
+    retryInterval: 1500
+    password: "<auth_token>"
+    nodeAddresses:
+    - "rediss://localhost1:62493"
+    - "rediss://localhost2:62493"
+EOT
+*/
+variable "extended_server_config" {
+  description = "Extended waggle-dance-server.yml configuration for Waggle Dance. This is a YAML string."
+  type        = string
+  default     = ""
+}
