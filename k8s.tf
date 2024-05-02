@@ -6,11 +6,11 @@
 
 locals {
   heapsize      = ceil((var.memory * 85) / 100)
-  memory_limit  = ceil((var.memory * 120) / 100)
+  memory_limit  = length(var.memory_limit) != 0 ? var.memory_limit : ceil((var.memory * 120) / 100)
   actuator_port = 18000
   wd_port       = 48869
   k8s_cpu       = var.cpu / 1024
-  k8s_cpu_limit = (var.cpu / 1024) * 1.25
+  k8s_cpu_limit = length(var.cpu_limit) != 0 ? var.cpu_limit / 1024 : (var.cpu / 1024) * 1.25
 }
 
 resource "kubernetes_service_account" "waggle_dance" {
