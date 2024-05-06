@@ -18,7 +18,9 @@ resource "aws_ecs_service" "waggledance_service" {
   task_definition = aws_ecs_task_definition.waggledance[0].arn
   desired_count   = var.wd_ecs_task_count
 
-  propagate_tags  = "SERVICE"
+  platform_version = "1.4.0"
+
+  # propagate_tags  = "SERVICE"
   tags            = var.tags
 
   network_configuration {
@@ -52,12 +54,7 @@ resource "aws_ecs_task_definition" "waggledance" {
   memory                   = var.memory
   cpu                      = var.cpu
   requires_compatibilities = ["EC2", "FARGATE"]
-  container_definitions = <<DEFINITION
-  [
-      ${data.template_file.waggledance.rendered}
-      ${var.include_datadog_agent ? data.template_file.datadog-agent.rendered : ""}
-  ]
-  DEFINITION
+  container_definitions    = data.template_file.waggledance.rendered
   tags                     = var.tags
 }
 
