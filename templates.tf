@@ -7,6 +7,7 @@
 locals {
   default_exposed_endpoints = "health,info,metrics"
   exposed_endpoints         = var.prometheus_enabled ? join(",", [local.default_exposed_endpoints, "prometheus"]) : local.default_exposed_endpoints
+  datadog_tags = join(" ", formatlist("%s:%s", keys(var.tags), values(var.tags)))
 }
 
 data "template_file" "endpoints_server_yaml" {
@@ -206,5 +207,6 @@ data "template_file" "datadog-agent" {
     wd_instance_type      = var.wd_instance_type
     metrics_port          = var.metrics_port
     datadog_agent_version = var.datadog_agent_version
+    datadog_tags          = local.datadog_tags
   }
 }
