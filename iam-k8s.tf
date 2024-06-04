@@ -18,7 +18,8 @@ resource "aws_iam_role" "waggle_dance_k8s_role_iam" {
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
        "StringEquals": {
-         "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${local.instance_alias}"
+         "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${local.instance_alias}",
+         "${var.oidc_provider}:aud": "sts.amazonaws.com"
        }
       }
     }

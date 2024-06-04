@@ -13,7 +13,7 @@ locals {
   k8s_cpu_limit = length(var.cpu_limit) != 0 ? var.cpu_limit / 1024 : (var.cpu / 1024) * 1.25
 }
 
-resource "kubernetes_service_account" "waggle_dance" {
+resource "kubernetes_service_account_v1" "waggle_dance" {
   count = var.wd_instance_type == "k8s" ? 1 : 0
   metadata {
     name        = local.instance_alias
@@ -22,7 +22,23 @@ resource "kubernetes_service_account" "waggle_dance" {
       "eks.amazonaws.com/role-arn" = var.oidc_provider == "" ? "" : aws_iam_role.waggle_dance_k8s_role_iam[0].arn
     }
   }
-  automount_service_account_token = true
+}
+
+resource "kubernetes_secret_v1" "waggle_dance" {
+  count = var.wd_instance_type == "k8s" ? 1 : 0
+  metadata {
+    name        = local.instance_alias
+    namespace   = var.k8s_namespace
+    annotations = {
+      "kubernetes.io/service-account.name"      = local.instance_alias
+      "kubernetes.io/service-account.namespace" = var.k8s_namespace
+    }
+  }
+  type = "kubernetes.io/service-account-token"
+
+  depends_on = [
+    kubernetes_service_account_v1.waggle_dance
+  ]
 }
 
 resource "kubernetes_deployment_v1" "waggle_dance" {
@@ -55,6 +71,7 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
           "prometheus.io/scrape" : var.prometheus_enabled
           "prometheus.io/port" : local.actuator_port
           "prometheus.io/path" : "/actuator/prometheus"
+          "iam.amazonaws.com/role" = var.oidc_provider == "" ? aws_iam_role.waggle_dance_k8s_role_iam[0].name : null
         }
       }
 
