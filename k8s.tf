@@ -76,7 +76,7 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
       }
 
       spec {
-        service_account_name            = kubernetes_service_account.waggle_dance[0].metadata.0.name
+        service_account_name            = kubernetes_service_account_v1.waggle_dance[0].metadata.0.name
         automount_service_account_token = true
         container {
           image = "${var.docker_image}:${var.docker_version}"
