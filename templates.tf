@@ -7,6 +7,7 @@
 locals {
   default_exposed_endpoints = "health,info,metrics"
   exposed_endpoints         = var.prometheus_enabled ? join(",", [local.default_exposed_endpoints, "prometheus"]) : local.default_exposed_endpoints
+  datadog_tags = join(" ", formatlist("%s:%s", keys(var.tags), values(var.tags)))
 }
 
 data "template_file" "endpoints_server_yaml" {
@@ -35,6 +36,7 @@ data "template_file" "server_yaml" {
     enable_query_functions_across_all_metastores = var.enable_query_functions_across_all_metastores
     graphite                                     = join("", data.template_file.graphite_server_yaml.*.rendered)
     exposed_endpoints                            = data.template_file.endpoints_server_yaml.rendered
+    extended_server_config                       = var.extended_server_config
   }
 }
 
@@ -164,6 +166,8 @@ data "template_file" "federation_yaml" {
     remote_region_metastores           = join("", data.template_file.remote_region_metastores_yaml.*.rendered)
     ssh_metastores                     = join("", data.template_file.ssh_metastores_yaml.*.rendered)
     glue_metastores                    = join("", data.template_file.glue_metastores_yaml.*.rendered)
+    primary_metastore_read_only_host   = var.primary_metastore_read_only_host
+    primary_metastore_read_only_port   = var.primary_metastore_read_only_port
   }
 }
 
@@ -203,5 +207,6 @@ data "template_file" "datadog-agent" {
     wd_instance_type      = var.wd_instance_type
     metrics_port          = var.metrics_port
     datadog_agent_version = var.datadog_agent_version
+    datadog_tags          = local.datadog_tags
   }
 }

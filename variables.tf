@@ -137,6 +137,17 @@ EOF
   default = "4096"
 }
 
+variable "memory_limit" {
+  description = <<EOF
+The amount of memory limit (in MiB) used to allocate for the Waggle Dance container. It will use memory * 1.25 
+if this value is not specified.
+Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = string
+  default = ""
+}
+
 variable "cpu" {
   description = <<EOF
 The number of CPU units to reserve for the Waggle Dance container.
@@ -146,6 +157,17 @@ EOF
 
   type    = string
   default = "1024"
+}
+
+variable "cpu_limit" {
+  description = <<EOF
+The number of CPU units limit to reserve for the Waggle Dance container.
+Valid values can be 256, 512, 1024, 2048 and 4096.It will use cpu * 1.25 if this value is not specified.
+Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = string
+  default = ""
 }
 
 variable "ingress_cidr" {
@@ -195,6 +217,18 @@ variable "primary_metastore_host" {
 
 variable "primary_metastore_port" {
   description = "Primary Hive Metastore port"
+  type        = string
+  default     = "9083"
+}
+
+variable "primary_metastore_read_only_host" {
+  description = "Primary Hive Metastore READ ONLY hostname configured in Waggle Dance. Optional."
+  type        = string
+  default     = ""
+}
+
+variable "primary_metastore_read_only_port" {
+  description = "Primary Hive Metastore READ ONLY port configured in Waggle Dance. Optional."
   type        = string
   default     = "9083"
 }
@@ -402,3 +436,28 @@ variable "include_datadog_agent" {
   default     = false
 }
 
+/*
+Example:
+extended_server_config = <<EOT
+waggledance.extensions.ratelimit.enabled: true
+waggledance.extensions.ratelimit.storage: redis
+waggledance.extensions.ratelimit.capacity: 2000
+waggledance.extensions.ratelimit.tokensPerMinute: 1000
+waggledance.extensions.ratelimit.reddison.embedded.config: |
+  replicatedServersConfig:
+    idleConnectionTimeout: 10000
+    connectTimeout: 3000
+    timeout: 1000
+    retryAttempts: 0
+    retryInterval: 1500
+    password: "<auth_token>"
+    nodeAddresses:
+    - "rediss://localhost1:62493"
+    - "rediss://localhost2:62493"
+EOT
+*/
+variable "extended_server_config" {
+  description = "Extended waggle-dance-server.yml configuration for Waggle Dance. This is a YAML string."
+  type        = string
+  default     = ""
+}

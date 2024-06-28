@@ -64,8 +64,3 @@ data "external" "datadog_key" {
   count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
   program = ["echo", "${data.aws_secretsmanager_secret_version.datadog_key[0].secret_string}"]
 }
-
-provider "datadog" {
-  api_key  = chomp(data.external.datadog_key[0].result["api_key"])
-  app_key  = chomp(data.external.datadog_key[0].result["app_key"])
-}
