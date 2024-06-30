@@ -79,19 +79,19 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
         service_account_name            = kubernetes_service_account_v1.waggle_dance[0].metadata.0.name
         automount_service_account_token = true
         dynamic "security_context"  {
-          for_each = var.enable_sysctl_config_in_eks ? ["enabled"] : []
+          for_each = var.enable_tcp_keepalive ? ["enabled"] : []
           content {
             sysctl {
-              name="net.ipv4.tcp_keepalive_time"
-              value= var.tcp_keepalive_time
+              name  = "net.ipv4.tcp_keepalive_time"
+              value = var.tcp_keepalive_time
             }
             sysctl {
-              name="net.ipv4.tcp_keepalive_intvl"
-              value= var.tcp_keepalive_intvl
+              name  = "net.ipv4.tcp_keepalive_intvl"
+              value = var.tcp_keepalive_intvl
             }
             sysctl {
-              name="net.ipv4.tcp_keepalive_probes"
-              value= var.tcp_keepalive_probes
+              name  = "net.ipv4.tcp_keepalive_probes"
+              value = var.tcp_keepalive_probes
             }
           }
         }
