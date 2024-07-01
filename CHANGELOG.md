@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
+## [4.5.3] - 2024-07-01
+### Added
+- Added support for setting the TCP keepalive settings of Waggledance.
+
 ## [4.5.2] - 2024-06-04
 ### Updated
 - Changed Service account creation to make it work with eks 1.24 and later.
