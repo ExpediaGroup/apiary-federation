@@ -5,6 +5,7 @@
  */
 
 terraform {
+  experiments = [module_variable_optional_attrs]
   required_version = "> 0.15.0, < 1.0.0"
   required_providers {
     aws = {
