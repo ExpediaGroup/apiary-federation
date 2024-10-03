@@ -105,6 +105,40 @@ variable "k8s_max_replica_count" {
   default     = 10
 }
 
+variable "k8s_svc_spec" {
+  description =<<EOF
+Waggledance Kubernetes service settings. All fields are optional.
+external_traffic_policy = "Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints. Local preserves the client source IP and avoids a second hop for LoadBalancer and Nodeport type services, but risks potentially imbalanced traffic spreading. Cluster obscures the client source IP and may cause a second hop to another node, but should have good overall load-spreading."
+internal_traffic_policy = "Specifies if the cluster internal traffic should be routed to all endpoints or node-local endpoints only. Cluster routes internal traffic to a Service to all endpoints. Local routes traffic to node-local endpoints only, traffic is dropped if no node-local endpoints are ready. The default value is 'Cluster'"
+allocate_load_balancer_node_ports = "Defines if NodePorts will be automatically allocated for services with type LoadBalancer. It may be set to false if the cluster load-balancer does not rely on NodePorts. If the caller requests specific NodePorts (by specifying a value), those requests will be respected, regardless of this field. This field may only be set for services with type LoadBalancer. Default is 'true'"
+load_balancer_class = "The class of the load balancer implementation this Service belongs to. By default this service is handled by the built-in Cloud Controller Manager. To use AWS Load Balancer Controller, set this to 'service.k8s.aws/nlb'"
+health_check_node_port = "Specifies the Healthcheck NodePort for the service. Only effects when service type is set to 'LoadBalancer' and k8s_svc_external_traffic_policy is set to 'Local'"
+EOF
+
+  type = object({
+    external_traffic_policy           = optional(string)
+    internal_traffic_policy           = optional(string)
+    allocate_load_balancer_node_ports = optional(bool)
+    load_balancer_class               = optional(string)
+    health_check_node_port            = optional(string)
+  })
+  default = {}
+}
+
+variable "k8s_svc_annotations" {
+  description =<<EOF
+Custom annotations for the Waggledance Kubernetes service. You can use this variable to add extra annotations for configuring the AWS NLB for this service. If var.k8s_svc_lb_controller_type is "nlb-ip" or "external" it means you want to offload 
+the NLB management to an external controller like AWS Load Balancer Controller. The annotations that are accepted are defined here - https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/
+If the var.k8s_svc_lb_controller_type is "nlb" or any other value, then you are using the Legacy AWS Cloud controller and you can see the accepted values here - https://github.com/kubernetes/cloud-provider-aws/blob/master/docs/service_controller.md
+EOF
+
+  type        = map(string)
+  default     = {
+    "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
+    "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+  }
+}
+
 variable "vpc_id" {
   description = "VPC ID."
   type        = string

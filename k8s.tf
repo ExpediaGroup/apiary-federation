@@ -185,11 +185,13 @@ resource "kubernetes_service" "waggle_dance" {
   metadata {
     name      = local.instance_alias
     namespace = var.k8s_namespace
+
     annotations = {
-      "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
-      "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+      for key, value in var.k8s_svc_annotations :
+      key => value
     }
   }
+
   spec {
     selector = {
       name = local.instance_alias
@@ -198,8 +200,13 @@ resource "kubernetes_service" "waggle_dance" {
       port        = local.wd_port
       target_port = local.wd_port
     }
-    type                        = "LoadBalancer"
-    load_balancer_source_ranges = var.ingress_cidr
+    type                              = "LoadBalancer"
+    load_balancer_source_ranges       = var.ingress_cidr
+    external_traffic_policy           = var.k8s_svc_spec.external_traffic_policy
+    internal_traffic_policy           = var.k8s_svc_spec.internal_traffic_policy
+    allocate_load_balancer_node_ports = var.k8s_svc_spec.allocate_load_balancer_node_ports
+    load_balancer_class               = var.k8s_svc_spec.load_balancer_class
+    health_check_node_port            = var.k8s_svc_spec.health_check_node_port
   }
 }
 
