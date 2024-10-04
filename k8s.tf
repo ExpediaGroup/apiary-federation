@@ -153,6 +153,20 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
         image_pull_secrets {
           name = var.k8s_docker_registry_secret
         }
+        dns_policy = var.k8s_dns_policy
+        dns_config {
+            nameservers = var.k8s_dns_config.nameservers
+            searches    = var.k8s_dns_config.searches
+
+            dynamic "option" {
+              for_each = var.k8s_dns_config.options
+              content {
+                name  = option.value.name
+                value = option.value.value
+              }
+            }
+          }
+
       }
     }
   }
