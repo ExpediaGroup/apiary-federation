@@ -105,6 +105,34 @@ variable "k8s_max_replica_count" {
   default     = 10
 }
 
+variable "k8s_dns_policy" {
+  description = "DNS policy for the Waggledance Kubernetes deployment. Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default', or 'None'."
+  type        = string
+  default     = "ClusterFirst"
+
+  validation {
+    condition = can(regex("(ClusterFirstWithHostNet|ClusterFirst|Default|None)", var.k8s_dns_policy))
+    error_message = "The dns_policy must be one of 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default', or 'None'."
+  }
+}
+
+variable "k8s_dns_config" {
+  description = "DNS configuration for the Waggledance Kubernetes deployment."
+  type = object({
+    nameservers = optional(list(string))
+    searches    = optional(list(string))
+    options     = optional(list(object({
+      name  = string
+      value = optional(string)
+    })))
+  })
+  default = {
+    nameservers = []
+    searches    = []
+    options     = []
+  }
+}
+
 variable "k8s_svc_spec" {
   description =<<EOF
 Waggledance Kubernetes service settings. All fields are optional.
