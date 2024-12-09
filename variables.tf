@@ -524,3 +524,15 @@ variable "extended_server_config" {
   type        = string
   default     = ""
 }
+
+variable "enable_vpc_endpoint_services" {
+  description = "Enable metastore NLB, Route53 entries VPC access and VPC endpoint services, for cross-account access."
+  type        = bool
+  default     = false
+}
+
+variable "waggledance_customer_accounts" {
+  description = "Waggledance VPC Endpoint customer accounts"
+  type        = list(string)
+  default     = []
+}

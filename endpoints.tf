@@ -72,3 +72,17 @@ resource "aws_route53_record" "metastore_alias" {
   ttl     = "60"
   records = [aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name]
 }
+
+
+data "aws_lb" "waggledance_lb" {
+  count = var.wd_instance_type == "k8s" && var.enable_vpc_endpoint_services ? 1 : 0
+  name  = split("-", split(".", kubernetes_service.waggle_dance[0].status.0.load_balancer.0.ingress.0.hostname).0).0
+}
+
+resource "aws_vpc_endpoint_service" "waggledance" {
+  count                      = var.enable_vpc_endpoint_services ? 1 : 0
+  network_load_balancer_arns = compact(concat(aws_lb.waggledance[0].*.arn, data.aws_lb.waggledance_lb[0].*.arn))
+  acceptance_required        = false
+  allowed_principals         = formatlist("arn:aws:iam::%s:root", var.waggledance_customer_accounts)
+  tags                       = merge(tomap({"Name"="${local.instance_alias}"}), var.tags)
+}
