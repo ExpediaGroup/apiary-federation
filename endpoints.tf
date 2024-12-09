@@ -81,7 +81,7 @@ data "aws_lb" "waggledance_lb" {
 
 resource "aws_vpc_endpoint_service" "waggledance" {
   count                      = var.enable_vpc_endpoint_services ? 1 : 0
-  network_load_balancer_arns = compact(concat(aws_lb.waggledance[0].*.arn, data.aws_lb.waggledance_lb[0].*.arn))
+  network_load_balancer_arns = var.wd_instance_type == "ecs" ? aws_lb.waggledance[0].*.arn : data.aws_lb.waggledance_lb[0].*.arn)
   acceptance_required        = false
   allowed_principals         = formatlist("arn:aws:iam::%s:root", var.waggledance_customer_accounts)
   tags                       = merge(tomap({"Name"="${local.instance_alias}"}), var.tags)
