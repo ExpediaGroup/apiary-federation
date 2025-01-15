@@ -4,13 +4,22 @@
 	${docker_auth}
 	"essential": true,
 	"logConfiguration": {
-	  "logDriver": "awslogs",
-	  "options": {
-		"awslogs-group": "${loggroup}",
-		"awslogs-region": "${region}",
-		"awslogs-stream-prefix": "/"
-	  }
-	},
+        "logDriver": "${enable_splunk_logging ? "splunk" : "awslogs"}",
+        "options": ${enable_splunk_logging ?
+          jsonencode({
+            "splunk-token": "${splunk_hec_token}",
+            "splunk-url": "${splunk_hec_host}",
+            "splunk-source": "apiary-hms-readonly-logs${splunk_env}",
+            "splunk-sourcetype": "hms-logs",
+            "splunk-index": "${splunk_hec_index}"
+          }) :
+          jsonencode({
+            "awslogs-group": "${loggroup}",
+            "awslogs-region": "${region}",
+            "awslogs-stream-prefix": "/"
+          })
+        }
+    },
 	"dockerLabels": {
 		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance\", \"metrics\": [\"metastore_status\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": { \"region\":\"${region}\", \"instance_type\":\"${wd_instance_type}\"} }]",
 		"com.datadoghq.ad.check_names": "[\"openmetrics\"]",
