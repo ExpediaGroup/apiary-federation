@@ -7,7 +7,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Added
 - Added variables to control Waggledance deployment dns policy and config.
 
-
 ## [4.5.6] - 2024-12-10
 ### Added
 - Added waggledance VPC endpoint service
