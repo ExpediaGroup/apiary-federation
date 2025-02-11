@@ -283,6 +283,12 @@ variable "primary_metastore_port" {
   default     = "9083"
 }
 
+variable "primary_metastore_database_prefix" {
+  description = "Primary Hive Metastore database prefix configured in Waggle Dance."
+  type        = string
+  default     = ""
+}
+
 variable "primary_metastore_read_only_host" {
   description = "Primary Hive Metastore READ ONLY hostname configured in Waggle Dance. Optional."
   type        = string
