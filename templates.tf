@@ -63,6 +63,7 @@ data "template_file" "local_metastores_yaml" {
   vars = {
     prefix                 = var.local_metastores[count.index].prefix
     metastore_host         = var.local_metastores[count.index].host
+    name                   = lookup(var.local_metastores[count.index], "name", "")
     metastore_port         = lookup(var.local_metastores[count.index], "port", "9083")
     mapped_databases       = lookup(var.local_metastores[count.index], "mapped-databases", "")
     mapped_tables          = lookup(var.local_metastores[count.index], "mapped-tables", "")
