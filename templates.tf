@@ -155,6 +155,7 @@ data "template_file" "federation_yaml" {
   vars = {
     primary_metastore_host             = var.primary_metastore_host
     primary_metastore_port             = var.primary_metastore_port
+    primary_metastore_database_prefix  = var.primary_metastore_database_prefix
     primary_metastore_latency          = var.primary_metastore_latency
     primary_metastore_glue_account_id  = var.primary_metastore_glue_account_id
     primary_metastore_glue_endpoint    = var.primary_metastore_glue_endpoint
