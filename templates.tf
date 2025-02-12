@@ -82,6 +82,7 @@ data "template_file" "remote_metastores_yaml" {
   vars = {
     prefix                 = var.remote_metastores[count.index].prefix
     metastore_host         = aws_vpc_endpoint.remote_metastores[count.index].dns_entry[0].dns_name
+    name                   = lookup(var.remote_metastores[count.index], "name", "")
     metastore_port         = lookup(var.remote_metastores[count.index], "port", "9083")
     mapped_databases       = lookup(var.remote_metastores[count.index], "mapped-databases", "")
     mapped_tables          = lookup(var.remote_metastores[count.index], "mapped-tables", "")
@@ -100,6 +101,7 @@ data "template_file" "remote_region_metastores_yaml" {
   vars = {
     prefix                 = var.remote_region_metastores[count.index].prefix
     metastore_host         = aws_vpc_endpoint.remote_region_metastores[var.remote_region_metastores[count.index]["endpoint"]].dns_entry[0].dns_name
+    name                   = lookup(var.remote_region_metastores[count.index], "name", "")
     metastore_port         = lookup(var.remote_region_metastores[count.index], "port", "9083")
     mapped_databases       = lookup(var.remote_region_metastores[count.index], "mapped-databases", "")
     mapped_tables          = lookup(var.remote_region_metastores[count.index], "mapped-tables", "")
@@ -120,6 +122,7 @@ data "template_file" "ssh_metastores_yaml" {
     prefix                = lookup(var.ssh_metastores[count.index], "prefix")
     bastion_host          = lookup(var.ssh_metastores[count.index], "bastion-host")
     metastore_host        = lookup(var.ssh_metastores[count.index], "metastore-host")
+    name                  = lookup(var.ssh_metastores[count.index], "name", "")
     metastore_port        = lookup(var.ssh_metastores[count.index], "port")
     user                  = lookup(var.ssh_metastores[count.index], "user")
     timeout               = lookup(var.ssh_metastores[count.index], "timeout", "60000")
@@ -140,6 +143,7 @@ data "template_file" "glue_metastores_yaml" {
     prefix                 = lookup(var.glue_metastores[count.index], "prefix")
     glue_account_id        = lookup(var.glue_metastores[count.index], "glue-account-id")
     glue_endpoint          = lookup(var.glue_metastores[count.index], "glue-endpoint")
+    name                   = lookup(var.glue_metastores[count.index], "name", "")
     mapped_databases       = lookup(var.glue_metastores[count.index], "mapped-databases", "")
     mapped_tables          = lookup(var.glue_metastores[count.index], "mapped-tables", "")
     database_name_mapping  = lookup(var.glue_metastores[count.index], "database-name-mapping", "")
