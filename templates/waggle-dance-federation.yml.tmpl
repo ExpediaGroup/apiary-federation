@@ -1,6 +1,6 @@
 primary-meta-store:
   access-control-type: ${primary_metastore_access_type}
-  database-prefix: '${ primary_metastore_database_prefix == "" ? "" : "primary_metastore_database_prefix_" }'
+  database-prefix: '${ primary_metastore_database_prefix == "" ? "" : primary_metastore_database_prefix ~ "_" }'
   name: primary
 %{if primary_metastore_glue_account_id != "" ~}
   glue-config:
