@@ -1,7 +1,7 @@
 %{if metastore_enabled~}
-  - name: ${ name == "" ? "prefix" : "name" }
+  - name: ${ name == "" ? prefix : name }
     access-control-type: ${ writable_whitelist == "" ? "READ_ONLY" : "READ_AND_WRITE_ON_DATABASE_WHITELIST" }
-    database-prefix: '${ prefix == "" ? "" : "prefix_" }'
+    database-prefix: '${ prefix == "" ? "" : format("%s_", prefix) }'
     remote-meta-store-uris: thrift://${metastore_host}:${metastore_port}
     latency: ${latency}
 %{if enable_path_conversion ~}

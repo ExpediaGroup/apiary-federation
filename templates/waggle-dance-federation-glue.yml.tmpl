@@ -1,7 +1,7 @@
 %{if metastore_enabled~}
-  - name: ${ name == "" ? "prefix" : "name" }
+  - name: ${ name == "" ? prefix : name }
     access-control-type: ${ writable_whitelist == "" ? "READ_ONLY" : "READ_AND_WRITE_ON_DATABASE_WHITELIST" }
-    database-prefix: '${ prefix == "" ? "" : "prefix_" }'
+    database-prefix: '${ prefix == "" ? "" : format("%s_", prefix) }'
     glue-config:
       glue-account-id: ${glue_account_id}
       glue-endpoint: ${glue_endpoint}
