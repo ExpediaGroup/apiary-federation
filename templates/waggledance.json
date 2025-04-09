@@ -1,17 +1,20 @@
 {
-	"name": "waggledance",
-	"image": "${docker_image}:${docker_version}",
-	${docker_auth}
-	"essential": true,
-	"logConfiguration": {
+    "name": "waggledance",
+    "image": "${docker_image}:${docker_version}",
+    ${docker_auth}
+    "essential": true,
+    "logConfiguration": {
         "logDriver": "${enable_splunk_logging ? "splunk" : "awslogs"}",
         "options": ${enable_splunk_logging ?
           jsonencode({
             "splunk-token": "${splunk_hec_token}",
             "splunk-url": "${splunk_hec_host}",
-            "splunk-source": "waggledance-logs${splunk_env}",
+            "splunk-source": "waggledance-logs-${instance_alias}",
             "splunk-sourcetype": "waggledance-logs",
-            "splunk-index": "${splunk_hec_index}"
+            "splunk-index": "${splunk_hec_index}",
+            "splunk-insecureskipverify": "${splunk_insecureskipverify}",
+            "tag": "{{ index .ContainerLabels \"com.amazonaws.ecs.task-definition-family\" }}",
+            "labels": "com.amazonaws.ecs.cluster,com.amazonaws.ecs.container-name,com.amazonaws.ecs.task-arn,com.amazonaws.ecs.task-definition-family,com.amazonaws.ecs.task-definition-version"
           }) :
           jsonencode({
             "awslogs-group": "${loggroup}",
@@ -20,71 +23,71 @@
           })
         }
     },
-	"dockerLabels": {
-		"com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance\", \"metrics\": [\"metastore_status\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": { \"region\":\"${region}\", \"instance_type\":\"${wd_instance_type}\"} }]",
-		"com.datadoghq.ad.check_names": "[\"openmetrics\"]",
-		"com.datadoghq.ad.init_configs": "[{}]"
-	},
-	"portMappings": [
-	  {
-		"containerPort": 48869,
-		"hostPort": 48869
-	  }
-	],
-	"environment":[
-	  {
-		"name": "HEAPSIZE",
-		"value": "${heapsize}"
-	  },
-	  {
-		"name": "LOGLEVEL",
-		"value": "${loglevel}"
-	  },
-	  {
-		"name": "INVOCATIONLOGLEVEL",
-		"value": "${invocationloglevel}"
-	  },
-	  {
-		"name": "SERVER_YAML",
-		"value": "${server_yaml}"
-	  },
-	  {
-		"name": "FEDERATION_YAML",
-		"value": "${federation_yaml}"
-	  },
-	  {
-		"name": "HIVE_SITE_XML",
-		"value": "${hive_site_xml}"
-	  },
-	  {
-		"name": "BASTION_SSH_KEY_ARN",
-		"value": "${bastion_ssh_key_arn}"
-	  },
-	  {
-		"name": "LOG4J_FORMAT_MSG_NO_LOOKUPS",
-		"value": "true"
-	  }
-	],
-	"healthCheck": {
-	  "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
-	  "interval": 5,
-	  "retries": 3,
-	  "startPeriod": 60,
-	  "timeout": 5
-	},
-	"ulimits": [
-	  {
-		"name": "nofile",
-		"softLimit": 65536,
-		"hardLimit": 65536
-	  },
-	  {
-		"name": "nproc",
-		"softLimit": 65536,
-		"hardLimit": 65536
-	  }
-	],
-	"systemControls": [
+    "dockerLabels": {
+        "com.datadoghq.ad.instances": "[{\"openmetrics_endpoint\": \"http://%%host%%:18000/actuator/prometheus\", \"namespace\": \"waggledance\", \"metrics\": [\"metastore_status\",\"counter_*\",\"jvm_*\",\"system_*\",\"timer_*\",\"http_*\",\"process_*\"], \"tags\": { \"region\":\"${region}\", \"instance_type\":\"${wd_instance_type}\"} }]",
+        "com.datadoghq.ad.check_names": "[\"openmetrics\"]",
+        "com.datadoghq.ad.init_configs": "[{}]"
+    },
+    "portMappings": [
+      {
+        "containerPort": 48869,
+        "hostPort": 48869
+      }
+    ],
+    "environment":[
+      {
+        "name": "HEAPSIZE",
+        "value": "${heapsize}"
+      },
+      {
+        "name": "LOGLEVEL",
+        "value": "${loglevel}"
+      },
+      {
+        "name": "INVOCATIONLOGLEVEL",
+        "value": "${invocationloglevel}"
+      },
+      {
+        "name": "SERVER_YAML",
+        "value": "${server_yaml}"
+      },
+      {
+        "name": "FEDERATION_YAML",
+        "value": "${federation_yaml}"
+      },
+      {
+        "name": "HIVE_SITE_XML",
+        "value": "${hive_site_xml}"
+      },
+      {
+        "name": "BASTION_SSH_KEY_ARN",
+        "value": "${bastion_ssh_key_arn}"
+      },
+      {
+        "name": "LOG4J_FORMAT_MSG_NO_LOOKUPS",
+        "value": "true"
+      }
+    ],
+    "healthCheck": {
+      "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
+      "interval": 5,
+      "retries": 3,
+      "startPeriod": 60,
+      "timeout": 5
+    },
+    "ulimits": [
+      {
+        "name": "nofile",
+        "softLimit": 65536,
+        "hardLimit": 65536
+      },
+      {
+        "name": "nproc",
+        "softLimit": 65536,
+        "hardLimit": 65536
+      }
+    ],
+    "systemControls": [
           {
                 "namespace": "net.ipv4.tcp_keepalive_time",
                 "value": "${tcp_keepalive_time}"
