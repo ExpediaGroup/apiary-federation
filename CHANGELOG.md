@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [4.6.4] - 2025-06-03
+### Changed
+- Updated splunk logging options for ecs deployment. Add extra metadata as "labels" and "tag" 
 ### Added
-- Updated splunk logging options for ecs deployment. Adding a new variable called `splunk_insecureskipverify` with default value of "false".
+- Added a new variable called `splunk_insecureskipverify` with default value of "false".
+### Removed
+- Removed `splunk_env` variable
 
 ## [4.6.3] - 2025-02-13
 ### Added
