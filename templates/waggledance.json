@@ -9,7 +9,6 @@
           jsonencode({
             "splunk-token": "${splunk_hec_token}",
             "splunk-url": "${splunk_hec_host}",
-            "splunk-source": "waggledance-logs",
             "splunk-index": "${splunk_hec_index}",
             "splunk-insecureskipverify": "${splunk_insecureskipverify}",
             "tag": "{{ index .ContainerLabels \"com.amazonaws.ecs.task-definition-family\" }}",
