@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [4.6.4] - 2025-06-03
 ### Changed
 - Updated splunk logging options for ecs deployment. Add extra metadata as "labels" and "tag" 
+- Removed `splunk-sourcetype` field from the ecs splunk logging config
+- Updated `splunk-source` feild in ecs splunk logging config to `waggledance-logs`
 ### Added
 - Added a new variable called `splunk_insecureskipverify` with default value of "false".
 ### Removed
