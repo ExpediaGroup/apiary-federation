@@ -203,7 +203,6 @@ data "template_file" "waggledance" {
 
     // Splunk configuration
     enable_splunk_logging      = var.enable_splunk_logging
-    instance_alias             = local.instance_alias
     splunk_hec_host            = var.splunk_hec_host
     splunk_hec_token           = var.splunk_hec_token
     splunk_hec_index           = var.splunk_hec_index
