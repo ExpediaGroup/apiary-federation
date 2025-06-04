@@ -206,7 +206,7 @@ data "template_file" "waggledance" {
     splunk_hec_host            = var.splunk_hec_host
     splunk_hec_token           = var.splunk_hec_token
     splunk_hec_index           = var.splunk_hec_index
-    splunk_env                 = var.splunk_env
+    splunk_insecureskipverify  = var.splunk_insecureskipverify
   }
 }
 

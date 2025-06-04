@@ -566,9 +566,8 @@ variable "splunk_hec_index" {
   type        = string
   default     = ""
 }
-
-variable "splunk_env" {
-  description = "Environment in which the Splunk server is sending logs from."
+variable "splunk_insecureskipverify" {
+  description = "Instructs the splunk lgging driver to skip cert validation."
   type        = string
-  default     = ""
+  default     = "false"
 }
