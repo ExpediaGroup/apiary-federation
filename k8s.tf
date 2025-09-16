@@ -95,11 +95,23 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
             }
           }
         }
-        dynamic "node_selector" {
-          for_each = var.k8s_node_selector_labels
+        dynamic "affinity" {
+          for_each = var.wd_node_affinity
           content {
-            key   = node_selector.key
-            value = node_selector.value
+            node_affinity {
+              required_during_scheduling_ignored_during_execution {
+                dynamic "node_selector_term" {
+                  for_each = lookup(affinity.value, "node_selector_term", [])
+                  content {
+                    match_expressions {
+                      key      = lookup(node_selector_term.value, "key", null)
+                      operator = lookup(node_selector_term.value, "operator", null)
+                      values   = lookup(node_selector_term.value, "values", [])
+                    }
+                  }
+                }
+              }
+            }
           }
         }
         container {
