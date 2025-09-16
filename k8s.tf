@@ -95,6 +95,13 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
             }
           }
         }
+        dynamic "node_selector" {
+          for_each = var.k8s_node_selector_labels
+          content {
+            key   = node_selector.key
+            value = node_selector.value
+          }
+        }
         container {
           image = "${var.docker_image}:${var.docker_version}"
           name  = local.instance_alias
@@ -166,7 +173,6 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
               }
             }
           }
-
       }
     }
   }

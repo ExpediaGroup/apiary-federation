@@ -133,6 +133,12 @@ variable "k8s_dns_config" {
   }
 }
 
+variable "k8s_node_selector_labels" {
+  description = "K8s pods node selector"
+  type        = map(string)
+  default     = {}
+}
+
 variable "k8s_svc_spec" {
   description =<<EOF
 Waggledance Kubernetes service settings. All fields are optional.
