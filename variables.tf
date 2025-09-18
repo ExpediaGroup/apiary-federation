@@ -133,6 +133,34 @@ variable "k8s_dns_config" {
   }
 }
 
+variable "wd_node_affinity" {
+  description = <<EOF
+Adds a list of node affinities for the waggledance pods. For example if you
+have a pool of workers with the following label "pool=metastore" you
+can add an affinity to these workers like this:
+
+wd_node_affinity = [
+  {
+    node_selector_term = [
+      {
+        key      = "pool"
+        operator = "In"
+        values   = ["metastore"]
+      }
+    ]
+  }
+]
+EOF  
+  type = list(object({
+    node_selector_term = list(object({
+      key      = string
+      operator = string
+      values   = list(string)
+    }))
+  }))
+  default = [] # Default to an empty list
+}
+
 variable "k8s_svc_spec" {
   description =<<EOF
 Waggledance Kubernetes service settings. All fields are optional.

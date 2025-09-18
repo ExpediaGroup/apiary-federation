@@ -95,6 +95,25 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
             }
           }
         }
+        dynamic "affinity" {
+          for_each = var.wd_node_affinity
+          content {
+            node_affinity {
+              required_during_scheduling_ignored_during_execution {
+                dynamic "node_selector_term" {
+                  for_each = lookup(affinity.value, "node_selector_term", [])
+                  content {
+                    match_expressions {
+                      key      = lookup(node_selector_term.value, "key", null)
+                      operator = lookup(node_selector_term.value, "operator", null)
+                      values   = lookup(node_selector_term.value, "values", [])
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
         container {
           image = "${var.docker_image}:${var.docker_version}"
           name  = local.instance_alias
@@ -166,7 +185,6 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
               }
             }
           }
-
       }
     }
   }
