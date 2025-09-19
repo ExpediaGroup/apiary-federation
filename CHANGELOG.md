@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.7.0] - 2025-09-19
+### Added
+- Added `primary_metastore_read_only_glue_account_id` and `primary_metastore_read_only_glue_endpoint` to support waggledance traffic control to glue for reads.
+
 ## [4.6.5] - 2025-09-17
 ### Added
 - Added `wd_node_affinity` to support waggledance pod node affinity configuration.

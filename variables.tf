@@ -341,6 +341,18 @@ variable "primary_metastore_glue_endpoint" {
   default     = ""
 }
 
+variable "primary_metastore_read_only_glue_account_id" {
+  description = "Primary metastore ReadOnly Glue AWS account id, optional. Use with 'primary_metastore_read_only_glue_endpoint' and instead of 'primary_metastore_read_only_host/primary_metastore_read_only_port'"
+  type        = string
+  default     = ""
+}
+
+variable "primary_metastore_read_only_glue_endpoint" {
+  description = "Primary metastore ReadOnly Glue endpoint 'glue.us-east-1.amazonaws.com', optional. Use with 'primary_metastore_read_only_glue_account_id' and instead of 'primary_metastore_read_only_host/primary_metastore_read_only_port'"
+  type        = string
+  default     = ""
+}
+
 variable "primary_metastore_whitelist" {
   description = "List of Hive databases to whitelist on primary Metastore."
   type        = list(string)
