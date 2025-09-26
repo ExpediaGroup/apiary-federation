@@ -26,10 +26,32 @@ data "aws_secretsmanager_secret" "docker_registry" {
 }
 
 
-data "aws_iam_policy_document" "waggle_dance_glue_policy" {
+data "aws_iam_policy_document" "waggle_dance_traffic_control_readonly_glue_policy" {
+  count = var.primary_metastore_read_only_glue_account_id != "" ? 1 : 0
+  statement {
+    sid = "WaggledanceTrafficControlReadonlyGluePolicy"
+    actions = [
+      "glue:GetDatabase",
+      "glue:GetDatabases",
+      "glue:GetTable",
+      "glue:GetTables",
+      "glue:GetTableVersions",
+      "glue:GetPartition",
+      "glue:GetPartitions",
+      "glue:BatchGetPartition",
+      "glue:GetUserDefinedFunction",
+      "glue:GetUserDefinedFunctions"
+    ]
+    resources = [
+      format("arn:aws:glue:%s:%s:*", var.aws_region, var.primary_metastore_read_only_glue_account_id)
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy" {
   count = length(var.glue_metastores) > 0 ? 1 : 0
   statement {
-    sid = "WaggledanceGluePolicy"
+    sid = "WaggledanceRemoteGlueFederationsPolicy"
     actions = [
       "glue:GetDatabase",
       "glue:GetDatabases",
