@@ -90,12 +90,20 @@ resource "aws_iam_role_policy" "secretsmanager_for_waggledance_task" {
 EOF
 }
 
-resource "aws_iam_role_policy" "waggle_dance_glue_ecs_policy" {
+resource "aws_iam_role_policy" "waggle_dance_traffic_control_readonly_glue_ecs_policy" {
+  count = var.wd_instance_type == "ecs" && var.primary_metastore_read_only_glue_account_id != "" ? 1 : 0
+  role = aws_iam_role.waggledance_task[0].name
+  name = "waggle-dance-traffic-control-glue-readonly"
+
+  policy = data.aws_iam_policy_document.waggle_dance_traffic_control_readonly_glue_policy[0].json
+}
+
+resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_ecs_policy" {
   count = var.wd_instance_type == "ecs" && length(var.glue_metastores) > 0 ? 1 : 0
   role = aws_iam_role.waggledance_task[0].name
-  name = "waggle-dance-glue-policy"
+  name = "waggle-dance-remote-metastores-glue-readonly"
 
-  policy = data.aws_iam_policy_document.waggle_dance_glue_policy[0].json
+  policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy[0].json
 }
 
 resource "aws_iam_role_policy" "ecr_permission_for_task_exec" {

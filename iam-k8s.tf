@@ -28,10 +28,18 @@ resource "aws_iam_role" "waggle_dance_k8s_role_iam" {
 EOF
 }
 
-resource "aws_iam_role_policy" "waggle_dance_glue_k8s_policy" {
+resource "aws_iam_role_policy" "waggle_dance_traffic_control_readonly_glue_policy" {
+  count = var.wd_instance_type == "k8s" && var.oidc_provider != "" && var.primary_metastore_read_only_glue_account_id != "" ? 1 : 0 
+  role  = aws_iam_role.waggle_dance_k8s_role_iam[0].name
+  name  = "waggle-dance-traffic-control-glue-readonly"
+
+  policy = data.aws_iam_policy_document.waggle_dance_traffic_control_readonly_glue_policy[0].json
+}
+
+resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_policy" {
   count = var.wd_instance_type == "k8s" && var.oidc_provider != "" && length(var.glue_metastores) > 0 ? 1 : 0 
   role  = aws_iam_role.waggle_dance_k8s_role_iam[0].name
-  name  = "waggle-dance-glue-readonly"
+  name  = "waggle-dance-remote-metastores-glue-readonly"
 
-  policy = data.aws_iam_policy_document.waggle_dance_glue_policy[0].json
+  policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy[0].json
 }
