@@ -12,7 +12,7 @@ locals {
      var.primary_metastore_glue_account_id != "" ? [var.primary_metastore_glue_account_id] : [],
      var.primary_metastore_read_only_glue_account_id != "" ? [var.primary_metastore_read_only_glue_account_id] : []
    )))
-   glue_enabled = length(var.glue_account_ids) > 0
+   glue_enabled = length(local.glue_account_ids) > 0
 }
 
 data "aws_caller_identity" "current" {}
