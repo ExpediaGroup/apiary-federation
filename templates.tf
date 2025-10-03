@@ -164,8 +164,6 @@ data "template_file" "federation_yaml" {
     primary_metastore_latency                   = var.primary_metastore_latency
     primary_metastore_glue_account_id           = var.primary_metastore_glue_account_id
     primary_metastore_glue_endpoint             = var.primary_metastore_glue_endpoint
-    primary_metastore_read_only_glue_account_id = var.primary_metastore_read_only_glue_account_id
-    primary_metastore_read_only_glue_endpoint   = var.primary_metastore_read_only_glue_endpoint
     primary_metastore_whitelist                 = join("", data.template_file.primary_metastore_whitelist.*.rendered)
     primary_metastore_mapped_databases          = join("", data.template_file.primary_metastore_mapped_databases.*.rendered)
     primary_metastore_access_type               = var.primary_metastore_access_type
@@ -176,6 +174,8 @@ data "template_file" "federation_yaml" {
     glue_metastores                             = join("", data.template_file.glue_metastores_yaml.*.rendered)
     primary_metastore_read_only_host            = var.primary_metastore_read_only_host
     primary_metastore_read_only_port            = var.primary_metastore_read_only_port
+    primary_metastore_read_only_glue_account_id = var.primary_metastore_read_only_glue_account_id
+    primary_metastore_read_only_glue_endpoint   = var.primary_metastore_read_only_glue_endpoint
   }
 }
 
