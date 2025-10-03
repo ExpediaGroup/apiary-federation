@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy" {
     ]
     resources = [
       for glue_account_id in local.glue_account_ids:
-        format("arn:aws:glue:%s:%s:*", var.aws_region, glue-account-id)
+        format("arn:aws:glue:%s:%s:*", var.aws_region, glue_account_id)
     ]
   }
 }
