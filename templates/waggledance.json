@@ -38,8 +38,12 @@
         "value": "${heapsize}"
       },
       {
-        "name": "LOGLEVEL",
-        "value": "${loglevel}"
+        "name": "WDLOGLEVEL",
+        "value": "${wdloglevel}"
+      },
+      {
+         "name": "LOGLEVEL",
+         "value": "${loglevel}"
       },
       {
         "name": "INVOCATIONLOGLEVEL",

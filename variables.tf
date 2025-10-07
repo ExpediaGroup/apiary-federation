@@ -28,6 +28,12 @@ variable "wd_log_level" {
   default     = "info"
 }
 
+variable "log_level" {
+  description = "Log level for all libraries (very chatty on debug)."
+  type        = string
+  default     = "info"
+}
+
 variable "enable_invocation_logs" {
   description = "Turns on Waggledance invocation logs in log4j, by default only slow (1 minute+) invocations are logged."
   type        = bool

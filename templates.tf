@@ -188,7 +188,8 @@ data "template_file" "waggledance" {
     docker_version             = var.docker_version
     region                     = var.aws_region
     loggroup                   = var.wd_instance_type == "ecs" ? join("", aws_cloudwatch_log_group.waggledance_ecs.*.name) : ""
-    loglevel                   = var.wd_log_level
+    loglevel                   = var.log_level
+    wdloglevel                 = var.wd_log_level
     invocationloglevel         = var.enable_invocation_logs ? "debug" : "info"
     server_yaml                = base64encode(data.template_file.server_yaml.rendered)
     federation_yaml            = base64encode(data.template_file.federation_yaml.rendered)
