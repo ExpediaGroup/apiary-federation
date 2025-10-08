@@ -7,11 +7,25 @@
 locals {
   instance_alias               = var.instance_name == "" ? "waggledance" : format("waggledance-%s", var.instance_name)
   remote_metastore_zone_prefix = var.instance_name == "" ? "remote-metastore" : format("remote-metastore-%s", var.instance_name)
-  glue_account_ids = tolist(toset(concat(
-     [for m in var.glue_metastores : m["glue-account-id"]],
-     var.primary_metastore_glue_account_id != "" ? [var.primary_metastore_glue_account_id] : [],
-     var.primary_metastore_read_only_glue_account_id != "" ? [var.primary_metastore_read_only_glue_account_id] : []
-   )))
+  glue_account_ids = tolist(
+    toset(
+      concat(
+        # Extract glue-account-id from each object in var.glue_metastores
+        [for m in var.glue_metastores : m["glue-account-id"]],
+
+        # Optionally add the primary metastore account id if not empty
+        var.primary_metastore_glue_account_id != "" ?
+          [var.primary_metastore_glue_account_id] :
+          [],
+
+        # Optionally add the read-only primary metastore account id if not empty
+        var.primary_metastore_read_only_glue_account_id != "" ?
+          [var.primary_metastore_read_only_glue_account_id] :
+          []
+      )
+    )
+  )
+
    glue_enabled = length(local.glue_account_ids) > 0
 }
 
