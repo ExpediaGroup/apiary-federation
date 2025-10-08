@@ -125,8 +125,12 @@ resource "kubernetes_deployment_v1" "waggle_dance" {
             value = local.heapsize
           }
           env {
-            name  = "LOGLEVEL"
+            name  = "WDLOGLEVEL"
             value = var.wd_log_level
+          }
+          env {
+            name  = "LOGLEVEL"
+            value = var.log_level
           }
           env {
             name  = "INVOCATIONLOGLEVEL"

@@ -28,6 +28,12 @@ variable "wd_log_level" {
   default     = "info"
 }
 
+variable "log_level" {
+  description = "Log level for all libraries (very chatty on debug)."
+  type        = string
+  default     = "info"
+}
+
 variable "enable_invocation_logs" {
   description = "Turns on Waggledance invocation logs in log4j, by default only slow (1 minute+) invocations are logged."
   type        = bool
@@ -337,6 +343,18 @@ variable "primary_metastore_glue_account_id" {
 
 variable "primary_metastore_glue_endpoint" {
   description = "Primary metastore Glue endpoint 'glue.us-east-1.amazonaws.com', optional. Use with 'primary_metastore_glue_account_id' and instead of 'primary_metastore_host/primary_metastore_port'"
+  type        = string
+  default     = ""
+}
+
+variable "primary_metastore_read_only_glue_account_id" {
+  description = "Primary metastore ReadOnly Glue AWS account id, optional. Use with 'primary_metastore_read_only_glue_endpoint' and instead of 'primary_metastore_read_only_host/primary_metastore_read_only_port'"
+  type        = string
+  default     = ""
+}
+
+variable "primary_metastore_read_only_glue_endpoint" {
+  description = "Primary metastore ReadOnly Glue endpoint 'glue.us-east-1.amazonaws.com', optional. Use with 'primary_metastore_read_only_glue_account_id' and instead of 'primary_metastore_read_only_host/primary_metastore_read_only_port'"
   type        = string
   default     = ""
 }

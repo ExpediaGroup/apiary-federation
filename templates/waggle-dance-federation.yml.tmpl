@@ -11,6 +11,11 @@ primary-meta-store:
 %{if primary_metastore_read_only_host != "" ~}
   read-only-remote-meta-store-uris: thrift://${primary_metastore_read_only_host}:${primary_metastore_read_only_port}
 %{endif~}
+%{if primary_metastore_read_only_glue_account_id != "" ~}
+  read-only-glue-config:
+    glue-account-id: ${primary_metastore_read_only_glue_account_id}
+    glue-endpoint: ${primary_metastore_read_only_glue_endpoint}
+%{endif~}
 %{endif~}
   latency: ${primary_metastore_latency}
 %{if primary_metastore_mapped_databases != "" ~}

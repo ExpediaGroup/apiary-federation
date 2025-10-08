@@ -7,6 +7,26 @@
 locals {
   instance_alias               = var.instance_name == "" ? "waggledance" : format("waggledance-%s", var.instance_name)
   remote_metastore_zone_prefix = var.instance_name == "" ? "remote-metastore" : format("remote-metastore-%s", var.instance_name)
+  glue_account_ids = tolist(
+    toset(
+      concat(
+        # Extract glue-account-id from each object in var.glue_metastores
+        [for m in var.glue_metastores : m["glue-account-id"]],
+
+        # Optionally add the primary metastore account id if not empty
+        var.primary_metastore_glue_account_id != "" ?
+          [var.primary_metastore_glue_account_id] :
+          [],
+
+        # Optionally add the read-only primary metastore account id if not empty
+        var.primary_metastore_read_only_glue_account_id != "" ?
+          [var.primary_metastore_read_only_glue_account_id] :
+          []
+      )
+    )
+  )
+
+   glue_enabled = length(local.glue_account_ids) > 0
 }
 
 data "aws_caller_identity" "current" {}
@@ -25,11 +45,10 @@ data "aws_secretsmanager_secret" "docker_registry" {
   name  = var.docker_registry_auth_secret_name
 }
 
-
-data "aws_iam_policy_document" "waggle_dance_glue_policy" {
-  count = length(var.glue_metastores) > 0 ? 1 : 0
+data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy" {
+  count = local.glue_enabled ? 1 : 0
   statement {
-    sid = "WaggledanceGluePolicy"
+    sid = "WaggledanceRemoteGlueFederationsPolicy"
     actions = [
       "glue:GetDatabase",
       "glue:GetDatabases",
@@ -43,8 +62,8 @@ data "aws_iam_policy_document" "waggle_dance_glue_policy" {
       "glue:GetUserDefinedFunctions"
     ]
     resources = [
-      for glue_metastore in var.glue_metastores:
-        format("arn:aws:glue:%s:%s:*", var.aws_region, glue_metastore["glue-account-id"])
+      for glue_account_id in local.glue_account_ids:
+        format("arn:aws:glue:%s:%s:*", var.aws_region, glue_account_id)
     ]
   }
 }
