@@ -68,6 +68,27 @@ data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy" {
   }
 }
 
+data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy_write" {
+  count = local.glue_enabled ? 1 : 0
+  statement {
+    sid = "WaggledanceRemoteGlueFederationsPolicy"
+    actions = [
+      "glue:CreatePartition",
+      "glue:CreateTable",
+      "glue:DeletePartition",
+      "glue:DeleteTable",
+      "glue:UpdatePartition",
+      "glue:UpdateTable",
+      "glue:BatchUpdatePartition",
+      "glue:BatchDeletePartition",
+      "glue:BatchCreatePartition"
+    ]
+    resources = [
+      for glue_account_id in local.glue_account_ids:
+        format("arn:aws:glue:%s:%s:*", var.aws_region, glue_account_id)
+    ]
+  }
+}
 
 data "aws_secretsmanager_secret" "datadog_key" {
   count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
