@@ -57,7 +57,7 @@ resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_policy_s3_w
     {
       "Effect": "Allow",
       "Action": [
-        "s3:Get*",
+        "s3:get*",
         "s3:putObject"
       ],
       "Resource": [
