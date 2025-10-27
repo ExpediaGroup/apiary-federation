@@ -44,4 +44,28 @@ resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_policy_writ
   policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy_write[0].json
 }
 
+#Glue client creates folders on s3 for create tables. This policy gives that access.
+resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_policy_s3_write" {
+  count = var.wd_instance_type == "k8s" && var.oidc_provider != "" && local.glue_enabled ? 1 : 0
+  role  = aws_iam_role.waggle_dance_k8s_role_iam[0].name
+  name  = "waggle-dance-remote-metastores-glue-s3-write"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:putObject",
+      "Resource": [
+      "arn:aws:s3:::${var.s3_glue_tables_bucket}/",
+      "arn:aws:s3:::${var.s3_glue_tables_bucket}/*",
+      ]
+    }
+  ]
+}
+EOF
+}
+
+
 
