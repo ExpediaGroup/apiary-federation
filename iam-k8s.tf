@@ -57,11 +57,21 @@ resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_policy_s3_w
     {
       "Effect": "Allow",
       "Action": [
+        "s3:DeleteObject",
+        "s3:DeleteObjectVersion",
         "s3:Get*",
-        "s3:PutObject"
+        "s3:List*",
+        "s3:PutBucketLogging",
+        "s3:PutBucketNotification",
+        "s3:PutBucketVersioning",
+        "s3:PutObject",
+        "s3:PutObjectAcl",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionAcl",
+        "s3:PutObjectVersionTagging"
       ],
       "Resource": [
-        "arn:aws:s3:::${var.s3_glue_tables_bucket}/",
+        "arn:aws:s3:::${var.s3_glue_tables_bucket}",
         "arn:aws:s3:::${var.s3_glue_tables_bucket}/*"
       ]
     }
