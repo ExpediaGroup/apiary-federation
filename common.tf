@@ -50,16 +50,7 @@ data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy" {
   statement {
     sid = "WaggledanceRemoteGlueFederationsPolicy"
     actions = [
-      "glue:GetDatabase",
-      "glue:GetDatabases",
-      "glue:GetTable",
-      "glue:GetTables",
-      "glue:GetTableVersions",
-      "glue:GetPartition",
-      "glue:GetPartitions",
-      "glue:BatchGetPartition",
-      "glue:GetUserDefinedFunction",
-      "glue:GetUserDefinedFunctions"
+      "glue:GetDatabase"
     ]
     resources = [
       for glue_account_id in local.glue_account_ids:
