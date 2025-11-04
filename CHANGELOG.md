@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Added
 - Added optional glue write policy
 - Added optional s3 write policy (if glue enabled)
-- Both policies are needed if waggle dance had the primary metastore configure to use glue. LakeFormation policies are also needed but outside the scope of this library.
+- Both policies are needed if Waggle Dance uses Glue as the primary metastore. LakeFormation policies are also needed but outside the scope of this library.
 
 ## [4.7.0] - 2025-10-08
 ### Added
