@@ -619,7 +619,7 @@ variable "splunk_insecureskipverify" {
 }
 
 variable "s3_glue_tables_bucket" {
-  description = "S3 Bucket pattern where hive tables will be created. Glue and Waggledance need this to create the glue table pointers to the S3 location."
+  description = "S3 Bucket pattern where Hive tables will be created. Glue and Waggledance need this to create the glue table pointers to the S3 location."
   type        = string
   default     = ""
 }

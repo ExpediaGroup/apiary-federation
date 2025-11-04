@@ -106,6 +106,14 @@ resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_ecs_policy_
   policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy_write[0].json
 }
 
+resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_policy_s3_write" {
+  count = var.wd_instance_type == "ecs" && var.s3_glue_tables_bucket != "" && local.glue_enabled ? 1 : 0
+  role  = aws_iam_role.waggledance_task[0].name
+  name  = "waggle-dance-remote-metastores-glue-s3-write"
+
+  policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy_s3_write[0].json
+}
+
 resource "aws_iam_role_policy" "ecr_permission_for_task_exec" {
   count = var.wd_instance_type == "ecs" ? 1 : 0
   name  = "ecr-permission"
