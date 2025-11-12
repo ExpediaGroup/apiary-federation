@@ -33,5 +33,24 @@ resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_policy" {
   role  = aws_iam_role.waggle_dance_k8s_role_iam[0].name
   name  = "waggle-dance-remote-metastores-glue-readonly"
 
-  policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy[0].json
+  policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy_read[0].json
 }
+
+resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_policy_write" {
+  count = var.wd_instance_type == "k8s" && var.oidc_provider != "" && local.glue_enabled ? 1 : 0
+  role  = aws_iam_role.waggle_dance_k8s_role_iam[0].name
+  name  = "waggle-dance-remote-metastores-glue-write"
+
+  policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy_write[0].json
+}
+
+resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_policy_s3_write" {
+  count = var.wd_instance_type == "k8s" && var.oidc_provider != "" && var.s3_glue_tables_bucket != "" && local.glue_enabled ? 1 : 0
+  role  = aws_iam_role.waggle_dance_k8s_role_iam[0].name
+  name  = "waggle-dance-remote-metastores-glue-s3-write"
+
+  policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy_s3_write[0].json
+}
+
+
+
