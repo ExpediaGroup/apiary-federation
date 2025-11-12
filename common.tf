@@ -45,7 +45,7 @@ data "aws_secretsmanager_secret" "docker_registry" {
   name  = var.docker_registry_auth_secret_name
 }
 
-data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy" {
+data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy_read" {
   count = local.glue_enabled ? 1 : 0
   statement {
     sid = "WaggledanceRemoteGlueFederationsPolicy"

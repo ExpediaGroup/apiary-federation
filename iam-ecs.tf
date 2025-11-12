@@ -95,7 +95,7 @@ resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_ecs_policy"
   role = aws_iam_role.waggledance_task[0].name
   name = "waggle-dance-remote-metastores-glue-readonly"
 
-  policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy[0].json
+  policy = data.aws_iam_policy_document.waggle_dance_remote_glue_federations_policy_read[0].json
 }
 
 resource "aws_iam_role_policy" "waggle_dance_remote_glue_federations_ecs_policy_write" {
