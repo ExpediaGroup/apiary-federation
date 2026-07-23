@@ -59,7 +59,9 @@ data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy_read
       "glue:GetPartitions",
       "glue:BatchGetPartition",
       "glue:GetUserDefinedFunction",
-      "glue:GetUserDefinedFunctions"
+      "glue:GetUserDefinedFunctions",
+      "glue:GetColumnStatisticsForTable",
+      "glue:GetColumnStatisticsForPartition"
     ]
     resources = [
       for glue_account_id in local.glue_account_ids:
