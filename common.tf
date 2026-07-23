@@ -59,7 +59,9 @@ data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy_read
       "glue:GetPartitions",
       "glue:BatchGetPartition",
       "glue:GetUserDefinedFunction",
-      "glue:GetUserDefinedFunctions"
+      "glue:GetUserDefinedFunctions",
+      "glue:GetColumnStatisticsForTable",
+      "glue:GetColumnStatisticsForPartition"
     ]
     resources = [
       for glue_account_id in local.glue_account_ids:
@@ -81,7 +83,11 @@ data "aws_iam_policy_document" "waggle_dance_remote_glue_federations_policy_writ
       "glue:UpdateTable",
       "glue:BatchUpdatePartition",
       "glue:BatchDeletePartition",
-      "glue:BatchCreatePartition"
+      "glue:BatchCreatePartition",
+      "glue:UpdateColumnStatisticsForTable",
+      "glue:DeleteColumnStatisticsForTable",
+      "glue:UpdateColumnStatisticsForPartition",
+      "glue:DeleteColumnStatisticsForPartition"
     ]
     resources = [
       for glue_account_id in local.glue_account_ids:
